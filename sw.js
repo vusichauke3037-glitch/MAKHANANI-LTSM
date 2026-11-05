@@ -1,85 +1,28 @@
-// MAKHANANI LTSM — Service Worker — V1.19
-// XINTIMANI GROUP — Founder/CEO Mr Vusi Chauke — Johannesburg
-// Works offline — Installs like a real app
-
-const CACHE_NAME = 'makhanani-ltsm-v19';
-const CORE_FILES = [
+const CACHE_NAME = 'makhanani-ltsm-v25';
+const FILES_TO_CACHE = [
   './',
-  './index.html',
+  './index.html?v=ltsm35',
   './manifest.json',
   './logo.png'
 ];
-
-// Install — Cache core files
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(CORE_FILES);
-    }).then(() => {
-      return self.skipWaiting();
-    }).catch((err) => {
-      console.log('Makhanani SW Install — logo.png missing? Still OK', err);
-    })
+self.addEventListener('install', (e) => {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE)).then(() => self.skipWaiting())
   );
 });
-
-// Activate — Delete old caches
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      );
-    }).then(() => {
-      return self.clients.claim();
-    })
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) => Promise.all(keys.map((k) => { if (k !== CACHE_NAME) return caches.delete(k); }))).then(() => self.clients.claim())
   );
 });
-
-// Fetch — Cache First for app files, Network First for everything else
-self.addEventListener('fetch', (event) => {
-  const url = event.request.url;
-
-  // Never cache Firebase / Firestore / Google APIs — Always go to network
-  if (
-    url.includes('firestore.googleapis.com') ||
-    url.includes('firebase') ||
-    url.includes('googleapis.com') ||
-    url.includes('gstatic.com') ||
-    url.includes('jsdelivr.net')
-  ) {
-    return;
-  }
-
-  // For app files — Try cache, fallback to network
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) {
-        return cached;
-      }
-      return fetch(event.request).then((response) => {
-        // Only cache successful GET requests for same-origin
-        if (
-          event.request.method === 'GET' &&
-          response.status === 200 &&
-          new URL(event.request.url).origin === self.location.origin
-        ) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, clone);
-          });
-        }
-        return response;
-      }).catch(() => {
-        // Offline fallback — Show index.html
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
-      });
-    })
+self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET') return;
+  if (e.request.url.includes('firestore.googleapis.com') || e.request.url.includes('firebase') || e.request.url.includes('googleapis')) return;
+  e.respondWith(
+    fetch(e.request).then((res) => {
+      let copy = res.clone();
+      caches.open(CACHE_NAME).then((cache) => cache.put(e.request, copy));
+      return res;
+    }).catch(() => caches.match(e.request))
   );
 });
