@@ -23,13 +23,12 @@ button{padding:10px 12px;border:0;border-radius:8px;font-weight:700;cursor:point
 .uploadBox,.syncBox{background:#f7fff7;border:2px solid #1a7f4a;border-radius:12px;padding:12px;margin:10px 0}
 .syncBox{background:#eef6ff;border-color:#1976d2}
 table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid #ddd;padding:7px;text-align:left}th{background:#0b3d2e;color:#fff}
-.badge{display:inline-block;background:#0b3d2e;color:#fff;padding:3px 8px;border-radius:20px;font-size:11px}
 .hidden{display:none!important}
-.manual h3{margin-top:0}
 .footer{text-align:center;font-size:12px;color:#666;padding:12px}
 </style>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 </head>
 <body>
 <header>
@@ -46,8 +45,6 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid 
 <div id="syncTop" style="font-size:12px;margin-top:6px">🔄 AUTO SYNC: Connecting...</div>
 </header>
 <main>
-
-<!-- LOGIN - CLEAN - NO DBE - NO SYNC -->
 <div id="page-login" class="card">
 <h2>👋 Welcome to MAKHANANI LTSM</h2>
 <p>For DBE Schools in South Africa. Login with your Full Name + School + Role.</p>
@@ -67,14 +64,21 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid 
 <button class="red" onclick="emergencyLogin()">🚨 EMERGENCY LOGIN — ADMIN + WORDSWORTH</button>
 </div>
 <div id="loginMsg"></div>
+<div class="card" style="background:#eef6ff;margin-top:12px">
+<h3>☁️ FIREBASE CLOUD LOGIN — ADMIN ONLY</h3>
+<p style="font-size:12px">Login with Firebase Cloud Email + Password. This is the real cloud account from console.firebase.google.com</p>
+<input id="cloudEmail" type="email" placeholder="admin@makhanani.co.za">
+<input id="cloudPass" type="password" placeholder="Cloud Password">
+<button class="blue" onclick="cloudLogin()">☁️ LOGIN WITH FIREBASE CLOUD</button>
+<button class="grey" onclick="cloudLogout()">🚪 CLOUD LOGOUT</button>
+<div id="cloudLoginMsg"></div>
+</div>
 <div class="card" style="background:#f9f9f9">
 <h3>ℹ️ About Makhanani</h3>
 <p style="font-size:13px">Makhanani LTSM helps DBE schools track Learner Teacher Support Material, textbooks, library books, and stock. Built by Xintimani Group — Mr Vusi Chauke, Founder / CEO.</p>
 <p style="font-size:12px">Default Schools: WORDSWORTH HIGH SCHOOL + DBE Schools uploaded by Admin via CSV.</p>
 </div>
 </div>
-
-<!-- HOME -->
 <div id="page-home" class="card hidden">
 <h2>🏠 HOME — <span id="homeSchool"></span></h2>
 <p>Logged in as <b id="homeUser"></b> — Role: <b id="homeRole"></b></p>
@@ -86,8 +90,6 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid 
 <div id="homeStats"></div>
 <div id="homeContent"></div>
 </div>
-
-<!-- ADMIN -->
 <div id="page-admin" class="card hidden">
 <h2>⚙️ ADMIN — <span id="adminSchool"></span></h2>
 <p>Logged in as <b id="adminUser"></b> — Role: <b id="adminRole"></b></p>
@@ -101,8 +103,6 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid 
 </div>
 <div id="adminContent"></div>
 </div>
-
-<!-- LTSM -->
 <div id="page-ltsm" class="card hidden">
 <h2>📚 LTSM STOCK</h2>
 <div class="row3">
@@ -112,8 +112,6 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid 
 <button class="green" onclick="addLTSM()">➕ ADD LTSM ITEM</button>
 <div id="ltsmContent"></div>
 </div>
-
-<!-- LIBRARIAN -->
 <div id="page-librarian" class="card hidden">
 <h2>📖 LIBRARY</h2>
 <div class="row3">
@@ -122,16 +120,13 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid 
 </div>
 <div id="librarianContent"></div>
 </div>
-
 </main>
-<div class="footer">© 2026 Xintimani Group — MAKHANANI LTSM V1.27 — Mr Vusi Chauke — Founder / CEO</div>
-
+<div class="footer">© 2026 Xintimani Group — MAKHANANI LTSM V1.28 — Mr Vusi Chauke — Founder / CEO</div>
 <script>
-const APP_VERSION="makhanani-ltsm-v27";
+const APP_VERSION="makhanani-ltsm-v28";
 const firebaseConfig={apiKey:"AIzaSyDPcF5zaCD6Mp9TfpiMPoc3xG0qSPwO7oA",authDomain:"makhanani-ltsm.firebaseapp.com",databaseURL:"https://makhanani-ltsm-default-rtdb.firebaseio.com",projectId:"makhanani-ltsm",storageBucket:"makhanani-ltsm.firebasestorage.app",messagingSenderId:"247180363183",appId:"1:247180363183:web:4e5a399d4e306192e01b5a",measurementId:"G-PEST1XFCR8"};
-let db=null;let cloudOK=false;
-try{firebase.initializeApp(firebaseConfig);db=firebase.firestore();cloudOK=true;}catch(e){console.log("Firebase init fail",e);}
-
+let db=null;let cloudOK=false;let auth=null;
+try{firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();cloudOK=true;}catch(e){console.log("Firebase init fail",e);}
 let CUR={name:"",school:"WORDSWORTH HIGH SCHOOL",role:"",logged:false};
 let SCHOOLS=[{emis:"700310854",name:"WORDSWORTH HIGH SCHOOL",town:"JOHANNESBURG",province:"Gauteng"}];
 let LTSM=JSON.parse(localStorage.getItem("makhanani_ltsm")||"[]");
@@ -140,11 +135,9 @@ let USERS=JSON.parse(localStorage.getItem("makhanani_users")||"[]");
 let adminCur='dash';
 let DEVICE_ID=localStorage.getItem("makhanani_device")||("DEV-"+Math.random().toString(36).slice(2,8).toUpperCase());
 localStorage.setItem("makhanani_device",DEVICE_ID);
-
 function saveLocal(){localStorage.setItem("makhanani_ltsm",JSON.stringify(LTSM));localStorage.setItem("makhanani_books",JSON.stringify(BOOKS));localStorage.setItem("makhanani_users",JSON.stringify(USERS));localStorage.setItem("makhanani_schools",JSON.stringify(SCHOOLS));}
 function canViewAdminOnly(){return CUR.logged && CUR.role==='ADMIN';}
 function canViewPrincipalDashboard(){return CUR.logged && (CUR.role==='ADMIN'||CUR.role==='PRINCIPAL');}
-
 function showPage(p,btn){
 document.querySelectorAll("main>div[id^='page-']").forEach(d=>d.classList.add("hidden"));
 let el=document.getElementById("page-"+p);if(el)el.classList.remove("hidden");
@@ -166,6 +159,26 @@ localStorage.setItem("makhanani_cur",JSON.stringify(CUR));
 alert("✅ Welcome "+n+" — "+role+" — "+sch);
 showPage('home');
 }
+async function cloudLogin(){
+let email=document.getElementById("cloudEmail").value.trim();
+let pass=document.getElementById("cloudPass").value.trim();
+if(!email||!pass){alert("Enter Cloud Email + Password");return;}
+try{
+let res=await firebase.auth().signInWithEmailAndPassword(email,pass);
+CUR={name:res.user.email,school:"WORDSWORTH HIGH SCHOOL",role:"ADMIN",logged:true,cloudEmail:email};
+localStorage.setItem("makhanani_cur",JSON.stringify(CUR));
+document.getElementById("cloudLoginMsg").innerHTML='<div class="warn">✅ Cloud Login OK — '+email+'</div>';
+alert("✅ FIREBASE CLOUD LOGIN OK — ADMIN — "+email);
+showPage('home');
+}catch(e){alert("❌ Cloud Login Failed: "+e.message);}
+}
+async function cloudLogout(){
+try{await firebase.auth().signOut();}catch(e){}
+CUR={name:"",school:"WORDSWORTH HIGH SCHOOL",role:"",logged:false};
+localStorage.removeItem("makhanani_cur");
+alert("☁️ Cloud Logged Out");
+showPage('login');
+}
 function emergencyLogin(){
 CUR={name:"Mr Vusi Chauke",school:"WORDSWORTH HIGH SCHOOL",role:"ADMIN",logged:true};
 localStorage.setItem("makhanani_cur",JSON.stringify(CUR));
@@ -173,7 +186,6 @@ alert("✅ Emergency Login — ADMIN + WORDSWORTH");
 showPage('home');
 }
 function logout(){CUR={name:"",school:"WORDSWORTH HIGH SCHOOL",role:"",logged:false};localStorage.removeItem("makhanani_cur");showPage('login');}
-
 function adminSub(t,btn){
 if((t==='dbe'||t==='sync')&&!canViewAdminOnly()){alert("⛔ ADMIN ONLY. Login as ADMIN.");adminCur=canViewPrincipalDashboard()?'dash':'policy';renderAdmin();return;}
 if(t==='dash'&&!canViewPrincipalDashboard()){alert("⛔ Principal / Admin only.");return;}
@@ -251,7 +263,6 @@ let q=parseInt(prompt("Quantity?")||"1");
 BOOKS.push({title:t,author:a,qty:q,school:CUR.school});saveLocal();renderLibrarian();syncNow(false);
 }
 function delBook(i){if(confirm("Delete this book?")){BOOKS.splice(i,1);saveLocal();renderLibrarian();syncNow(false);}}
-
 function downloadTemplate(){
 let csv="EMIS,Name,Town,Province\n700310854,WORDSWORTH HIGH SCHOOL,JOHANNESBURG,Gauteng\n";
 let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="dbe_schools_template.csv";a.click();
@@ -277,7 +288,6 @@ renderAdmin();
 };
 r.readAsText(f);
 }
-
 function updateSyncStatus(){
 let el=document.getElementById("syncStatus");let top=document.getElementById("syncTop");
 let txt=cloudOK?"🟢 AUTO SYNC: ON — Last Sync: "+(localStorage.getItem("makhanani_last_sync")||"Never")+" | Cloud: makhanani-ltsm":"🔴 AUTO SYNC: OFFLINE";
