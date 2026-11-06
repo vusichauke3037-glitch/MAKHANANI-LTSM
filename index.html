@@ -1,485 +1,353 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MAKHANANI LTSM — XINTIMANI GROUP — Founder/CEO Mr Vusi Chauke</title>
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>MAKHANANI LTSM - Xintimani Group</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b3d2e">
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#eef2f7;color:#111}
-header{background:#fff;color:#111;padding:14px 14px 10px;text-align:center;position:relative;top:auto;z-index:1;border-bottom:4px solid #0a1f4d;box-shadow:0 2px 10px #0002}
-header .logo{max-width:280px;width:80%;height:auto;display:block;margin:0 auto 4px}
-header h1{margin:4px 0 0;font-size:28px;color:#0a1f4d;letter-spacing:1px}header .tag{color:#0f766e;font-weight:700;font-size:13px;margin:2px 0}
-header .sub{font-size:12px;color:#475569}header .founder{font-size:13px;font-weight:700;color:#92400e;margin-top:4px}
-.wrap{max-width:1120px;margin:auto;padding:12px;padding-bottom:100px}
-.card{background:#fff;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 2px 12px #0001}
-h2{margin:0 0 10px}h3{margin:14px 0 6px}
-input,select,button,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #cbd5e1;border-radius:10px;font-size:15px}
-textarea{height:100px}button{background:#0a1f4d;color:#fff;font-weight:700;cursor:pointer}
-button.green{background:#059669}button.yellow{background:#eab308;color:#000}button.red{background:#dc2626}button.purple{background:#7c3aed}button.orange{background:#ea580c}button.grey{background:#64748b}
-.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.stat{background:#f1f5f9;border-radius:12px;padding:14px;text-align:center;font-weight:700}
-.topnav{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}.topnav button{width:auto;padding:12px 18px;font-size:16px}.topnav button.active{background:#f59e0b;color:#000}
-.subnav{display:flex;gap:8px;flex-wrap:wrap}.subnav button{width:auto;padding:9px 12px;font-size:13px;background:#e0e7ff;color:#111}.subnav button.active{background:#0a1f4d;color:#fff}
-.subnav2{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.subnav2 button{width:auto;padding:9px 12px;font-size:13px;background:#fef3c7;color:#111;border:1px solid #f59e0b}.subnav2 button.active{background:#f59e0b;color:#000}
-table{width:100%;border-collapse:collapse;font-size:14px}th,td{border:1px solid #e2e8f0;padding:8px;text-align:left}
-.barcodeBox{border:2px dashed #0a1f4d;padding:12px;text-align:center;border-radius:12px;margin:8px 0}.barcodeBox b{display:block}
-.manual{border:1px solid #cbd5e1;border-radius:12px;padding:14px;margin:10px 0}.manual h3{color:#0a1f4d}
-.printSheet{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.printCard{border:2px solid #000;padding:12px 10px;text-align:center;border-radius:8px;break-inside:avoid;background:#fff}
-.printCard img{width:110px;height:auto;display:block;margin:0 auto 4px}
-.printCard .brand{font-size:11px;font-weight:900;letter-spacing:1px;color:#0a1f4d;line-height:1.2}
-.printCard .brand2{font-size:10px;font-weight:700;color:#0f766e;margin-bottom:4px}
-.printCard .school{font-size:13px;font-weight:900;margin:4px 0}
-.printCard .name{font-size:13px;font-weight:700}
-.printCard .code{font-size:14px;font-weight:900}
-.filterBox{background:#fff7ed;border:1px solid #fdba74;border-radius:12px;padding:12px;margin:10px 0}
-.scanBox{background:#eff6ff;border:1px solid #2563eb;border-radius:12px;padding:12px;margin:10px 0}
-.subjectGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;max-height:220px;overflow-y:auto;border:1px solid #cbd5e1;border-radius:10px;padding:10px;background:#f8fafc}
-.subjectGrid label{display:flex;align-items:center;gap:6px;font-size:13px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:6px;cursor:pointer}
-.subjectGrid input{width:auto;margin:0}.subjectGrid label.checked{background:#dcfce7;border-color:#059669;font-weight:700}
-.warn{background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;padding:10px;color:#991b1b;font-weight:700}
-.ok{background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:10px;color:#166534;font-weight:700}
-.mission{background:linear-gradient(90deg,#fef3c7,#fde68a);border-radius:12px;padding:14px;margin:10px 0}.vision{background:linear-gradient(90deg,#dbeafe,#bfdbfe);border-radius:12px;padding:14px;margin:10px 0}
-.uploadBox{background:#f0fdf4;border:2px solid #059669;border-radius:14px;padding:14px;margin:10px 0}
-.cloudBox{background:#eff6ff;border:2px solid #2563eb;border-radius:14px;padding:14px;margin:10px 0}
-.schoolBtn{background:#eff6ff;border:1px solid #2563eb;color:#111;text-align:left;font-weight:700}
-.brandBox{text-align:center;padding:10px;border:2px solid #c9a227;border-radius:14px;background:#fffef5;margin:10px 0}.brandBox img{max-width:300px;width:85%;height:auto;display:block;margin:0 auto}.brandBox .tag{color:#0f766e;font-weight:700;font-size:12px;margin-top:2px}
-.brandBox .founderLine{font-weight:700;font-size:12px;color:#111;margin-top:2px}
-.contractBox{border:2px solid #0a1f4d;border-radius:14px;padding:18px;margin:12px 0;background:#fff;break-inside:avoid}
-.contractBox .cLogo{width:180px;height:auto;display:block;margin:0 auto 8px}
-.contractBox h3{text-align:center;color:#0a1f4d;margin:6px 0}
-.contractBox .cMeta{font-size:14px;line-height:1.7}
-.contractBox .sig{margin-top:26px;display:flex;justify-content:space-between;gap:12px;font-size:14px}
-.footerBrand{text-align:center;font-size:12px;color:#475569;padding:10px}.footerBrand img{width:120px;height:auto;display:block;margin:0 auto 4px}
-.autoSync{font-size:13px;font-weight:700;padding:8px;border-radius:10px;text-align:center;margin:6px 0}
-.autoOn{background:#dcfce7;color:#166534}.autoOff{background:#fee2e2;color:#991b1b}
-.gradeBadge{background:#dbeafe;color:#0a1f4d;font-weight:900;padding:2px 8px;border-radius:20px;font-size:12px;white-space:nowrap}
-.gradeMismatch{background:#fef2f2;border:2px solid #dc2626;border-radius:12px;padding:12px;color:#991b1b;font-weight:700}
-.policyBox{border:2px solid #0a1f4d;border-radius:14px;padding:18px;background:#fff;line-height:1.7;font-size:14px}
-.policyBox h3{color:#0a1f4d;border-bottom:2px solid #f59e0b;padding-bottom:4px}
-.policyBox ol li{margin:8px 0}
-.acceptBox{background:#f0fdf4;border:2px solid #059669;border-radius:12px;padding:14px;margin:12px 0}
-.acceptBox input{width:auto}
-.priceCard{border:2px solid #0a1f4d;border-radius:14px;padding:14px;text-align:center;background:#fff}
-.priceCard h3{color:#0a1f4d;margin:0}.priceCard .price{font-size:22px;font-weight:900;color:#059669}
-.deptCard{border:2px solid #0a1f4d;border-radius:14px;padding:14px;margin:10px 0;background:#fff}
-.fab{position:fixed;right:16px;bottom:18px;z-index:999;width:60px!important;height:60px;border-radius:50%;background:#0a1f4d;color:#fff;font-size:26px;line-height:1;box-shadow:0 6px 18px #0004;border:3px solid #f59e0b;padding:0;display:flex;align-items:center;justify-content:center}
-.fab.open{background:#dc2626;border-color:#fff}
-.fabMenu{display:none;position:fixed;right:16px;bottom:86px;z-index:998;background:#fff;border-radius:16px;box-shadow:0 8px 24px #0004;padding:12px;width:230px;border:2px solid #0a1f4d}
-.fabMenu.show{display:block}
-.fabMenu h3{margin:0 0 8px;text-align:center;color:#0a1f4d;font-size:14px}
-.fabMenu button{margin:4px 0;padding:11px;font-size:15px;text-align:left}
-.fabMenu .mini{font-size:11px;text-align:center;color:#475569;margin-top:6px}
-.fabBackdrop{display:none;position:fixed;inset:0;background:#0005;z-index:997}
-.fabBackdrop.show{display:block}
-#scanModal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#000c;z-index:999;padding:12px}
-#scanModal .box{background:#fff;border-radius:14px;padding:14px;max-width:500px;margin:20px auto}
-video{width:100%;border-radius:10px;background:#000}
-@media print{
-body{background:#fff}header,.noPrint,.fab,.fabMenu,.fabBackdrop,#scanModal{display:none!important}
-.card{box-shadow:none;border:none;padding:0;margin:0}
-.wrap{padding:0;max-width:100%}
-input,select,textarea{display:none!important}
-button{display:none!important}
-.printSheet{grid-template-columns:1fr 1fr}
-.contractBox{border:2px solid #000}
-body.print-single .wrap>*{display:none!important}
-body.print-single #printSingleArea{display:block!important}
-body.print-single #printSingleArea button{display:none!important}
-}
-#printSingleArea{display:none}
-@media(max-width:700px){.row,.row2,.row3,.printSheet,.subjectGrid{grid-template-columns:1fr 1fr}header h1{font-size:22px}}
-</style></head>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef2ee;color:#111}
+header{background:#0b3d2e;color:#fff;padding:10px 12px;position:sticky;top:0;z-index:50}
+header h1{margin:0;font-size:18px}header p{margin:2px 0 0;font-size:12px;opacity:.9}
+.topbar{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.topbar button{border:0;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;background:#fff;color:#0b3d2e}
+.topbar button.active{background:#ffc107}
+main{padding:12px;max-width:1100px;margin:auto}
+.card{background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;margin:6px 0;font-size:15px}
+button{padding:10px 12px;border:0;border-radius:8px;font-weight:700;cursor:pointer}
+.green{background:#1a7f4a;color:#fff}.red{background:#c0392b;color:#fff}.yellow{background:#ffc107}.blue{background:#1976d2;color:#fff}.grey{background:#eee}
+.row3{display:flex;gap:8px;flex-wrap:wrap}.row3>*{flex:1;min-width:140px}
+.warn{background:#fff3cd;border:1px solid #ffc107;padding:10px;border-radius:8px;margin:8px 0}
+.uploadBox,.syncBox{background:#f7fff7;border:2px solid #1a7f4a;border-radius:12px;padding:12px;margin:10px 0}
+.syncBox{background:#eef6ff;border-color:#1976d2}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid #ddd;padding:7px;text-align:left}th{background:#0b3d2e;color:#fff}
+.hidden{display:none!important}
+.footer{text-align:center;font-size:12px;color:#666;padding:12px}
+</style>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+</head>
 <body>
 <header>
-<img src="logo.png" class="logo" alt="XINTIMANI GROUP" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
-<div id="logoFallback" style="display:none"><div style="font-size:28px;font-weight:900;color:#0a1f4d;letter-spacing:3px">XINTIMANI GROUP</div><div style="color:#0f766e;font-weight:700">Building Solutions. Empowering Communities.</div></div>
-<h1>MAKHANANI LTSM</h1><div class="tag">XINTIMANI GROUP — Building Solutions. Empowering Communities.</div>
-<div class="founder">👑 Founder / CEO — Mr Vusi Chauke | 📱 0780233263</div>
-<div class="sub">LEARNER • TEACHER • SUPPORT • MATERIAL</div>
-<div class="topnav noPrint">
-<button id="nav-home" onclick="showMain('home')" class="active">🏠 HOME</button>
-<button id="nav-admin" onclick="showMain('admin')">👑 ADMIN</button>
-<button id="nav-ltsm" onclick="showMain('ltsm')">📚 LTSM</button>
-<button id="nav-issue" onclick="showMain('issue')">📤 ISSUE / RETRIEVE</button>
-<button id="nav-staff" onclick="showMain('staff')">👥 STAFF</button>
-<button id="nav-librarian" onclick="showMain('librarian')">📚 LIBRARIAN</button>
+<h1>🏫 MAKHANANI LTSM — Xintimani Group</h1>
+<p>Mr Vusi Chauke — Founder / CEO | DBE Schools • LTSM • Library</p>
+<div class="topbar" id="topNav">
+<button onclick="showPage('login',this)" id="navLogin">🔐 LOGIN</button>
+<button onclick="showPage('home',this)" id="navHome">🏠 HOME</button>
+<button onclick="showPage('admin',this)" id="navAdmin">⚙️ ADMIN</button>
+<button onclick="showPage('ltsm',this)" id="navLtsm">📚 LTSM</button>
+<button onclick="showPage('librarian',this)" id="navLib">📖 LIBRARY</button>
 <button class="red" onclick="logout()">🚪 LOGOUT</button>
 </div>
-<div style="font-size:13px;margin-top:8px" id="who">Not logged in — Login below</div>
-<div id="autoSyncBar" class="autoSync autoOff">🔄 AUTO SYNC: Connecting...</div>
+<div id="syncTop" style="font-size:12px;margin-top:6px;display:none">🔄 AUTO SYNC: Admin Only</div>
 </header>
-<div class="wrap">
-
-<div id="printSingleArea"></div>
-
-<div class="card" id="loginCard">
-<h2>🔐 LOGIN — Select Your School</h2>
-<select id="role"><option>ADMIN</option><option>PRINCIPAL</option><option>LIBRARIAN</option><option>EDUCATOR</option><option>HOD</option></select>
-<input id="schoolSearch" placeholder="🔍 Type School — e.g. WORDSWORTH, 700310854, JOHANNESBURG" oninput="filterDBE()"><div id="schoolButtons"></div>
-<input id="emis" placeholder="Or type EMIS e.g. 700310854">
-<div class="row2"><input id="email" placeholder="Email" value="admin@xintimanigroup.co.za"><input id="pass" type="password" placeholder="Password" value="admin123"></div>
-<div class="row2"><input id="staffName" placeholder="Your Full Name — Will appear on Issue slips as Transactor"><input id="staffSubject" placeholder="Teaching Subject(s) — EDUCATOR/HOD e.g. MAT, PHYSC"></div>
+<main>
+<div id="page-login" class="card">
+<h2>👋 Welcome to MAKHANANI LTSM</h2>
+<p>For DBE Schools in South Africa. Login with your Full Name + School + Role.</p>
+<label>Your Full Name</label>
+<input id="loginName" placeholder="e.g. Vusi Chauke">
+<label>Select Your School</label>
+<select id="loginSchool"></select>
+<label>Your Role</label>
+<select id="loginRole">
+<option value="PRINCIPAL">PRINCIPAL</option>
+<option value="EDUCATOR">EDUCATOR</option>
+<option value="LIBRARIAN">LIBRARIAN</option>
+<option value="ADMIN">ADMIN</option>
+</select>
+<div class="row3">
 <button class="green" onclick="login()">🔐 LOGIN</button>
 <button class="red" onclick="emergencyLogin()">🚨 EMERGENCY LOGIN — ADMIN + WORDSWORTH</button>
-<p>Selected: <b id="selectedSchoolLabel">No school selected — Type WORDSWORTH above and tap it</b></p>
-<div class="uploadBox"><b>🏫 DBE SCHOOLS UPLOAD — ADMIN ONLY — Bulk CSV</b><div class="row3"><input type="file" id="csvFile" accept=".csv,.txt"><button class="green" onclick="uploadCSV()">📤 UPLOAD CSV</button><button class="yellow" onclick="downloadTemplate()">📄 TEMPLATE</button></div><div id="uploadStatus"></div></div>
-<div class="cloudBox"><b>☁️ AUTO SYNC — makhanani-digital — XINTIMANI GROUP</b><div id="cloudConfigBox">⏳ Connecting...</div>
-<div id="autoSyncControls" class="row2"><button class="green" onclick="toggleAutoSync()">🔄 AUTO SYNC: ON — Tap to Pause</button><button onclick="syncNow()">☁️ SYNC NOW</button></div>
-<div class="row2"><button class="purple" onclick="loadFromCloud()">⬇️ LOAD FROM CLOUD</button><button class="grey" onclick="diagnoseCloud()">🔍 DIAGNOSE</button></div>
-<div id="syncStatus"></div><p style="font-size:12px">Auto Sync: After every Add / Issue / Retrieve, app syncs this school to Cloud automatically in 2 sec.</p></div>
-<div class="ok" id="statsBar">DBE: 0 | Books: 0 | Learners: 0 | Staff: 0 | Issues: 0</div>
 </div>
-
-<div id="main-home" style="display:none">
-<div class="card"><h2>🏠 HOME — MAKHANANI LTSM</h2>
-<div class="brandBox"><img src="logo.png" alt="XINTIMANI GROUP" onerror="this.style.display='none'"><div class="tag">Building Solutions. Empowering Communities.</div><div class="founderLine">Founder / CEO — Mr Vusi Chauke</div><p style="font-size:13px">MAKHANANI LTSM is a product of Xintimani Group.</p></div>
-<div class="mission"><h3>🎯 MISSION STATEMENT</h3><p><b>To give every South African school a simple, affordable digital system to track every textbook, every learner, and every issue — so no LTSM is lost, and every child has a book.</b></p></div>
-<div class="vision"><h3>👁️ VISION STATEMENT — JOHANNESBURG</h3><p><b>A South Africa where every school — from all corners of South Africa — manages its LTSM with pride, accuracy, and technology. Where principals in Johannesburg and across the nation know exactly where every book is, in one tap.</b></p><p style="font-size:13px">Starting in Johannesburg — Growing to every school in South Africa.</p></div>
-<div class="card" style="border:2px solid #059669"><h3>📞 CONTACT — XINTIMANI GROUP</h3><p><b>Mr Vusi Chauke — Founder / CEO</b><br>📱 WhatsApp / Call: <b>0780233263</b><br>📧 Email: <b>admin@xintimanigroup.co.za</b><br>🏢 Company: Xintimani Group — Johannesburg</p><div class="row2"><button class="green" onclick="wa()">📲 WHATSAPP MR VUSI CHAUKE — 0780233263</button><button onclick="window.location.href='tel:0780233263'">📞 CALL 0780233263</button></div></div>
-<div class="subnav noPrint"><button onclick="homeSub('user',this)" class="active">📖 USER MANUAL (ALL)</button><button onclick="homeSub('founder',this)">👑 FOUNDER MANUAL (ADMIN ONLY)</button><button onclick="homeSub('training',this)">🎓 TRAINING MANUAL (ADMIN ONLY)</button></div>
-<div id="homeContent"></div></div>
+<div id="loginMsg"></div>
+<div class="card" style="background:#eef6ff;margin-top:12px">
+<h3>☁️ FIREBASE CLOUD LOGIN — ADMIN ONLY</h3>
+<p style="font-size:12px">Login with Firebase Cloud Email + Password. This is the real cloud account from console.firebase.google.com — Project: makhanani-ltsm</p>
+<input id="cloudEmail" type="email" placeholder="admin@makhanani.co.za">
+<input id="cloudPass" type="password" placeholder="Cloud Password">
+<button class="blue" onclick="cloudLogin()">☁️ LOGIN WITH FIREBASE CLOUD</button>
+<button class="grey" onclick="cloudLogout()">🚪 CLOUD LOGOUT</button>
+<div id="cloudLoginMsg"></div>
+<div id="cloudLoginStatus" style="font-size:12px;margin-top:6px">☁️ Cloud Auth: Checking...</div>
 </div>
-
-<div id="main-admin" style="display:none">
-<div class="card"><h2>👑 ADMIN — XINTIMANI GROUP — Mr Vusi Chauke</h2>
-<div class="row"><div class="stat">🏫 Schools: <span id="aSchools">0</span></div><div class="stat">📚 Books: <span id="aBooks">0</span></div><div class="stat">🎓 Learners: <span id="aLearners">0</span></div></div>
-<div class="row"><div class="stat">👥 Staff: <span id="aStaff">0</span></div><div class="stat">💰 Sales: R<span id="aSales">0</span></div><div class="stat">💳 Subs: <span id="aSubs">0</span></div></div>
-<div class="subnav noPrint"><button onclick="adminSub('dash',this)" class="active">👑 PRINCIPAL DASHBOARD</button><button onclick="adminSub('hr',this)">👥 HR</button><button onclick="adminSub('sales',this)">📈 SALES MANAGER</button><button onclick="adminSub('policy',this)">📜 POLICY & TERMS</button></div>
-<div id="adminContent"></div></div>
+<div class="card" style="background:#f9f9f9">
+<h3>ℹ️ About Makhanani</h3>
+<p style="font-size:13px">Makhanani LTSM helps DBE schools track Learner Teacher Support Material, textbooks, library books, and stock. Built by Xintimani Group — Mr Vusi Chauke, Founder / CEO.</p>
+<p style="font-size:12px">Default Schools: WORDSWORTH HIGH SCHOOL + DBE Schools uploaded by Admin via CSV.</p>
 </div>
-
-<div id="main-ltsm" style="display:none">
-<div class="card"><h2>📚 LTSM — Learners & Books — Grade Lock ON</h2>
-<div class="warn">🔒 GRADE LOCK: Grade 10 Learner = Grade 10 Books ONLY. Grade 8 Learner = Grade 8 Books ONLY.</div>
-<div class="subnav noPrint"><button onclick="ltsmSub('learners',this)" class="active">🎓 LEARNERS</button><button onclick="ltsmSub('books',this)">📚 BOOKS</button></div>
-<div id="ltsmContent"></div></div>
 </div>
-
-<div id="main-issue" style="display:none">
-<div class="card"><h2>📤 ISSUE / RETRIEVE — Grade Lock ON</h2>
-<div class="warn">🔒 RULE: Learner Grade MUST match Book Grade. Example: Grade 10 Learner → Grade 10 Book ONLY.</div>
-<div class="scanBox"><b>📷 SCAN:</b> Phone Camera OR Bluetooth / USB Scanner
-<div class="row2"><button class="purple" onclick="openScan('issueBookNo')">📷 SCAN BOOK</button><button class="purple" onclick="openScan('issueLearner')">📷 SCAN LEARNER</button></div>
-<div class="row2"><button onclick="openScan('returnBookNo')">📷 SCAN FOR RETURN</button><button class="yellow" onclick="document.getElementById('issueBookNo').focus()">⌨️ USE EXTERNAL SCANNER</button></div></div>
-<div class="row2"><input id="issueBookNo" placeholder="Book No — Scan or Type e.g. ACC-0001" oninput="checkGradeMatch()"><input id="issueLearner" placeholder="Learner ID — Scan or Type e.g. LRN-0001" oninput="checkGradeMatch()"></div>
-<div id="gradeCheck"></div>
-<p style="font-size:13px">Transactor: <b id="transactorLabel">Login first</b></p>
-<div class="row2"><button class="green" onclick="issueBook()">📤 ISSUE BOOK — Grade Checked</button><button class="yellow" onclick="returnBook()">📥 RETRIEVE / RETURN BOOK — Any Grade</button></div>
-<div style="margin-top:10px"><input id="returnBookNo" placeholder="Return — Scan / Type Book No"><button class="yellow" onclick="returnBookByScan()">📥 RETRIEVE SCANNED BOOK</button></div>
-<button class="purple" onclick="printLastSlip()">🖨️ PRINT LAST ISSUE / RETRIEVE SLIP</button>
-<div id="lastSlip"></div>
-<h3>📋 Issue / Retrieve Records — <span class="schoolName"></span></h3>
-<button onclick="window.print()" class="noPrint">🖨️ PRINT ALL RECORDS</button>
-<div id="issuesList"></div></div>
+<div id="page-home" class="card hidden">
+<h2>🏠 HOME — <span id="homeSchool"></span></h2>
+<p>Logged in as <b id="homeUser"></b> — Role: <b id="homeRole"></b></p>
+<div class="row3">
+<button class="blue" onclick="showPage('ltsm')">📚 LTSM STOCK</button>
+<button class="blue" onclick="showPage('librarian')">📖 LIBRARY</button>
+<button class="yellow" onclick="showPage('admin')">⚙️ ADMIN</button>
 </div>
-
-<div id="main-staff" style="display:none">
-<div class="card"><h2>👥 STAFF — Roles & Permissions</h2>
-<div class="warn">⛔ RULE: Every staff member MUST have at least 1 Teaching Subject. Principal can Add / Remove staff of OWN school only.</div>
-<div class="manual"><h3>👑 PRINCIPAL — Full Control</h3><p>Full control of LTSM + Add / Remove staff of own school + View all reports + Print.</p></div>
-<div class="manual"><h3>📘 EDUCATOR — Own Subjects</h3><p>Add learners + Issue OWN subjects only + Retrieve ANY book. + Grade Lock still applies.</p></div>
-<div class="manual"><h3>📚 LIBRARIAN — Books & Learners</h3><p>Add / Remove BOTH Books and Learners + Issue / Retrieve ANY subject. + Grade Lock still applies.</p></div>
-<div class="row2"><input id="sName" placeholder="Full Name"><input id="sId" placeholder="Staff ID — Auto if blank"></div>
-<div class="row2"><select id="sRole"><option>EDUCATOR</option><option>HOD</option><option>LIBRARIAN</option><option>PRINCIPAL</option></select><input id="sEmail" placeholder="Staff Email"></div>
-<p><b>📘 Tick Teaching Subject(s):</b> <span id="subjectCount">0 selected</span></p>
-<input id="subjectSearch" placeholder="🔍 Search Subject" oninput="filterSubjects()"><div id="subjectGrid" class="subjectGrid"></div>
-<div class="row2"><button class="green" onclick="addStaff()">➕ ADD STAFF</button><button class="grey" onclick="clearStaffForm()">🗑️ CLEAR</button></div>
-<div id="staffList"></div></div>
+<div id="homeStats"></div>
+<div id="homeContent"></div>
 </div>
-
-<div id="main-librarian" style="display:none">
-<div class="card"><h2>📚 LIBRARIAN — Dashboard & Department Stock — <span class="schoolName"></span></h2>
-<div class="row2"><button class="green" onclick="printLibrarianRecords()">🖨️ PRINT RECORD OF ISSUE & RETRIEVAL</button><button class="purple" onclick="window.print()">🖨️ PRINT DEPARTMENT STOCK</button></div>
+<div id="page-admin" class="card hidden">
+<h2>⚙️ ADMIN — <span id="adminSchool"></span></h2>
+<p>Logged in as <b id="adminUser"></b> — Role: <b id="adminRole"></b></p>
+<div class="topbar" id="adminSubNav">
+<button id="adminDashBtn" onclick="adminSub('dash',this)">📊 DASHBOARD</button>
+<button onclick="adminSub('schools',this)">🏫 SCHOOLS</button>
+<button onclick="adminSub('users',this)">👥 USERS</button>
+<button id="adminDbeBtn" onclick="adminSub('dbe',this)" style="display:none">🏫 DBE UPLOAD — ADMIN ONLY</button>
+<button id="adminSyncBtn" onclick="adminSub('sync',this)" style="display:none">☁️ AUTO SYNC — ADMIN ONLY</button>
+<button onclick="adminSub('policy',this)">📜 POLICY & TERMS</button>
+</div>
+<div id="adminContent"></div>
+</div>
+<div id="page-ltsm" class="card hidden">
+<h2>📚 LTSM STOCK</h2>
+<div class="row3">
+<input id="ltsmSearch" placeholder="Search LTSM..." oninput="renderLTSM()">
+<select id="ltsmFilter" onchange="renderLTSM()"><option value="">All Grades</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select>
+</div>
+<button class="green" onclick="addLTSM()">➕ ADD LTSM ITEM</button>
+<div id="ltsmContent"></div>
+</div>
+<div id="page-librarian" class="card hidden">
+<h2>📖 LIBRARY</h2>
+<div class="row3">
+<input id="libSearch" placeholder="Search book..." oninput="renderLibrarian()">
+<button class="green" onclick="addBook()">➕ ADD BOOK</button>
+</div>
 <div id="librarianContent"></div>
-<h3>📋 Issue & Retrieval Record — For Printing</h3>
-<div id="librarianIssues"></div>
 </div>
-</div>
-
-<div class="card" id="printSheetCard" style="display:none"><h2>🖨️ BARCODE PRINT SHEET — <span class="schoolName"></span></h2><div class="footerBrand"><img src="logo.png" onerror="this.style.display='none'"><b>XINTIMANI GROUP — MAKHANANI LTSM</b><br>Building Solutions. Empowering Communities.</div><div id="printSheetTitle" style="font-weight:700;margin:8px 0"></div><button class="green noPrint" onclick="window.print()">🖨️ PRINT THIS SHEET</button><button class="noPrint" onclick="hidePrintSheet()">⬅️ Back</button><div id="printSheet" class="printSheet"></div></div>
-
-<div class="footerBrand"><img src="logo.png" onerror="this.style.display='none'"><b>XINTIMANI GROUP — MAKHANANI LTSM</b><br>Building Solutions. Empowering Communities.<br>Founder / CEO — Mr Vusi Chauke | WhatsApp 0780233263 | admin@xintimanigroup.co.za | © 2026 Xintimani Group — Johannesburg</div>
-</div>
-
-<div id="fabBackdrop" class="fabBackdrop" onclick="toggleFabMenu(false)"></div>
-<div id="fabMenu" class="fabMenu noPrint">
-<h3>☰ MAKHANANI MENU</h3>
-<button onclick="fabGo('home')">🏠 HOME</button>
-<button onclick="fabGo('admin')">👑 ADMIN</button>
-<button onclick="fabGo('ltsm')">📚 LTSM — Learners & Books</button>
-<button onclick="fabGo('issue')">📤 ISSUE / RETRIEVE</button>
-<button onclick="fabGo('staff')">👥 STAFF</button>
-<button onclick="fabGo('librarian')">📚 LIBRARIAN</button>
-<button onclick="fabGo('top')">⬆️ BACK TO TOP</button>
-<button class="green" onclick="syncNow();toggleFabMenu(false)">☁️ SYNC NOW</button>
-<button class="red" onclick="logout()">🚪 LOGOUT</button>
-<div class="mini">XINTIMANI GROUP<br>Founder/CEO Mr Vusi Chauke<br>0780233263 — Johannesburg<br>admin@xintimanigroup.co.za</div>
-</div>
-<button id="fabBtn" class="fab noPrint" onclick="toggleFabMenu()">☰</button>
-
-<div id="scanModal"><div class="box"><h3>📷 SCAN BARCODE</h3><video id="scanVideo" playsinline></video><p id="scanStatus">Starting...</p><button onclick="closeScan()">❌ CLOSE</button><button class="yellow" onclick="manualScan()">⌨️ TYPE MANUALLY</button></div></div>
-
+</main>
+<div class="footer">© 2026 Xintimani Group — MAKHANANI LTSM V1.30 — Mr Vusi Chauke — Founder / CEO</div>
 <script>
-const CAPS=[["ACC","Accounting"],["BUS","Business Studies"],["ECO","Economics"],["ENGHL","English Home Language"],["ENGFAL","English First Additional Language"],["AFRHL","Afrikaans Home Language"],["AFRFAL","Afrikaans First Additional Language"],["ZULHL","isiZulu Home Language"],["ZULFAL","isiZulu First Additional Language"],["XHOHL","isiXhosa Home Language"],["SEPEDIHL","Sepedi Home Language"],["SETSWANAHL","Setswana Home Language"],["SESOTHOHL","Sesotho Home Language"],["XITSONGAHL","Xitsonga Home Language"],["TSHIVENDAHL","Tshivenda Home Language"],["SISWATIHL","siSwati Home Language"],["ISINDEBELEHL","isiNdebele Home Language"],["MAT","Mathematics"],["MLIT","Mathematical Literacy"],["TMAT","Technical Mathematics"],["NSC","Natural Sciences"],["NST","Natural Sciences & Technology"],["TECH","Technology"],["SOC","Social Sciences"],["GEO","Geography"],["HIS","History"],["LIFSK","Life Skills"],["LO","Life Orientation"],["PHYSC","Physical Sciences"],["LIFSC","Life Sciences"],["AGRSC","Agricultural Sciences"],["AGRMAN","Agricultural Management Practices"],["AGRTEC","Agricultural Technology"],["CAT","Computer Applications Technology"],["IT","Information Technology"],["CON","Consumer Studies"],["HOS","Hospitality Studies"],["TOU","Tourism"],["EGD","Engineering Graphics & Design"],["CIVTEC","Civil Technology"],["ELETEC","Electrical Technology"],["MECTEC","Mechanical Technology"],["CRA","Creative Arts"],["MUS","Music"],["DRA","Dramatic Arts"],["VAR","Visual Arts"],["REL","Religion Studies"],["EMS","Economic & Management Sciences"]];
-const DBE_DEFAULT=[["700310854","WORDSWORTH HIGH SCHOOL","JOHANNESBURG","Gauteng"],["700310855","EXAMPLE PRIMARY SCHOOL","JOHANNESBURG","Gauteng"],["700310856","TEST HIGH SCHOOL","JOHANNESBURG","Gauteng"]];
-const FOUNDER="Mr Vusi Chauke";
-const COMPANY_EMAIL="admin@xintimanigroup.co.za";
-const DEPTS=[
-{name:"Mathematics Department",icon:"🔢",subjects:[["MAT","Mathematics"],["MLIT","Mathematical Literacy"]]},
-{name:"Life Orientation Department",icon:"🎨",subjects:[["CRA","Creative Arts"],["DRA","Dramatic Arts"],["VAR","Visual Arts"]]},
-{name:"Commerce Department",icon:"💰",subjects:[["ACC","Accounting"],["EMS","Economic & Management Sciences"],["BUS","Business Studies"],["ECO","Economics"],["CON","Consumer Studies"]]},
-{name:"Science Department",icon:"🔬",subjects:[["LIFSC","Life Sciences"],["PHYSC","Physical Sciences"],["NSC","Natural Sciences"]]},
-{name:"CAT Department",icon:"💻",subjects:[["CAT","Computer Applications Technology"],["TECH","Technology"]]},
-{name:"Humanities Department",icon:"📖",subjects:[["ENGHL","English Home Language"],["AFRFAL","Afrikaans First Additional Language"],["ZULHL","isiZulu Home Language"]]}
-];
-const PLANS=[
-{name:"DEMO",setup:"FREE",monthly:"FREE",onceoff:"FREE",desc:"7 days free trial — Full system — No card needed"},
-{name:"STARTER",setup:"R3 000",monthly:"R350 / month",onceoff:"R4 500 once-off / year",desc:"Starter — 1 school — Basic LTSM tracking"},
-{name:"STANDARD",setup:"R4 500",monthly:"R500 / month",onceoff:"R7 500 once-off / year",desc:"Most popular — Full LTSM + Grade Lock + Auto Sync"},
-{name:"PREMIUM",setup:"R5 500",monthly:"R600 / month",onceoff:"R9 000 once-off / year",desc:"Premium — All features + Priority Support + Training"}
-];
-function priceListHTML(){return `<div class="row">${PLANS.map(p=>`<div class="priceCard"><h3>${p.name}</h3><p>${p.desc}</p><div class="price">Setup: ${p.setup}</div><p>Monthly: <b>${p.monthly}</b><br>Once-off / Year: <b>${p.onceoff}</b></p><button class="green" onclick="requestSub('${p.name}')">📲 REQUEST ${p.name} — WhatsApp</button></div>`).join('')}</div>`;}
-function requestSub(plan){let msg=`Hello Mr Vusi Chauke - Makhanani LTSM - Xintimani Group%0A%0ASchool: ${encodeURIComponent(schoolName())} (${CUR.school})%0APrincipal: ${encodeURIComponent(CUR.staffName||'')}%0A%0AI want to request: ${plan} Plan%0A${encodeURIComponent(PLANS.find(p=>p.name===plan)?.desc||'')}%0A%0APlease send invoice. Thank you.`; window.open('https://wa.me/2780233263?text='+msg,'_blank');}
-let fabOpen=false;
-function toggleFabMenu(force){ if(typeof force==='boolean') fabOpen=force; else fabOpen=!fabOpen; document.getElementById('fabMenu').classList.toggle('show',fabOpen); document.getElementById('fabBackdrop').classList.toggle('show',fabOpen); let b=document.getElementById('fabBtn'); b.classList.toggle('open',fabOpen); b.innerText=fabOpen?'✕':'☰'; }
-function fabGo(dest){ toggleFabMenu(false); if(dest==='top'){ window.scrollTo({top:0,behavior:'smooth'}); return; } showMain(dest); window.scrollTo({top:0,behavior:'smooth'}); }
-function printSingleContract(idx){
-  let x=DB.contracts[idx]; if(!x) return;
-  let html=`<div class="contractBox"><img src="logo.png" class="cLogo" onerror="this.style.display='none'"><h3>AGENTS CONTRACT — XINTIMANI GROUP</h3><p style="text-align:center;font-size:12px;color:#0f766e;font-weight:700">Building Solutions. Empowering Communities.</p><div class="cMeta"><p><b>Agent:</b> ${x.n} | <b>ID:</b> ${x.id||''} | <b>Area:</b> ${x.area||''} | <b>Commission:</b> ${x.comm||''}</p><p><b>Terms:</b> ${x.terms||''}</p><p><b>Company:</b> XINTIMANI GROUP — MAKHANANI LTSM<br><b>Founder / CEO:</b> Mr Vusi Chauke | <b>Contact:</b> 0780233263 | <b>Email:</b> ${COMPANY_EMAIL} | <b>Base:</b> Johannesburg | <b>Date:</b> ${x.date||''}</p></div><div class="sig"><span>Agent Signature: ___________________<br><br>${x.n}</span><span>Founder/CEO Signature: ___________________<br><br><b>Mr Vusi Chauke</b></span></div></div>`;
-  document.getElementById('printSingleArea').innerHTML=html;
-  document.body.classList.add('print-single');
-  setTimeout(()=>{ window.print(); setTimeout(()=>{ document.body.classList.remove('print-single'); document.getElementById('printSingleArea').innerHTML=''; },800); },200);
+const APP_VERSION="makhanani-ltsm-v30";
+const firebaseConfig={apiKey:"AIzaSyDPcF5zaCD6Mp9TfpiMPoc3xG0qSPwO7oA",authDomain:"makhanani-ltsm.firebaseapp.com",databaseURL:"https://makhanani-ltsm-default-rtdb.firebaseio.com",projectId:"makhanani-ltsm",storageBucket:"makhanani-ltsm.firebasestorage.app",messagingSenderId:"247180363183",appId:"1:247180363183:web:4e5a399d4e306192e01b5a",measurementId:"G-PEST1XFCR8"};
+let db=null;let cloudOK=false;let auth=null;
+try{firebase.initializeApp(firebaseConfig);db=firebase.firestore();auth=firebase.auth();cloudOK=true;}catch(e){console.log("Firebase init fail",e);}
+let CUR={name:"",school:"WORDSWORTH HIGH SCHOOL",role:"",logged:false};
+let SCHOOLS=[{emis:"700310854",name:"WORDSWORTH HIGH SCHOOL",town:"JOHANNESBURG",province:"Gauteng"}];
+let LTSM=JSON.parse(localStorage.getItem("makhanani_ltsm")||"[]");
+let BOOKS=JSON.parse(localStorage.getItem("makhanani_books")||"[]");
+let USERS=JSON.parse(localStorage.getItem("makhanani_users")||"[]");
+let adminCur='dash';
+let DEVICE_ID=localStorage.getItem("makhanani_device")||("DEV-"+Math.random().toString(36).slice(2,8).toUpperCase());
+localStorage.setItem("makhanani_device",DEVICE_ID);
+function saveLocal(){localStorage.setItem("makhanani_ltsm",JSON.stringify(LTSM));localStorage.setItem("makhanani_books",JSON.stringify(BOOKS));localStorage.setItem("makhanani_users",JSON.stringify(USERS));localStorage.setItem("makhanani_schools",JSON.stringify(SCHOOLS));}
+function canViewAdminOnly(){return CUR.logged && CUR.role==='ADMIN';}
+function canViewPrincipalDashboard(){return CUR.logged && (CUR.role==='ADMIN'||CUR.role==='PRINCIPAL');}
+function isAdmin(){return canViewAdminOnly();}
+function showPage(p,btn){
+document.querySelectorAll("main>div[id^='page-']").forEach(d=>d.classList.add("hidden"));
+let el=document.getElementById("page-"+p);if(el)el.classList.remove("hidden");
+document.querySelectorAll("#topNav button").forEach(b=>b.classList.remove("active"));
+if(btn)btn.classList.add("active");
+if(p==='home')renderHome();if(p==='admin')renderAdmin();if(p==='ltsm')renderLTSM();if(p==='librarian')renderLibrarian();
+updateSyncStatus();
 }
-function printSinglePolicy(){
-  let html=`<div class="policyBox"><div style="text-align:center"><img src="logo.png" style="width:180px" onerror="this.style.display='none'"><h3>POLICY & TERMS AND CONDITIONS — MAKHANANI LTSM</h3><p style="color:#0f766e;font-weight:700">XINTIMANI GROUP — Building Solutions. Empowering Communities.</p><p><b>Founder / CEO:</b> Mr Vusi Chauke | <b>Contact:</b> 0780233263 | <b>Email:</b> ${COMPANY_EMAIL} | <b>Base:</b> Johannesburg | <b>Date:</b> ${new Date().toLocaleDateString()} | <b>School:</b> ${schoolName()} (${CUR.school})</p></div>${policyHTML()}<div class="sig" style="margin-top:20px"><span>Principal Signature: ___________________<br><br>${CUR.staffName||''}</span><span>Founder/CEO Signature: ___________________<br><br><b>Mr Vusi Chauke</b></span></div></div>`;
-  document.getElementById('printSingleArea').innerHTML=html;
-  document.body.classList.add('print-single');
-  setTimeout(()=>{ window.print(); setTimeout(()=>{ document.body.classList.remove('print-single'); document.getElementById('printSingleArea').innerHTML=''; },800); },200);
+function fillSchools(){
+let s=document.getElementById("loginSchool");if(!s)return;
+s.innerHTML=SCHOOLS.map(x=>`<option value="${x.name}">${x.name} — ${x.town}</option>`).join("");
 }
-function policyHTML(){
-  return `<ol>
-<li><b>THE COMPANY:</b> MAKHANANI LTSM is a product of XINTIMANI GROUP, founded and owned by Mr Vusi Chauke (Founder / CEO), based in Johannesburg, South Africa. Contact: 0780233263 / ${COMPANY_EMAIL}.</li>
-<li><b>WHAT MAKHANANI DOES:</b> A digital system to track textbooks (LTSM), learners, staff, issue and retrieve. It uses barcodes, Grade Lock, and Auto Sync to Cloud.</li>
-<li><b>SUBSCRIPTIONS & PAYMENT — V1.13 PRICING:</b> <b>DEMO:</b> 7 days FREE. <b>STARTER:</b> R3 000 setup + R350/month OR R4 500 once-off per year. <b>STANDARD:</b> R4 500 setup + R500/month OR R7 500 once-off per year. <b>PREMIUM:</b> R5 500 setup + R600/month OR R9 000 once-off per year. Payment before activation. No refund after activation / training started. If school does not renew, access can be suspended.</li>
-<li><b>SCHOOL RESPONSIBILITIES:</b> (a) Keep barcodes on every book. (b) Scan EVERY issue and EVERY return. (c) Enter correct learner Class (e.g. 10A) so Grade Lock works. (d) Only Principal / Librarian may add or remove books. (e) Keep login details safe.</li>
-<li><b>GRADE LOCK RULE:</b> A learner may ONLY receive a book of their own Grade. Example: Grade 10 learner = Grade 10 book ONLY. System will BLOCK wrong-grade issue.</li>
-<li><b>STAFF RULES:</b> Every staff member must have at least 1 Teaching Subject. Educators may only issue books for subjects they teach. Principals control staff of their own school only.</li>
-<li><b>DATA & PRIVACY (POPIA):</b> Learner data belongs to the SCHOOL. Xintimani stores data to run the system (phone + secure Cloud) and will NOT sell, share or publish learner data without school permission, except where required by law.</li>
-<li><b>LOST / DAMAGED BOOKS:</b> If a book is lost/damaged while issued, the school's own LTSM policy applies. Makhanani only shows WHO had the book last.</li>
-<li><b>AGENTS:</b> Agents earn commission ONLY after school has paid. Commission in signed Agents Contract. Agents must not promise features not in Makhanani.</li>
-<li><b>SUPPORT:</b> WhatsApp / Call 0780233263 / ${COMPANY_EMAIL}. Internet needed for Cloud sync; offline mode still works.</li>
-<li><b>SUSPENSION & TERMINATION:</b> Xintimani may suspend school that does not pay, misuses system, or shares login to other schools. Either party may end with 30 days written notice.</li>
-<li><b>CHANGES TO TERMS:</b> Latest version inside app (ADMIN → POLICY & TERMS) is valid version.</li>
-<li><b>ACCEPTANCE:</b> By logging in and using Makhanani LTSM, school, Principal and staff accept these Terms in full.</li>
-</ol><p><b>Vision:</b> A South Africa where every school — from all corners of South Africa — manages its LTSM with pride, accuracy, and technology.</p><p><b>Mission:</b> To give every South African school a simple, affordable digital system to track every textbook, every learner, and every issue — so no LTSM is lost, and every child has a book.</p>`;
+function login(){
+let n=document.getElementById("loginName").value.trim();
+let sch=document.getElementById("loginSchool").value;
+let role=document.getElementById("loginRole").value;
+if(!n){document.getElementById("loginMsg").innerHTML='<div class="warn">Please enter your Full Name</div>';return;}
+CUR={name:n,school:sch,role:role,logged:true};
+localStorage.setItem("makhanani_cur",JSON.stringify(CUR));
+alert("✅ Welcome "+n+" — "+role+" — "+sch);
+showPage('home');
 }
-function acceptPolicy(){
-  let chk=document.getElementById('policyAccept'); if(!chk) return;
-  if(chk.checked){
-    let rec={school:CUR.school,schoolName:schoolName(),by:CUR.staffName||'',role:CUR.role||'',date:new Date().toLocaleDateString(),time:new Date().toLocaleTimeString()};
-    if(!DB.policyAccepted) DB.policyAccepted=[];
-    DB.policyAccepted.push(rec); save();
-    document.getElementById('policyAcceptMsg').innerText='✅ Accepted by '+rec.by+' — '+rec.schoolName+' — '+rec.date+' '+rec.time+' — Saved in Sales Manager → Accepted Policy';
-  } else { document.getElementById('policyAcceptMsg').innerText='Not yet accepted'; }
+async function cloudLogin(){
+let email=document.getElementById("cloudEmail").value.trim();
+let pass=document.getElementById("cloudPass").value.trim();
+if(!email||!pass){alert("Enter Cloud Email + Password");return;}
+if(!auth){alert("🔴 Firebase Auth not connected");return;}
+try{
+let res=await firebase.auth().signInWithEmailAndPassword(email,pass);
+CUR={name:res.user.email,school:"WORDSWORTH HIGH SCHOOL",role:"ADMIN",logged:true,cloudEmail:email};
+localStorage.setItem("makhanani_cur",JSON.stringify(CUR));
+let m=document.getElementById("cloudLoginMsg");if(m)m.innerHTML='<div class="warn">✅ Cloud Login OK — '+email+'</div>';
+updateCloudAuthStatus();
+alert("✅ FIREBASE CLOUD LOGIN OK — ADMIN — "+email);
+showPage('home');
+}catch(e){alert("❌ Cloud Login Failed: "+e.message);}
 }
-const firebaseConfig={apiKey:"AIzaSyDMdnrjBRGElJWAqXST67zjZZ4bvEpTWXc",authDomain:"makhanani-digital.firebaseapp.com",projectId:"makhanani-digital",storageBucket:"makhanani-digital.firebasestorage.app",messagingSenderId:"1018865654685",appId:"1:1018865654685:web:5a3ddb32fa11124a75ad74",measurementId:"G-TPVYKY6VLW"};
-let fbApp=null, db=null, fbReady=false, fbError='';
-let autoSyncOn=true, autoSyncTimer=null, lastSyncTime='Never', isSyncing=false;
-function initFirebase(){try{if(typeof firebase==='undefined'){fbError='Firebase SDK did not load — Check internet.';showCloud();return false;} if(!fbApp){try{fbApp=firebase.initializeApp(firebaseConfig);}catch(e){if(/already exists/i.test(e.message)) fbApp=firebase.app(); else throw e;} db=firebase.firestore(); try{firebase.analytics();}catch(e){}} fbReady=true; fbError=''; showCloud(); updateAutoBar(); return true;}catch(e){fbReady=false; fbError=e.message; showCloud(); updateAutoBar(); return false;}}
-function showCloud(){let el=document.getElementById('cloudConfigBox'); if(!el) return; el.innerHTML=fbReady?'<div class="ok">✅ Cloud Connected: makhanani-digital — XINTIMANI GROUP — Founder/CEO '+FOUNDER+' — Ready — AUTO SYNC ON</div>':'<div class="warn">❌ Cloud NOT Connected: '+fbError+'<br>Local mode still works. Auto Sync will retry.</div>';}
-function updateAutoBar(){let el=document.getElementById('autoSyncBar'); if(!el) return; if(!fbReady){el.className='autoSync autoOff'; el.innerText='🔴 AUTO SYNC: OFFLINE — Will retry — Last Sync: '+lastSyncTime;} else if(!autoSyncOn){el.className='autoSync autoOff'; el.innerText='⏸️ AUTO SYNC: PAUSED — Tap SYNC NOW to sync manually — Last Sync: '+lastSyncTime;} else if(isSyncing){el.className='autoSync autoOn'; el.innerText='⏳ AUTO SYNC: SYNCING... — Last Sync: '+lastSyncTime;} else {el.className='autoSync autoOn'; el.innerText='🟢 AUTO SYNC: ON — Last Sync: '+lastSyncTime+' — Every change auto-syncs';}}
-function toggleAutoSync(){autoSyncOn=!autoSyncOn; let btn=document.querySelector('#autoSyncControls button'); if(btn) btn.innerText=autoSyncOn?'🔄 AUTO SYNC: ON — Tap to Pause':'⏸️ AUTO SYNC: OFF — Tap to Resume'; updateAutoBar(); if(autoSyncOn) scheduleAutoSync();}
-function scheduleAutoSync(){if(!autoSyncOn) return; if(autoSyncTimer) clearTimeout(autoSyncTimer); updateAutoBar(); autoSyncTimer=setTimeout(()=>{ doAutoSync(); },2000);}
-async function doAutoSync(){
-  if(!autoSyncOn) return;
-  if(!initFirebase()){ updateAutoBar(); return; }
-  if(!CUR.school){ updateAutoBar(); return; }
-  if(isSyncing) { scheduleAutoSync(); return; }
-  isSyncing=true; updateAutoBar();
-  try{ await syncThisSchoolOnlySilent(); lastSyncTime=new Date().toLocaleTimeString(); document.getElementById('syncStatus').innerHTML='<div class="ok">🟢 AUTO SYNCED — '+CUR.school+' — '+schoolName()+' — '+lastSyncTime+' — Founder/CEO '+FOUNDER+'</div>'; }catch(e){ document.getElementById('syncStatus').innerHTML='<div class="warn">⚠️ AUTO SYNC FAILED: '+e.message+' — Will retry in 60 sec.</div>'; }
-  isSyncing=false; updateAutoBar();
+async function cloudLogout(){
+try{await firebase.auth().signOut();}catch(e){}
+CUR={name:"",school:"WORDSWORTH HIGH SCHOOL",role:"",logged:false};
+localStorage.removeItem("makhanani_cur");
+updateCloudAuthStatus();
+alert("☁️ Cloud Logged Out");
+showPage('login');
 }
-async function syncThisSchoolOnlySilent(){
-  if(!fbReady) throw new Error('Cloud not connected');
-  await db.collection('makhanani').doc('school_'+CUR.school).set({emis:String(CUR.school),name:String(schoolName()),books:DB.books.filter(b=>b.school===CUR.school).map(b=>({code:String(b.code||''),title:String(b.title||''),subject:String(b.subject||''),grade:String(b.grade||''),school:String(b.school||''),issued:!!b.issued,learner:String(b.learner||''),qty:Number(b.qty||1)})),learners:DB.learners.filter(l=>l.school===CUR.school).map(l=>({name:String(l.name||''),id:String(l.id||''),grade:String(l.grade||''),school:String(l.school||''),created:String(l.created||'')})),staff:DB.staff.filter(s=>s.school===CUR.school).map(s=>staffToCloud(s)),issues:DB.issues.filter(x=>x.school===CUR.school).map(x=>({code:String(x.code||''),learner:String(x.learner||''),learnerName:String(x.learnerName||''),bookTitle:String(x.bookTitle||''),bookGrade:String(x.bookGrade||''),learnerGrade:String(x.learnerGrade||''),type:String(x.type||''),date:String(x.date||''),time:String(x.time||''),transactor:String(x.transactor||''),transactorRole:String(x.transactorRole||''),school:String(x.school||'')})),updated:new Date().toISOString(),founder:FOUNDER});
+function updateCloudAuthStatus(){
+let el=document.getElementById("cloudLoginStatus");if(!el)return;
+if(auth && auth.currentUser){el.textContent="☁️ Cloud Auth: ✅ LOGGED IN — "+auth.currentUser.email+" — ADMIN";}
+else if(CUR.logged && CUR.cloudEmail){el.textContent="☁️ Cloud Auth: ✅ LOGGED IN — "+CUR.cloudEmail+" — ADMIN";}
+else{el.textContent="☁️ Cloud Auth: Not logged in to Firebase Cloud";}
 }
-async function diagnoseCloud(){let out='🔍 DIAGNOSE:<br>firebase: '+(typeof firebase!=='undefined'?'✅':'❌')+' | firestore: '+(typeof firebase!=='undefined'&&firebase.firestore?'✅':'❌')+'<br>Auto Sync: '+(autoSyncOn?'ON':'OFF')+' | Last Sync: '+lastSyncTime+'<br>'; if(!initFirebase()){out+='Init: ❌ '+fbError; document.getElementById('syncStatus').innerHTML='<div class="warn">'+out+'</div>'; return;} out+='Init: ✅<br>Testing read...'; document.getElementById('syncStatus').innerHTML='<div class="ok">'+out+'</div>'; try{let s=await db.collection('makhanani').doc('schools_meta').get(); out+=s.exists?' ✅ Found schools_meta — Total: '+s.data().total:' ✅ Connected, no schools_meta yet — Tap SYNC NOW first.';}catch(e){out+=' ❌ '+e.message; if(/permission-denied/i.test(e.message)) out+='<br>FIX: Firestore → Rules → allow read, write: if true; → Publish.';} document.getElementById('syncStatus').innerHTML='<div class="ok">'+out+'</div>';}
-function schoolToCloud(s){return {e:String(s[0]||''),n:String(s[1]||''),t:String(s[2]||''),p:String(s[3]||'')}}
-function schoolFromCloud(o){if(Array.isArray(o)) return o; return [String(o.e||''),String(o.n||''),String(o.t||''),String(o.p||'')]}
-function staffToCloud(s){let subs=Array.isArray(s.subjects)?s.subjects:(s.subject?[s.subject]:[]); return {name:String(s.name||''),id:String(s.id||''),role:String(s.role||''),subject:String(s.subject||subs[0]||''),subjectsStr:subs.join(','),email:String(s.email||''),school:String(s.school||'')}}
-function staffFromCloud(o){let subs=o.subjectsStr?o.subjectsStr.split(',').map(x=>x.trim()).filter(Boolean):(Array.isArray(o.subjects)?o.subjects:(o.subject?[o.subject]:[])); return {name:o.name||'',id:o.id||'',role:o.role||'',subject:o.subject||subs[0]||'',subjects:subs,email:o.email||'',school:o.school||''}}
-async function syncNow(){let meta=getMeta(); document.getElementById('syncStatus').innerHTML='<div class="ok">⏳ SYNCING — '+meta.total+' schools in '+meta.chunks+' chunks...</div>'; if(!initFirebase()){document.getElementById('syncStatus').innerHTML='<div class="ok">✅ SYNC COMPLETE (LOCAL) — '+meta.total+' schools.</div>'; return;} try{for(let i=0;i<meta.chunks;i++){let ch=getChunk(i); if(!ch) continue; await db.collection('makhanani').doc('schools_chunk_'+i).set({schools:ch.map(s=>schoolToCloud(s)),chunk:i,total:meta.total,updated:new Date().toISOString()});} await db.collection('makhanani').doc('schools_meta').set({total:meta.total,chunks:meta.chunks,updated:new Date().toISOString()}); if(CUR.school){await syncThisSchoolOnlySilent();} lastSyncTime=new Date().toLocaleTimeString(); updateAutoBar(); document.getElementById('syncStatus').innerHTML='<div class="ok">✅ SYNC COMPLETE (CLOUD) — Schools: '+meta.total+' in '+meta.chunks+' chunks + This School ('+CUR.school+') — '+lastSyncTime+'</div>';}catch(e){document.getElementById('syncStatus').innerHTML='<div class="warn">❌ SYNC FAIL: '+e.message+'</div>';}}
-async function syncThisSchoolOnly(){if(!CUR.school) return alert('Login to a school first'); if(!initFirebase()) return alert('Cloud not connected'); try{await syncThisSchoolOnlySilent(); lastSyncTime=new Date().toLocaleTimeString(); updateAutoBar(); document.getElementById('syncStatus').innerHTML='<div class="ok">✅ THIS SCHOOL SYNCED: '+CUR.school+' — '+schoolName()+' — '+lastSyncTime+'</div>';}catch(e){document.getElementById('syncStatus').innerHTML='<div class="warn">❌ FAIL: '+e.message+'</div>';}}
-async function loadFromCloud(){if(!initFirebase()) return alert('Cloud not connected'); try{let m=await db.collection('makhanani').doc('schools_meta').get(); if(!m.exists) return alert('No cloud schools yet. Upload CSV → SYNC NOW first.'); let meta=m.data(); let all=[]; for(let i=0;i<meta.chunks;i++){let s=await db.collection('makhanani').doc('schools_chunk_'+i).get(); if(s.exists){(s.data().schools||[]).forEach(o=>all.push(schoolFromCloud(o)));}} saveAllSchoolsChunked(all); if(CUR.school){let sc=await db.collection('makhanani').doc('school_'+CUR.school).get(); if(sc.exists){let d=sc.data(); DB.books=DB.books.filter(b=>b.school!==CUR.school).concat((d.books||[]).map(b=>({code:b.code||'',title:b.title||'',subject:b.subject||'',grade:b.grade||'',school:b.school||CUR.school,issued:!!b.issued,learner:b.learner||'',qty:Number(b.qty||1)}))); DB.learners=DB.learners.filter(l=>l.school!==CUR.school).concat((d.learners||[]).map(l=>({name:l.name||'',id:l.id||'',grade:l.grade||'',school:l.school||CUR.school,created:l.created||''}))); DB.staff=DB.staff.filter(s=>s.school!==CUR.school).concat((d.staff||[]).map(s=>staffFromCloud(s))); DB.issues=DB.issues.filter(x=>x.school!==CUR.school).concat(d.issues||[]); save();}} document.getElementById('syncStatus').innerHTML='<div class="ok">✅ LOADED FROM CLOUD — Schools: '+all.length+'</div>'; filterDBE(); render();}catch(e){document.getElementById('syncStatus').innerHTML='<div class="warn">❌ LOAD FAIL: '+e.message+'</div>';}}
-async function autoLoadIfEmpty(){
-  if(getMeta().isDefault && !localStorage.getItem('mk_dbe_chunk_0')){
-    if(!initFirebase()) return;
-    try{let m=await db.collection('makhanani').doc('schools_meta').get(); if(m.exists){let meta=m.data(); let all=[]; for(let i=0;i<meta.chunks;i++){let s=await db.collection('makhanani').doc('schools_chunk_'+i).get(); if(s.exists){(s.data().schools||[]).forEach(o=>all.push(schoolFromCloud(o)));}} if(all.length){saveAllSchoolsChunked(all); document.getElementById('syncStatus').innerHTML='<div class="ok">🟢 AUTO LOADED FROM CLOUD — Schools: '+all.length+' — No upload needed.</div>'; filterDBE(); render();}}}catch(e){}
-  }
+function emergencyLogin(){
+CUR={name:"Mr Vusi Chauke",school:"WORDSWORTH HIGH SCHOOL",role:"ADMIN",logged:true};
+localStorage.setItem("makhanani_cur",JSON.stringify(CUR));
+alert("✅ Emergency Login — ADMIN + WORDSWORTH");
+showPage('home');
 }
-const CHUNK_SIZE=500;
-function getMeta(){try{let m=JSON.parse(localStorage.getItem('mk_dbe_meta')||'null'); if(m&&typeof m.total==='number') return m;}catch(e){} return {total:DBE_DEFAULT.length,chunks:1,isDefault:true};}
-function setMeta(m){localStorage.setItem('mk_dbe_meta',JSON.stringify(m));}
-function getChunk(i){try{let c=JSON.parse(localStorage.getItem('mk_dbe_chunk_'+i)||'null'); if(Array.isArray(c)) return c;}catch(e){} return null;}
-function saveAllSchoolsChunked(all){let old=getMeta(); for(let i=0;i<old.chunks;i++){try{localStorage.removeItem('mk_dbe_chunk_'+i);}catch(e){}} let chunks=Math.ceil(all.length/CHUNK_SIZE)||1; for(let i=0;i<chunks;i++){localStorage.setItem('mk_dbe_chunk_'+i,JSON.stringify(all.slice(i*CHUNK_SIZE,(i+1)*CHUNK_SIZE)));} setMeta({total:all.length,chunks:chunks,isDefault:false});}
-function searchSchools(q,limit){q=(q||'').toUpperCase().trim(); if(!q) return []; let meta=getMeta(); if(meta.isDefault&&!localStorage.getItem('mk_dbe_chunk_0')) return DBE_DEFAULT.filter(s=>s[0].includes(q)||s[1].includes(q)||(s[2]||'').includes(q)||(s[3]||'').includes(q)).slice(0,limit); let res=[]; for(let i=0;i<meta.chunks&&res.length<limit;i++){let ch=getChunk(i); if(!ch) continue; for(let s of ch){if(String(s[0]).includes(q)||String(s[1]).toUpperCase().includes(q)||String(s[2]||'').toUpperCase().includes(q)||String(s[3]||'').toUpperCase().includes(q)){res.push(s); if(res.length>=limit) break;}}} return res;}
-function findSchoolByEMIS(emis){emis=String(emis||'').trim(); let meta=getMeta(); if(meta.isDefault&&!localStorage.getItem('mk_dbe_chunk_0')) return DBE_DEFAULT.find(s=>s[0]===emis)||null; for(let i=0;i<meta.chunks;i++){let ch=getChunk(i); if(!ch) continue; let f=ch.find(s=>String(s[0])===emis); if(f) return f;} return null;}
-function parseCSV(text){let lines=text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean); let out=[],seen=new Set(),err=0; lines.forEach((line,idx)=>{if(idx===0&&line.toLowerCase().includes('emis')) return; let p=line.split(/[,;\t]/).map(x=>x.trim().replace(/^"|"$/g,'')); if(p.length<2){err++;return;} let emis=p[0].replace(/\D/g,''); if(!emis||emis.length<5){err++;return;} if(seen.has(emis)) return; seen.add(emis); if(p.length>=4) out.push([emis,p[1].toUpperCase(),p[2].toUpperCase(),p[3].toUpperCase()]); else if(p.length===3) out.push([emis,p[1].toUpperCase(),'',p[2].toUpperCase()]); else out.push([emis,p[1].toUpperCase(),'', 'Gauteng']);}); return {schools:out,errors:err};}
-function uploadCSV(){if(CUR.role!=='ADMIN') return alert('⛔ Only ADMIN can upload DBE schools. Login as ADMIN.'); let f=document.getElementById('csvFile').files[0]; if(!f) return alert('Choose file first'); let r=new FileReader(); r.onload=e=>{let res=parseCSV(e.target.result); saveAllSchoolsChunked(res.schools); document.getElementById('uploadStatus').innerHTML='<div class="ok">✅ Upload Complete — Added: '+res.schools.length+' | Errors: '+res.errors+' — Auto Sync will push schools to Cloud.</div>'; filterDBE(); render(); if(CUR.role==='ADMIN') syncNow();}; r.readAsText(f);}
-function downloadTemplate(){let csv='EMIS,Name,Town,Province\n700310854,WORDSWORTH HIGH SCHOOL,JOHANNESBURG,Gauteng\n900110001,JOHANNESBURG HIGH SCHOOL,JOHANNESBURG,Gauteng\n'; let b=new Blob([csv],{type:'text/csv'}); let a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='MAKHANANI_DBE_Template.csv'; a.click();}
-let DB; try{DB=JSON.parse(localStorage.getItem('mk_ltsm_v12')||'{"books":[],"staff":[],"learners":[],"issues":[],"subs":[],"jobs":[],"agents":[],"sales":[],"contracts":[]}');}catch(e){DB={"books":[],"staff":[],"learners":[],"issues":[],"subs":[],"jobs":[],"agents":[],"sales":[],"contracts":[]};}
-['books','staff','learners','issues','subs','jobs','agents','sales','contracts'].forEach(k=>{if(!DB[k]) DB[k]=[];});
-if(!DB.policyAccepted) DB.policyAccepted=[];
-if(!DB.expenses) DB.expenses=[];
-DB.staff.forEach(s=>{if(!s.subjects) s.subjects=s.subject?[s.subject]:[];});
-DB.books.forEach(b=>{ if(!b.grade) b.grade=''; });
-let CUR={role:'',school:'',schoolLabel:'',staffName:'',subject:'',subjects:[],email:''};
-let mainCur='home', homeCur='user', adminCur='dash', hrCur='agents', salesCur='sales', ltsmCur='learners', selectedEMIS='', lastSlip=null, printMode='learners';
-function save(){try{localStorage.setItem('mk_ltsm_v12',JSON.stringify(DB));}catch(e){alert('Storage full');} render(); scheduleAutoSync();}
-function schoolName(){if(CUR.schoolLabel) return CUR.schoolLabel; let f=findSchoolByEMIS(CUR.school); if(f) return f[1]; if(CUR.school==='700310854') return 'WORDSWORTH HIGH SCHOOL'; return CUR.school||'No school selected';}
-function capsName(c){let f=CAPS.find(x=>x[0]===c); return f?f[1]:c;}
-function staffSubjects(s){if(s.subjects&&s.subjects.length) return s.subjects; if(s.subject) return [s.subject]; return [];}
-function canManageStaff(){return ['ADMIN','PRINCIPAL'].includes(CUR.role);}
-function canManageBooks(){return ['ADMIN','PRINCIPAL','LIBRARIAN'].includes(CUR.role);}
-function canManageLearners(){return ['ADMIN','PRINCIPAL','LIBRARIAN','EDUCATOR','HOD'].includes(CUR.role);}
-function showMain(m){mainCur=m; ['home','admin','ltsm','issue','staff','librarian'].forEach(x=>{let el=document.getElementById('main-'+x); if(el) el.style.display=x===m?'block':'none'; let nav=document.getElementById('nav-'+x); if(nav) nav.classList.toggle('active',x===m);}); render();}
-function hidePrintSheet(){document.getElementById('printSheetCard').style.display='none';}
-function filterDBE(){let q=document.getElementById('schoolSearch').value||''; let box=document.getElementById('schoolButtons'); if(!q.trim()){box.innerHTML='<p style="font-size:13px">Type WORDSWORTH to see SCHOOL BUTTONS</p>'; return;} let res=searchSchools(q,20); if(!res.length){box.innerHTML='<p>❌ No school for "'+q+'"</p>'; return;} box.innerHTML=res.map(s=>`<button class="schoolBtn" onclick="selectSchool('${s[0]}','${String(s[1]).replace(/'/g,"")}','${s[2]||''}','${s[3]||''}')">🏫 TAP TO SELECT: ${s[0]} - ${s[1]} - ${s[2]?s[2]+' | ':''}${s[3]||''}</button>`).join('');}
-function selectSchool(emis,name,town,prov){selectedEMIS=emis; CUR.school=emis; CUR.schoolLabel=name; document.getElementById('emis').value=emis; document.getElementById('selectedSchoolLabel').innerText=emis+' - '+name+' - '+(town?town+' | ':'')+prov; document.getElementById('schoolButtons').innerHTML='<div class="ok">✅ Selected: '+emis+' - '+name+'</div>';}
-function login(){CUR.role=document.getElementById('role').value; CUR.school=(document.getElementById('emis').value||'').trim()||selectedEMIS; CUR.email=document.getElementById('email').value||''; CUR.staffName=document.getElementById('staffName').value.trim()||'Admin'; let raw=(document.getElementById('staffSubject').value||'').toUpperCase().trim(); CUR.subjects=raw?raw.split(',').map(s=>s.trim()).filter(Boolean):[]; CUR.subject=CUR.subjects[0]||''; if(!CUR.school){CUR.school='700310854'; CUR.schoolLabel='WORDSWORTH HIGH SCHOOL';} else {let f=findSchoolByEMIS(CUR.school); if(f) CUR.schoolLabel=f[1];} if((CUR.role==='EDUCATOR'||CUR.role==='HOD')&&CUR.subjects.length===0){alert('⛔ Educator / HOD MUST have at least 1 Teaching Subject.'); return;} document.getElementById('loginCard').style.display='none'; showMain('home'); alert('✅ Logged in as '+CUR.role+' — '+schoolName()+' — Auto Sync ON'); render(); scheduleAutoSync();}
-function emergencyLogin(){CUR={role:'ADMIN',school:'700310854',schoolLabel:'WORDSWORTH HIGH SCHOOL',staffName:'Mr Vusi Chauke — Founder/CEO',subject:'',subjects:[],email:COMPANY_EMAIL}; document.getElementById('loginCard').style.display='none'; showMain('home'); alert('✅ Emergency Login — ADMIN + WORDSWORTH — Founder/CEO Mr Vusi Chauke'); render(); scheduleAutoSync();}
-function logout(){location.reload();}
-function wa(){window.open('https://wa.me/2780233263?text=Hello%20Mr%20Vusi%20Chauke%20-%20Makhanani%20LTSM%20-%20Xintimani%20Group','_blank');}
-function homeSub(t,btn){homeCur=t; document.querySelectorAll('#main-home .subnav button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); renderHome();}
-function renderHome(){let c=document.getElementById('homeContent'); if(!c) return; if(homeCur==='user'){c.innerHTML=`<div class="manual"><h3>📖 USER MANUAL — For Everyone</h3><p><b>1. LOGIN:</b> Type school → Tap button → Enter Name (Transactor) → LOGIN.</p><p><b>2. ADD LEARNER:</b> LTSM → Learners → Name + Class e.g. 10A → ADD. Gets <b>LRN-0001</b>. Class 10A = Grade 10.</p><p><b>3. ADD BOOK:</b> LTSM → Books → <b>Pick GRADE first</b> → Subject (ACC) → Title → Quantity → ADD. Creates <b>ACC-0001 — Grade 10</b></p><p><b>4. GRADE LOCK:</b> Grade 10 Learner can ONLY get Grade 10 Book.</p><p><b>5. LIBRARIAN:</b> Top Menu → LIBRARIAN → Department Stock + Print Issue/Retrieval Record.</p><p><b>6. PRINCIPAL:</b> ADMIN → PRINCIPAL DASHBOARD → Price List + Request Subscription via WhatsApp + Policy.</p><p><b>7. HR:</b> ADMIN → HR → Agents, Jobs, Contracts.</p><p><b>8. SALES:</b> ADMIN → SALES MANAGER → Subs Dashboard, Accepted Policy, Signed Contracts, Revenue.</p><button class="green noPrint" onclick="window.print()">🖨️ PRINT USER MANUAL</button></div>`;} else if(homeCur==='founder'){if(CUR.role!=='ADMIN'){c.innerHTML='<div class="warn">🔒 FOUNDER MANUAL — ADMIN ONLY — Founder/CEO Mr Vusi Chauke only.</div>'; return;} c.innerHTML=`<div class="manual"><h3>👑 FOUNDER MANUAL — Admin Only — Founder/CEO Mr Vusi Chauke — XINTIMANI GROUP — Johannesburg</h3><p><b>Founder / CEO:</b> Mr Vusi Chauke | <b>Company:</b> Xintimani Group — Johannesburg | <b>Email:</b> ${COMPANY_EMAIL} | <b>Contact:</b> 0780233263</p><p><b>PRICING:</b> DEMO 7 days FREE | STARTER R3 000+R350/mo or R4 500/yr | STANDARD R4 500+R500/mo or R7 500/yr | PREMIUM R5 500+R600/mo or R9 000/yr</p><p><b>HR:</b> ADMIN → HR → Agents/Jobs/Contracts. <b>SALES:</b> ADMIN → SALES → Subs, Accepted Policy, Signed Contracts, Revenue (Generated - Spent = Balance).</p><p><b>PRINCIPAL:</b> ADMIN → PRINCIPAL DASHBOARD → Price List + WhatsApp Request + Policy.</p><p><b>LIBRARIAN:</b> Top Menu LIBRARIAN → Dept Stock + Print Records.</p><button class="green noPrint" onclick="window.print()">🖨️ PRINT FOUNDER MANUAL</button></div>`;} else{if(CUR.role!=='ADMIN'){c.innerHTML='<div class="warn">🔒 TRAINING MANUAL — ADMIN ONLY.</div>'; return;} c.innerHTML=`<div class="manual"><h3>🎓 TRAINING MANUAL — Admin Only — Xintimani Group — Johannesburg</h3><p><b>Trainer:</b> Founder/CEO Mr Vusi Chauke / Agent</p><p><b>0-5:</b> Mission/Vision Johannesburg + Login + Show Price List + Policy.</p><p><b>5-10:</b> Add 2 learners: 10A and 8A — Show Grades differ.</p><p><b>10-15:</b> Add ACC book Grade 10 Qty 3 — Show ACC-0001/2/3 Grade 10. Print 1.</p><p><b>15-20:</b> Issue Grade 11 to Grade 10 → BLOCKED. Issue Grade 10 → OK.</p><p><b>20-25:</b> Show LIBRARIAN → Dept Stock + Print Issue Record.</p><p><b>25-30:</b> Show HR + SALES + Revenue. Give WhatsApp 0780233263 + ${COMPANY_EMAIL}.</p><button class="green noPrint" onclick="window.print()">🖨️ PRINT TRAINING MANUAL</button></div>`;}}
-function adminSub(t,btn){adminCur=t; document.querySelectorAll('#main-admin .subnav button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); renderAdmin();}
-function hrSub(t,btn){hrCur=t; document.querySelectorAll('#hrNav button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); renderAdmin();}
-function salesSub(t,btn){salesCur=t; document.querySelectorAll('#salesNav button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); renderAdmin();}
-function renderHR(){
-  let nav=`<div class="subnav2 noPrint" id="hrNav"><button onclick="hrSub('agents',this)" class="${hrCur==='agents'?'active':''}">🕵️ AGENTS TRACKER</button><button onclick="hrSub('jobs',this)" class="${hrCur==='jobs'?'active':''}">💼 JOBS</button><button onclick="hrSub('contracts',this)" class="${hrCur==='contracts'?'active':''}">📄 AGENTS CONTRACT</button></div>`;
-  if(hrCur==='agents') return nav+`<h3>🕵️ AGENTS TRACKER — Xintimani Group — Johannesburg</h3><div class="row2"><input id="agN" placeholder="Agent Full Name"><input id="agArea" placeholder="Area e.g. Johannesburg"></div><div class="row2"><input id="agPhone" placeholder="Phone"><input id="agComm" type="number" placeholder="Commission %"></div><button class="green" onclick="addAgent()">➕ ADD AGENT</button><table><tr><th>Name</th><th>Area</th><th>Phone</th><th>Comm</th><th>Action</th></tr>${DB.agents.map((a,i)=>`<tr><td>${a.n}</td><td>${a.area}</td><td>${a.phone}</td><td>${a.comm}%</td><td><button class="red" onclick="DB.agents.splice(${i},1);save();renderAdmin()">Remove</button></td></tr>`).join('')||'<tr><td colspan=5>No agents</td></tr>'}</table>`;
-  if(hrCur==='jobs') return nav+`<h3>💼 JOBS — Xintimani Group — Johannesburg</h3><input id="jobT" placeholder="Job Title"><input id="jobD" placeholder="Description"><div class="row2"><input id="jobPay" placeholder="Pay"><input id="jobArea" placeholder="Area"></div><button class="green" onclick="addJob()">➕ POST JOB</button><div>${DB.jobs.map((j,i)=>`<div class="manual"><h3>${j.t}</h3><p>${j.d||''}<br>Pay: ${j.pay||''} | Area: ${j.area||''} | Company: Xintimani Group — Founder/CEO Mr Vusi Chauke — Johannesburg — ${COMPANY_EMAIL}</p><button class="red" onclick="DB.jobs.splice(${i},1);save();renderAdmin()">Remove</button></div>`).join('')||'No jobs'}</div>`;
-  return nav+`<h3 class="noPrint">📄 AGENTS CONTRACT — XINTIMANI GROUP</h3><div class="brandBox noPrint"><img src="logo.png" onerror="this.style.display='none'"><div class="tag">Building Solutions. Empowering Communities.</div><div class="founderLine">Founder / CEO — Mr Vusi Chauke — Johannesburg — ${COMPANY_EMAIL}</div></div><div class="noPrint"><div class="row2"><input id="ctN" placeholder="Agent Full Name"><input id="ctId" placeholder="ID Number"></div><div class="row2"><input id="ctArea" placeholder="Area"><input id="ctComm" placeholder="Commission %"></div><input id="ctTerms" placeholder="Terms e.g. R450 once-off + 10% of subscription fee per month"><button class="green" onclick="addContract()">➕ CREATE CONTRACT</button></div><div>${DB.contracts.map((x,i)=>`<div class="contractBox"><img src="logo.png" class="cLogo" onerror="this.style.display='none'"><h3>AGENTS CONTRACT — XINTIMANI GROUP</h3><p style="text-align:center;font-size:12px;color:#0f766e;font-weight:700">Building Solutions. Empowering Communities.</p><div class="cMeta"><p><b>Agent:</b> ${x.n} | <b>ID:</b> ${x.id||''} | <b>Area:</b> ${x.area||''} | <b>Commission:</b> ${x.comm||''}</p><p><b>Terms:</b> ${x.terms||''}</p><p><b>Company:</b> XINTIMANI GROUP — MAKHANANI LTSM | <b>Founder/CEO:</b> Mr Vusi Chauke | <b>Contact:</b> 0780233263 | <b>Email:</b> ${COMPANY_EMAIL} | <b>Date:</b> ${x.date||''}</p></div><div class="sig"><span>Agent Signature: ___________________<br><br>${x.n}</span><span>Founder/CEO Signature: ___________________<br><br><b>Mr Vusi Chauke</b></span></div><div class="noPrint" style="margin-top:12px"><button class="green" onclick="printSingleContract(${i})">🖨️ PRINT THIS CONTRACT ONLY</button> <button class="red" onclick="DB.contracts.splice(${i},1);save();renderAdmin()">Remove</button></div></div>`).join('')||'<p class="noPrint">No contracts yet</p>'}</div>`;
+function logout(){CUR={name:"",school:"WORDSWORTH HIGH SCHOOL",role:"",logged:false};localStorage.removeItem("makhanani_cur");showPage('login');}
+function adminSub(t,btn){
+if((t==='dbe'||t==='sync')&&!isAdmin()){alert("⛔ ADMIN ONLY — AUTO SYNC & DBE UPLOAD are for Administrator only.");adminCur=canViewPrincipalDashboard()?'dash':'policy';renderAdmin();return;}
+if(t==='dash'&&!canViewPrincipalDashboard()){alert("⛔ Principal / Admin only.");return;}
+adminCur=t;renderAdmin();
 }
-function renderSales(){
-  let gen=DB.sales.reduce((a,s)=>a+Number(s.amt||0),0);
-  let spent=(DB.expenses||[]).reduce((a,s)=>a+Number(s.amt||0),0);
-  let bal=gen-spent;
-  let active=DB.subs.filter(s=>s.status==='Active').length;
-  let expired=DB.subs.filter(s=>s.status==='Expired').length;
-  let demo=DB.subs.filter(s=>String(s.plan).toUpperCase().includes('DEMO')).length;
-  let nav=`<div class="subnav2 noPrint" id="salesNav"><button onclick="salesSub('sales',this)" class="${salesCur==='sales'?'active':''}">📈 SALES</button><button onclick="salesSub('subs',this)" class="${salesCur==='subs'?'active':''}">💳 SUBSCRIPTION DASHBOARD</button><button onclick="salesSub('policy',this)" class="${salesCur==='policy'?'active':''}">📜 ACCEPTED POLICY</button><button onclick="salesSub('contracts',this)" class="${salesCur==='contracts'?'active':''}">✍️ SIGNED CONTRACTS</button><button onclick="salesSub('revenue',this)" class="${salesCur==='revenue'?'active':''}">💰 REVENUE</button></div>`;
-  if(salesCur==='subs') return nav+`<h3>💳 SUBSCRIPTION DASHBOARD</h3><div class="row3"><div class="stat">✅ Active<br>${active}</div><div class="stat">❌ Expired<br>${expired}</div><div class="stat">🆓 Demo<br>${demo}</div></div><h3>➕ Add Subscription</h3><div class="row2"><input id="subSchool" placeholder="EMIS / School"><select id="subPlan"><option>DEMO</option><option>STARTER</option><option>STANDARD</option><option>PREMIUM</option></select></div><div class="row2"><select id="subStatus"><option>Active</option><option>Expired</option><option>Pending</option></select><input id="subEnd" placeholder="End Date"></div><button class="green" onclick="addSub()">➕ CREATE SUBSCRIPTION</button><table><tr><th>School</th><th>Plan</th><th>Status</th><th>End</th></tr>${DB.subs.map(s=>`<tr><td>${s.school}</td><td>${s.plan}</td><td>${s.status}</td><td>${s.end||''}</td></tr>`).join('')||'<tr><td colspan=4>No subs</td></tr>'}</table>${priceListHTML()}`;
-  if(salesCur==='policy') return nav+`<h3>📜 ACCEPTED POLICY & TERMS — Schools That Accepted</h3><table><tr><th>School</th><th>Accepted By</th><th>Role</th><th>Date / Time</th></tr>${(DB.policyAccepted||[]).map(p=>`<tr><td>${p.schoolName} (${p.school})</td><td>${p.by}</td><td>${p.role}</td><td>${p.date} ${p.time}</td></tr>`).join('')||'<tr><td colspan=4>No accepted policy yet — Go to ADMIN → POLICY & TERMS → Tick Accept</td></tr>'}</table><button class="green" onclick="adminSub('policy');">📜 GO TO POLICY PAGE</button>`;
-  if(salesCur==='contracts') return nav+`<h3>✍️ SIGNED AGENTS CONTRACTS</h3><table><tr><th>Agent</th><th>Area</th><th>Commission</th><th>Date</th><th>Action</th></tr>${DB.contracts.map((x,i)=>`<tr><td>${x.n}</td><td>${x.area||''}</td><td>${x.comm||''}</td><td>${x.date||''}</td><td><button class="green" onclick="printSingleContract(${i})">🖨️ PRINT</button></td></tr>`).join('')||'<tr><td colspan=5>No signed contracts — Go to HR → Contracts</td></tr>'}</table>`;
-  if(salesCur==='revenue') return nav+`<h3>💰 REVENUE — Xintimani Group</h3><div class="row3"><div class="stat" style="background:#dcfce7">💰 Amount Generated<br>R${gen.toLocaleString()}</div><div class="stat" style="background:#fee2e2">💸 Amount Spent<br>R${spent.toLocaleString()}</div><div class="stat" style="background:#dbeafe">📊 Balance<br>R${bal.toLocaleString()}</div></div><h3>➕ Add Expense (Amount Spent)</h3><div class="row2"><input id="expDesc" placeholder="What was spent on? e.g. Printing, Transport"><input id="expAmt" type="number" placeholder="Amount R"></div><button class="red" onclick="addExpense()">➕ ADD EXPENSE</button><table><tr><th>Date</th><th>Description</th><th>Amount</th><th>Action</th></tr>${(DB.expenses||[]).map((e,i)=>`<tr><td>${e.date||''}</td><td>${e.desc}</td><td>R${e.amt}</td><td><button class="red" onclick="DB.expenses.splice(${i},1);save();renderAdmin()">Remove</button></td></tr>`).join('')||'<tr><td colspan=4>No expenses</td></tr>'}</table><h3>Sales (Generated)</h3><table><tr><th>Client</th><th>Amount</th><th>Agent</th></tr>${DB.sales.map(s=>`<tr><td>${s.n}</td><td>R${s.amt}</td><td>${s.agent||''}</td></tr>`).join('')||'<tr><td colspan=3>No sales</td></tr>'}</table>`;
-  return nav+`<h3>📈 SALES MANAGER — Xintimani Group — Johannesburg</h3><div class="row3"><div class="stat">💰 Total Generated<br>R${gen.toLocaleString()}</div><div class="stat">💳 Subs<br>${DB.subs.length}</div><div class="stat">🕵️ Agents<br>${DB.agents.length}</div></div><h3>➕ Add Sale</h3><div class="row2"><input id="smN" placeholder="School / Client"><input id="smEmis" placeholder="EMIS"></div><div class="row2"><input id="smAmt" type="number" placeholder="Amount R"><select id="smAgent"><option value="">-- Agent --</option>${DB.agents.map(a=>`<option>${a.n}</option>`).join('')}</select></div><button class="green" onclick="addSale()">➕ ADD SALE</button><table><tr><th>Client</th><th>EMIS</th><th>Amount</th><th>Agent</th></tr>${DB.sales.map(s=>`<tr><td>${s.n}</td><td>${s.emis||''}</td><td>R${s.amt}</td><td>${s.agent||''}</td></tr>`).join('')||'<tr><td colspan=4>No sales</td></tr>'}</table>${priceListHTML()}`;
+function updateAdminVisibility(){
+let showAdmin=isAdmin();
+let showDash=canViewPrincipalDashboard();
+let dash=document.getElementById('adminDashBtn');if(dash)dash.style.display=showDash?'':'none';
+let dbe=document.getElementById('adminDbeBtn');if(dbe)dbe.style.display=showAdmin?'':'none';
+let sy=document.getElementById('adminSyncBtn');if(sy)sy.style.display=showAdmin?'':'none';
 }
-function renderAdmin(){let c=document.getElementById('adminContent'); if(!c) return;
-  if(adminCur==='policy'){c.innerHTML=`<div class="policyBox"><div style="text-align:center"><img src="logo.png" style="width:180px" onerror="this.style.display='none'"><h3>📜 POLICY & TERMS AND CONDITIONS — MAKHANANI LTSM</h3><p style="color:#0f766e;font-weight:700">XINTIMANI GROUP — Building Solutions. Empowering Communities.</p><p><b>Founder / CEO:</b> Mr Vusi Chauke | <b>Contact:</b> 0780233263 | <b>Email:</b> ${COMPANY_EMAIL} | <b>Base:</b> Johannesburg | <b>School:</b> ${schoolName()} (${CUR.school}) | <b>Date:</b> ${new Date().toLocaleDateString()}</p></div>${policyHTML()}</div><div class="acceptBox noPrint"><label style="display:flex;gap:10px;align-items:center;font-weight:700"><input type="checkbox" id="policyAccept" onchange="acceptPolicy()"> I, ${CUR.staffName||'Principal / User'}, accept the Policy & Terms and Conditions above for ${schoolName()}</label><div id="policyAcceptMsg" style="margin-top:8px;font-weight:700"></div><div class="row2"><button class="green" onclick="printSinglePolicy()">🖨️ PRINT POLICY ONLY — For Signing</button><button onclick="window.print()">🖨️ PRINT FULL PAGE</button></div></div>`; return;}
-  if(adminCur==='hr'){ if(CUR.role!=='ADMIN'){c.innerHTML='<div class="warn">🔒 HR — ADMIN ONLY.</div>'; return;} c.innerHTML=renderHR(); return;}
-  if(adminCur==='sales'){ if(CUR.role!=='ADMIN'){c.innerHTML='<div class="warn">🔒 SALES MANAGER — ADMIN ONLY.</div>'; return;} c.innerHTML=renderSales(); return;}
-  // Principal Dashboard = dash
-  c.innerHTML=`<div class="manual"><h3>👑 PRINCIPAL DASHBOARD — ${schoolName()} (${CUR.school}) — XINTIMANI GROUP — Johannesburg</h3><p><b>Principal:</b> ${CUR.staffName||''} | <b>Role:</b> ${CUR.role} | <b>Email:</b> ${COMPANY_EMAIL} | <b>WhatsApp:</b> 0780233263</p><p>Books: <b>${DB.books.filter(b=>b.school===CUR.school).length}</b> | Learners: <b>${DB.learners.filter(l=>l.school===CUR.school).length}</b> | Staff: <b>${DB.staff.filter(s=>s.school===CUR.school).length}</b> | Issues: <b>${DB.issues.filter(x=>x.school===CUR.school).length}</b></p><p>Auto Sync: <b>${autoSyncOn?'ON':'OFF'}</b> | Last Sync: <b>${lastSyncTime}</b> | Grade Lock: <b>ON</b></p><button onclick="window.print()">🖨️ PRINT PRINCIPAL DASHBOARD</button></div>
-  <div class="manual"><h3>💳 PRICE LIST — MAKHANANI LTSM — Xintimani Group</h3>${priceListHTML()}</div>
-  <div class="manual"><h3>📲 SUBSCRIPTION REQUEST — WhatsApp</h3><p>Tap your plan above → WhatsApp opens to Mr Vusi Chauke (0780233263) with your school + plan auto-filled. Or tap below:</p><div class="row2"><button class="green" onclick="requestSub('STANDARD')">📲 REQUEST STANDARD — WhatsApp</button><button class="green" onclick="requestSub('PREMIUM')">📲 REQUEST PREMIUM — WhatsApp</button></div><div class="row2"><button onclick="requestSub('STARTER')">📲 REQUEST STARTER</button><button onclick="requestSub('DEMO')">📲 REQUEST DEMO (7 Days Free)</button></div></div>
-  <div class="manual"><h3>📜 POLICY & TERMS</h3><p>Every school must read and accept Policy before using Makhanani.</p><button onclick="adminSub('policy')">📜 OPEN POLICY & TERMS</button><button class="green" onclick="printSinglePolicy()">🖨️ PRINT POLICY</button></div>
-  <div class="manual"><h3>📚 LIBRARIAN QUICK LINK</h3><p>Go to LIBRARIAN top menu for Department Stock + Print Issue/Retrieval Record.</p><button onclick="showMain('librarian')">📚 GO TO LIBRARIAN</button></div>`;
+function renderAdmin(){
+let c=document.getElementById('adminContent');if(!c)return;updateAdminVisibility();
+document.getElementById("adminSchool").textContent=CUR.school;
+document.getElementById("adminUser").textContent=CUR.name||"Not logged in";
+document.getElementById("adminRole").textContent=CUR.role||"-";
+if(!CUR.logged){c.innerHTML='<div class="warn">Please login first.</div><button class="green" onclick="showPage(\'login\')">🔐 GO TO LOGIN</button>';return;}
+if(adminCur==='sync'){
+if(!isAdmin()){c.innerHTML=`<div class="manual"><h3>🔒 AUTO SYNC — ADMIN ONLY</h3><div class="warn">⛔ Auto Synchronize is for Administrator only. You are logged in as <b>${CUR.role}</b>. Only Mr Vusi Chauke can sync to Cloud. Your data is saved on this device.</div><button class="red" onclick="logout()">🚪 LOGOUT & LOGIN AS ADMIN</button></div>`;return;}
+c.innerHTML=`<div class="syncBox" id="syncBox"><b>☁️ AUTO SYNC — ADMIN ONLY — Xintimani Group</b><p style="font-size:13px">Only Mr Vusi Chauke controls Auto Sync. This syncs ALL schools, ALL devices, ALL browsers. Principals / Educators do NOT sync — they only view data synced by Admin.</p><div id="syncStatus">🔄 AUTO SYNC: Checking...</div><div class="row3"><button class="green" onclick="syncNow(true)">☁️ SYNC NOW</button><button class="yellow" onclick="forceResync()">🔄 FORCE RESYNC</button><button class="blue" onclick="diagnoseCloud()">🔍 DIAGNOSE</button></div><div style="font-size:12px">Auto Sync: ADMIN ONLY — Firebase ↔ LocalStorage | Device ID: <span id="deviceIdSpan"></span></div><p style="font-size:12px">Auto Sync runs every 60 seconds ONLY when logged in as ADMIN.</p></div>`;
+setTimeout(()=>{updateSyncStatus();},50);return;
 }
-function addExpense(){let d=document.getElementById('expDesc').value.trim(); let a=Number(document.getElementById('expAmt').value||0); if(!d||!a) return alert('Enter Description + Amount'); DB.expenses.push({desc:d,amt:a,date:new Date().toLocaleDateString()}); save(); renderAdmin();}
-function addAgent(){let n=document.getElementById('agN').value.trim(); if(!n) return alert('Enter Agent Name'); DB.agents.push({n,area:document.getElementById('agArea').value,phone:document.getElementById('agPhone').value,comm:document.getElementById('agComm').value||20,schools:0,sales:0}); save(); renderAdmin();}
-function addJob(){let t=document.getElementById('jobT').value.trim(); if(!t) return alert('Enter Job Title'); DB.jobs.push({t,d:document.getElementById('jobD').value,pay:document.getElementById('jobPay').value,area:document.getElementById('jobArea').value}); save(); renderAdmin();}
-function addContract(){let n=document.getElementById('ctN').value.trim(); if(!n) return alert('Enter Agent Name'); DB.contracts.push({n,id:document.getElementById('ctId').value,area:document.getElementById('ctArea').value,comm:document.getElementById('ctComm').value,terms:document.getElementById('ctTerms').value,date:new Date().toLocaleDateString()}); save(); renderAdmin();}
-function addSale(){let n=document.getElementById('smN').value.trim(); if(!n) return alert('Enter Client'); DB.sales.push({n,emis:document.getElementById('smEmis').value,amt:document.getElementById('smAmt').value||0,agent:document.getElementById('smAgent').value,date:new Date().toLocaleDateString()}); save(); renderAdmin();}
-function addSub(){DB.subs.push({school:document.getElementById('subSchool').value||CUR.school,plan:document.getElementById('subPlan').value,status:document.getElementById('subStatus').value,end:document.getElementById('subEnd').value}); save(); renderAdmin();}
-function ltsmSub(t,btn){ltsmCur=t; document.querySelectorAll('#main-ltsm .subnav button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); renderLTSM();}
-function getGradeFromClass(cls){cls=(cls||'').toUpperCase(); let m=cls.match(/GRADE\s*(\d+)/); if(m) return 'Grade '+m[1]; let m2=cls.match(/^(\d{1,2})[A-Z]/); if(m2) return 'Grade '+parseInt(m2[1]); let m3=cls.match(/(\d{1,2})/); if(m3) return 'Grade '+parseInt(m3[1]); return cls;}
-function getClassCode(cls){cls=(cls||'').toUpperCase().trim(); let m=cls.match(/(\d{1,2}[A-Z])\b/); if(m) return m[1]; return cls;}
-function normalizeGrade(g){ if(!g) return ''; g=String(g).toUpperCase().trim(); let m=g.match(/(\d{1,2})/); if(m) return 'Grade '+parseInt(m[1]); return g; }
-function bookGradeLabel(b){ if(!b.grade) return 'All Grades'; return normalizeGrade(b.grade); }
-function learnerGradeLabel(l){ if(!l.grade) return 'No Grade'; return normalizeGrade(getGradeFromClass(l.grade)); }
-function gradesMatch(book, learner){ if(!book.grade) return true; if(!learner.grade) return true; return normalizeGrade(book.grade)===normalizeGrade(getGradeFromClass(learner.grade)); }
-function checkGradeMatch(){
-  let el=document.getElementById('gradeCheck'); if(!el) return;
-  let code=cleanCode(document.getElementById('issueBookNo').value), ln=cleanCode(document.getElementById('issueLearner').value);
-  if(!code||!ln){ el.innerHTML=''; return; }
-  let b=DB.books.find(x=>x.code===code&&x.school===CUR.school); let learner=DB.learners.find(x=>x.id===ln&&x.school===CUR.school);
-  if(!b||!learner){ el.innerHTML=''; return; }
-  if(gradesMatch(b,learner)){ el.innerHTML=`<div class="ok">✅ GRADE MATCH — Learner: ${learner.name} — ${learnerGradeLabel(learner)} | Book: ${b.title} — ${bookGradeLabel(b)} — Ready to Issue</div>`; }
-  else { el.innerHTML=`<div class="gradeMismatch">⛔ GRADE MISMATCH — BLOCKED<br>Learner: ${learner.name} — <b>${learnerGradeLabel(learner)}</b> | Book: ${b.title} — <b>${bookGradeLabel(b)}</b><br>This learner CANNOT get this book. Pick a ${learnerGradeLabel(learner)} book.</div>`; }
+if(adminCur==='dbe'){
+if(!isAdmin()){c.innerHTML=`<div class="manual"><h3>🔒 DBE UPLOAD — ADMIN ONLY</h3><div class="warn">⛔ DBE Schools Upload is for Administrator only. You are logged in as <b>${CUR.role}</b>. Logout and login as <b>ADMIN</b> (Mr Vusi Chauke).</div><button class="red" onclick="logout()">🚪 LOGOUT & LOGIN AS ADMIN</button></div>`;return;}
+c.innerHTML=`<div class="uploadBox"><b>🏫 DBE SCHOOLS UPLOAD — ADMIN ONLY — Bulk CSV — Xintimani Group</b><p style="font-size:13px">Only Mr Vusi Chauke — Founder/CEO can upload DBE schools. This replaces the school list for ALL schools.</p><div class="row3"><input type="file" id="csvFile" accept=".csv,.txt"><button class="green" onclick="uploadCSV()">📤 UPLOAD CSV</button><button class="yellow" onclick="downloadTemplate()">📄 TEMPLATE</button></div><div id="uploadStatus"></div><p style="font-size:12px">Template: EMIS,Name,Town,Province — Example: 700310854,WORDSWORTH HIGH SCHOOL,JOHANNESBURG,Gauteng</p></div>`;return;
 }
-function generateLearnerID(){let ids=DB.learners.filter(l=>l.school===CUR.school).map(l=>parseInt(String(l.id||'').replace(/\D/g,''))||0); let max=ids.length?Math.max(...ids):0; let next=max+1; while(DB.learners.some(l=>l.id==='LRN-'+String(next).padStart(4,'0') && l.school===CUR.school)){next++;} return 'LRN-'+String(next).padStart(4,'0');}
-function generateBookCode(subject){let prefix=subject.toUpperCase(); let codes=DB.books.filter(b=>b.school===CUR.school && b.code.startsWith(prefix+'-')).map(b=>parseInt(b.code.split('-')[1])||0); let max=codes.length?Math.max(...codes):0; return prefix+'-'+String(max+1).padStart(4,'0');}
-function renderLTSM(){let c=document.getElementById('ltsmContent'); if(!c) return; if(ltsmCur==='learners'){let learners=DB.learners.filter(l=>l.school===CUR.school); c.innerHTML=`<h3>🎓 LEARNERS — Auto Unique ID, Duplicate Name Allowed — Auto Sync ON</h3><p>Next ID: <b>${generateLearnerID()}</b> — Name CAN duplicate, ID NEVER duplicates. Class e.g. 10A = Grade 10.</p><div class="row2"><input id="lName" placeholder="Learner Full Name"><input id="lGrade" placeholder="Class e.g. 10A — Grade 10"></div><button class="green" onclick="addLearner()">➕ ADD LEARNER — Auto ID + Auto Sync</button><div class="filterBox"><b>🖨️ PRINT LEARNER BARCODES:</b><div class="row3"><select id="learnerFilterType" onchange="updateLearnerFilterOptions()"><option value="ALL">ALL</option><option value="GRADE">PER GRADE</option><option value="CLASS">PER CLASS</option></select><select id="learnerFilterValue"><option value="">-- All --</option></select><select id="learnerFilterGrade"><option value="">-- Pick Grade --</option>${[1,2,3,4,5,6,7,8,9,10,11,12].map(g=>`<option>Grade ${g}</option>`).join('')}</select></div><button class="purple" onclick="printLearnerBarcodes()">🖨️ PRINT</button><button class="orange" onclick="previewLearnerBarcodes()">👁️ PREVIEW</button></div><table><tr><th>ID</th><th>Name</th><th>Class / Grade</th><th>Barcode</th><th>Action</th></tr>${learners.map((l,i)=>`<tr><td><b>${l.id}</b></td><td>${l.name}</td><td>${l.grade} — <span class="gradeBadge">${learnerGradeLabel(l)}</span></td><td><svg class="bcL" data-v="${l.id}"></svg></td><td>${canManageLearners()?`<button class="red" onclick="removeLearner(${DB.learners.indexOf(l)})">Remove</button>`:''}</td></tr>`).join('')||'<tr><td colspan=5>No learners</td></tr>'}</table>`; setTimeout(()=>{try{document.querySelectorAll('.bcL').forEach(s=>JsBarcode(s,s.dataset.v,{format:'CODE128',width:1.2,height:35,displayValue:true}));}catch(e){}},100);} else {let books=DB.books.filter(b=>b.school===CUR.school); c.innerHTML=`<h3>📚 BOOKS — Unique Code + GRADE — Format ACC-0001 — Grade Lock ON</h3><div class="warn">⚠️ NEW: Pick GRADE first. Grade 10 Book can ONLY go to Grade 10 Learner.</div><div class="row3"><select id="bGrade"><option value="">-- Pick GRADE First --</option>${[1,2,3,4,5,6,7,8,9,10,11,12].map(g=>`<option>Grade ${g}</option>`).join('')}</select><select id="bSubject">${CAPS.map(x=>`<option value="${x[0]}">${x[0]} - ${x[1]}</option>`).join('')}</select><input id="bTitle" placeholder="Book Title"></div><div class="row2"><input id="bQty" type="number" value="1" min="1" max="200" placeholder="Quantity"><input id="bPublisher" placeholder="Publisher (Optional)"></div><button class="green" onclick="addBook()">➕ ADD BOOK — Auto Code + Grade + Quantity + Auto Sync</button><p id="bookInfo" style="color:#059669"></p><div class="filterBox"><b>🖨️ PRINT BOOK BARCODES:</b><div class="row3"><select id="bookFilterType" onchange="updateBookFilterOptions()"><option value="ALL">ALL</option><option value="SUBJECT">PER SUBJECT</option><option value="GRADE">PER GRADE</option><option value="EDUCATOR">PER EDUCATOR</option></select><select id="bookFilterValue"><option value="">-- All --</option></select><select id="bookFilterSubject"><option value="">-- Pick Subject --</option>${CAPS.map(x=>`<option value="${x[0]}">${x[0]}</option>`).join('')}</select></div><div class="row2"><select id="bookFilterGrade"><option value="">-- Pick Grade --</option>${[1,2,3,4,5,6,7,8,9,10,11,12].map(g=>`<option>Grade ${g}</option>`).join('')}</select><button class="purple" onclick="printBookBarcodes()">🖨️ PRINT</button></div><button class="orange" onclick="previewBookBarcodes()">👁️ PREVIEW</button></div><table><tr><th>Book No</th><th>Title</th><th>Subject</th><th>Grade</th><th>Status</th><th>Barcode</th><th>Action</th></tr>${books.map(b=>`<tr><td><b>${b.code}</b></td><td>${b.title}</td><td>${b.subject}</td><td><span class="gradeBadge">${bookGradeLabel(b)}</span></td><td>${b.issued?'📤 '+b.learner:'✅ Available'}</td><td><svg class="bcB" data-v="MAKHANANI ${schoolName()} ${b.code}"></svg></td><td>${canManageBooks()?`<button class="red" onclick="removeBook(${DB.books.indexOf(b)})">Remove</button>`:''}</td></tr>`).join('')||'<tr><td colspan=7>No books</td></tr>'}</table>`; setTimeout(()=>{try{document.querySelectorAll('.bcB').forEach(s=>JsBarcode(s,s.dataset.v,{format:'CODE128',width:1.1,height:35,displayValue:true}));}catch(e){}},100);}}
-function addLearner(){if(!canManageLearners()) return alert('No permission'); let name=document.getElementById('lName').value.trim(); if(!name) return alert('Enter Learner Name'); let grade=document.getElementById('lGrade').value.trim(); if(!grade) return alert('Enter Class e.g. 10A'); let id=generateLearnerID(); DB.learners.push({name,id,grade,school:CUR.school,created:new Date().toLocaleDateString()}); save(); alert('✅ Learner: '+name+' — ID: '+id+' — '+normalizeGrade(getGradeFromClass(grade))+' — Auto Syncing...');}
-function removeLearner(idx){if(!canManageLearners()) return alert('No permission'); DB.learners.splice(idx,1); save();}
-function addBook(){if(!canManageBooks()) return alert('⛔ Only ADMIN / PRINCIPAL / LIBRARIAN'); let grade=document.getElementById('bGrade').value; if(!grade) return alert('⛔ Pick GRADE first — e.g. Grade 10'); let sub=document.getElementById('bSubject').value; let title=document.getElementById('bTitle').value.trim()||capsName(sub); let qty=parseInt(document.getElementById('bQty').value)||1; if(qty<1) qty=1; if(qty>200) qty=200; let created=[]; for(let i=0;i<qty;i++){let code=generateBookCode(sub); DB.books.push({code,title,subject:sub,grade:grade,school:CUR.school,issued:false,learner:'',qty:1,publisher:document.getElementById('bPublisher').value||''}); created.push(code);} save(); document.getElementById('bookInfo').innerText='✅ Created '+qty+' — '+normalizeGrade(grade)+': '+created.join(', ')+' — Auto Syncing...';}
-function removeBook(idx){if(!canManageBooks()) return alert('No permission'); DB.books.splice(idx,1); save();}
-function updateLearnerFilterOptions(){let type=document.getElementById('learnerFilterType').value; let sel=document.getElementById('learnerFilterValue'); let all=DB.learners.filter(l=>l.school===CUR.school); if(type==='GRADE'){let gs=[...new Set(all.map(l=>getGradeFromClass(l.grade)))]; sel.innerHTML='<option value="">-- Pick Grade --</option>'+gs.map(g=>`<option>${g}</option>`).join('');} else if(type==='CLASS'){let cs=[...new Set(all.map(l=>getClassCode(l.grade)))]; sel.innerHTML='<option value="">-- Pick Class --</option>'+cs.map(c=>`<option>${c}</option>`).join('');} else sel.innerHTML='<option value="">-- All --</option>';}
-function updateBookFilterOptions(){let type=document.getElementById('bookFilterType').value; let sel=document.getElementById('bookFilterValue'); let all=DB.books.filter(b=>b.school===CUR.school); let staff=DB.staff.filter(s=>s.school===CUR.school); if(type==='SUBJECT'){let subs=[...new Set(all.map(b=>b.subject))]; sel.innerHTML='<option value="">-- Pick Subject --</option>'+subs.map(s=>`<option>${s}</option>`).join('');} else if(type==='GRADE'){let gs=[...new Set(all.map(b=>bookGradeLabel(b)))]; sel.innerHTML='<option value="">-- Pick Grade --</option>'+gs.map(g=>`<option>${g}</option>`).join('');} else if(type==='EDUCATOR'){sel.innerHTML='<option value="">-- Pick Educator --</option>'+staff.map(s=>`<option value="${s.name}">${s.name} — ${staffSubjects(s).join(', ')}</option>`).join('');} else sel.innerHTML='<option value="">-- All --</option>';}
-function getFilteredLearners(){let all=DB.learners.filter(l=>l.school===CUR.school); let type=document.getElementById('learnerFilterType')?.value||'ALL'; let val=document.getElementById('learnerFilterValue')?.value||''; let g=document.getElementById('learnerFilterGrade')?.value||''; if(type==='GRADE'){let gg=g||val; if(gg) return all.filter(l=>getGradeFromClass(l.grade)===gg);} if(type==='CLASS'){if(val) return all.filter(l=>getClassCode(l.grade)===val);} return all;}
-function getFilteredBooks(){let all=DB.books.filter(b=>b.school===CUR.school); let type=document.getElementById('bookFilterType')?.value||'ALL'; let val=document.getElementById('bookFilterValue')?.value||''; let subj=document.getElementById('bookFilterSubject')?.value||''; let grd=document.getElementById('bookFilterGrade')?.value||''; if(type==='SUBJECT'){let s=subj||val; if(s) return all.filter(b=>b.subject===s);} if(type==='GRADE'){let g=grd||val; if(g) return all.filter(b=>bookGradeLabel(b)===normalizeGrade(g));} if(type==='EDUCATOR'){if(val){let st=DB.staff.find(s=>s.name===val); if(st) return all.filter(b=>staffSubjects(st).includes(b.subject));}} return all;}
-function previewLearnerBarcodes(){printMode='learners'; buildPrintSheet(); document.getElementById('printSheetCard').style.display='block';}
-function printLearnerBarcodes(){printMode='learners'; buildPrintSheet(); document.getElementById('printSheetCard').style.display='block'; setTimeout(()=>window.print(),700);}
-function previewBookBarcodes(){printMode='books'; buildPrintSheet(); document.getElementById('printSheetCard').style.display='block';}
-function printBookBarcodes(){printMode='books'; buildPrintSheet(); document.getElementById('printSheetCard').style.display='block'; setTimeout(()=>window.print(),700);}
-function buildPrintSheet(){
-  if(printMode==='learners'){
-    let f=getFilteredLearners();
-    document.getElementById('printSheetTitle').innerText='🎓 LEARNER CARDS — '+schoolName()+' — '+f.length+' Cards';
-    document.getElementById('printSheet').innerHTML=f.map(l=>`<div class="printCard"><img src="logo.png" onerror="this.style.display='none'"><div class="brand">XINTIMANI GROUP</div><div class="brand2">Building Solutions. Empowering Communities.</div><div class="school">${schoolName()}</div><div class="name">${l.name} — ${l.grade}</div><div class="code">${l.id} — ${learnerGradeLabel(l)}</div><svg class="pbc" data-v="${l.id}"></svg><div style="font-size:10px;color:#475569">Learner ID — Scan to Issue — ${learnerGradeLabel(l)} Only</div></div>`).join('')||'<p>No learners</p>';
-  } else {
-    let f=getFilteredBooks();
-    document.getElementById('printSheetTitle').innerText='📚 TEXTBOOKS — '+schoolName()+' — '+f.length+' Books';
-    document.getElementById('printSheet').innerHTML=f.map(b=>`<div class="printCard"><img src="logo.png" onerror="this.style.display='none'"><div class="brand">XINTIMANI GROUP • MAKHANANI LTSM</div><div class="brand2">Building Solutions. Empowering Communities.</div><div class="school">${schoolName()}</div><div class="name">${b.title}</div><div class="code">${b.code} — ${capsName(b.subject)} — ${bookGradeLabel(b)}</div><svg class="pbc" data-v="MAKHANANI ${schoolName()} ${b.code}"></svg><div style="font-size:10px;color:#475569">Book No — ${bookGradeLabel(b)} Only — Scan to Issue</div></div>`).join('')||'<p>No books</p>';
-  }
-  setTimeout(()=>{try{document.querySelectorAll('.pbc').forEach(s=>JsBarcode(s,s.dataset.v,{format:'CODE128',width:1.4,height:55,displayValue:true}));}catch(e){}},200);
+if(adminCur==='dash'){
+if(!canViewPrincipalDashboard()){c.innerHTML='<div class="warn">⛔ Principal / Admin only.</div>';return;}
+c.innerHTML=`<div class="card"><h3>📊 DASHBOARD — ${CUR.school}</h3><p>Schools: <b>${SCHOOLS.length}</b> | LTSM Items: <b>${LTSM.length}</b> | Books: <b>${BOOKS.length}</b> | Users: <b>${USERS.length}</b></p><p>Cloud: <b>${cloudOK?'✅ Connected: makhanani-ltsm':'🔴 Offline'}</b> | Auto Sync: <b>${isAdmin()?'✅ ON — ADMIN ONLY':'🔒 ADMIN ONLY — You are viewing only'}</b></p><p>Firebase Cloud Login: <b>${auth && auth.currentUser ? '✅ '+auth.currentUser.email : (CUR.cloudEmail||'Not via Cloud')}</b></p></div>`;
+return;
 }
-function cleanCode(v){return (v||'').toUpperCase().trim().split(/\s+/).pop();}
-function issueBook(){
-  let code=cleanCode(document.getElementById('issueBookNo').value), ln=cleanCode(document.getElementById('issueLearner').value); if(!code||!ln) return alert('Scan / Type BOTH Book + Learner');
-  let b=DB.books.find(x=>x.code===code&&x.school===CUR.school); if(!b) return alert('Book not found: '+code); if(b.issued) return alert('Already issued');
-  let learner=DB.learners.find(x=>x.id===ln&&x.school===CUR.school); if(!learner) return alert('Learner not found: '+ln);
-  if((CUR.role==='EDUCATOR'||CUR.role==='HOD')&&!CUR.subjects.includes(b.subject)) return alert('⛔ You teach '+CUR.subjects.join(', ')+' — This is '+b.subject);
-  if(!gradesMatch(b,learner)){
-    document.getElementById('gradeCheck').innerHTML=`<div class="gradeMismatch">⛔ GRADE MISMATCH — BLOCKED<br>Learner: ${learner.name} — <b>${learnerGradeLabel(learner)}</b> | Book: ${b.title} — <b>${bookGradeLabel(b)}</b><br>Grade ${learnerGradeLabel(learner).replace('Grade ','')} Learner can ONLY get Grade ${learnerGradeLabel(learner).replace('Grade ','')} Books.</div>`;
-    alert('⛔ GRADE MISMATCH — BLOCKED\n\nLearner: '+learner.name+' — '+learnerGradeLabel(learner)+'\nBook: '+b.title+' — '+bookGradeLabel(b)+'\n\nThis learner CANNOT get this book.');
-    return;
-  }
-  b.issued=true; b.learner=ln; let now=new Date(); let rec={code,learner:ln,learnerName:learner.name,bookTitle:b.title,bookGrade:bookGradeLabel(b),learnerGrade:learnerGradeLabel(learner),type:'ISSUE',date:now.toLocaleDateString(),time:now.toLocaleTimeString(),transactor:CUR.staffName||'Unknown',transactorRole:CUR.role||'',school:CUR.school}; DB.issues.push(rec); lastSlip=rec; save(); document.getElementById('lastSlip').innerHTML='<div class="ok">✅ ISSUED: '+code+' → '+learner.name+' ('+ln+')<br>Grade: '+learnerGradeLabel(learner)+' | Book Grade: '+bookGradeLabel(b)+'<br>Transactor: '+rec.transactor+' ('+rec.transactorRole+') | '+rec.date+' '+rec.time+' — Auto Syncing...</div>'; alert('✅ Issued '+code+' to '+learner.name+' — '+learnerGradeLabel(learner)+' — Grade Match OK'); document.getElementById('issueBookNo').value=''; document.getElementById('issueLearner').value=''; document.getElementById('gradeCheck').innerHTML=''; }
-function returnBook(){let code=cleanCode(document.getElementById('issueBookNo').value)||cleanCode(document.getElementById('returnBookNo').value); if(!code) return alert('Scan / Type Book No'); let b=DB.books.find(x=>x.code===code&&x.school===CUR.school); if(!b) return alert('Not found: '+code); let prevLearner=b.learner; let prevName=(DB.learners.find(x=>x.id===prevLearner)||{}).name||prevLearner; b.issued=false; b.learner=''; let now=new Date(); let rec={code,learner:prevLearner,learnerName:prevName,bookTitle:b.title,bookGrade:bookGradeLabel(b),learnerGrade:'',type:'RETRIEVE',date:now.toLocaleDateString(),time:now.toLocaleTimeString(),transactor:CUR.staffName||'Unknown',transactorRole:CUR.role||'',school:CUR.school}; DB.issues.push(rec); lastSlip=rec; save(); document.getElementById('lastSlip').innerHTML='<div class="ok">✅ RETRIEVED: '+code+' from '+prevName+'<br>Transactor: '+rec.transactor+' ('+rec.transactorRole+') — Auto Syncing...</div>'; alert('✅ Retrieved '+code+' — Auto Syncing...');}
-function returnBookByScan(){document.getElementById('issueBookNo').value=document.getElementById('returnBookNo').value; returnBook();}
-function printLastSlip(){if(!lastSlip) return alert('No Issue / Retrieve yet'); let s=lastSlip; document.getElementById('lastSlip').innerHTML=`<div class="card"><div style="text-align:center"><img src="logo.png" style="width:140px" onerror="this.style.display='none'"><div style="font-weight:900;color:#0a1f4d">XINTIMANI GROUP</div><div style="color:#0f766e;font-weight:700;font-size:12px">Building Solutions. Empowering Communities.</div><div style="font-weight:700">Founder / CEO — Mr Vusi Chauke</div></div><h2>MAKHANANI LTSM — ${s.type} SLIP</h2><p><b>School:</b> ${schoolName()} (${s.school})<br><b>Type:</b> ${s.type}<br><b>Book:</b> ${s.code} — ${s.bookTitle} — ${s.bookGrade||''}<br><b>Learner:</b> ${s.learnerName} (${s.learner}) — ${s.learnerGrade||''}<br><b>Transactor:</b> ${s.transactor} (${s.transactorRole})<br><b>Date:</b> ${s.date} | <b>Time:</b> ${s.time}</p><p>Learner Signature: ___________________ &nbsp; Transactor Signature: ___________________</p><button class="green noPrint" onclick="window.print()">🖨️ PRINT THIS SLIP</button></div>`; window.print();}
-function printLibrarianRecords(){let issues=DB.issues.filter(x=>x.school===CUR.school); let html=`<div class="policyBox"><div style="text-align:center"><img src="logo.png" style="width:160px" onerror="this.style.display='none'"><h3>📚 LIBRARIAN — RECORD OF ISSUE & RETRIEVAL</h3><p><b>School:</b> ${schoolName()} (${CUR.school}) | <b>Date:</b> ${new Date().toLocaleDateString()} | <b>Librarian:</b> ${CUR.staffName||''} | <b>Xintimani Group — Johannesburg</b></p></div><table><tr><th>Date / Time</th><th>Type</th><th>Book</th><th>Learner</th><th>Transactor</th></tr>${[...issues].reverse().map(x=>`<tr><td>${x.date} ${x.time}</td><td>${x.type}</td><td>${x.code} — ${x.bookTitle||''}</td><td>${x.learnerName||''} (${x.learner})</td><td>${x.transactor} (${x.transactorRole})</td></tr>`).join('')||'<tr><td colspan=5>No records</td></tr>'}</table><div class="sig"><span>Librarian Signature: ___________________</span><span>Principal Signature: ___________________</span></div></div>`; document.getElementById('printSingleArea').innerHTML=html; document.body.classList.add('print-single'); setTimeout(()=>{window.print(); setTimeout(()=>{document.body.classList.remove('print-single'); document.getElementById('printSingleArea').innerHTML='';},800);},200);}
+if(adminCur==='schools'){
+c.innerHTML=`<h3>🏫 SCHOOLS (${SCHOOLS.length})</h3><table><tr><th>EMIS</th><th>Name</th><th>Town</th><th>Province</th></tr>${SCHOOLS.map(s=>`<tr><td>${s.emis}</td><td>${s.name}</td><td>${s.town}</td><td>${s.province}</td></tr>`).join("")}</table>`;
+return;
+}
+if(adminCur==='users'){
+c.innerHTML=`<h3>👥 USERS (${USERS.length})</h3><p style="font-size:13px">Users are stored locally per device + synced via Cloud by Admin.</p><table><tr><th>Name</th><th>School</th><th>Role</th></tr>${USERS.map(u=>`<tr><td>${u.name}</td><td>${u.school}</td><td>${u.role}</td></tr>`).join("")||'<tr><td colspan="3">No users yet — Login to create.</td></tr>'}</table>`;
+return;
+}
+if(adminCur==='policy'){
+c.innerHTML=`<div class="manual"><h3>📜 POLICY & TERMS — Xintimani Group</h3><p><b>Owner:</b> Mr Vusi Chauke — Founder / CEO, Xintimani Group</p><p><b>Data:</b> School LTSM data is owned by the school. Admin controls DBE uploads and Auto Sync.</p><p><b>Access:</b> ADMIN = Full control + Firebase Cloud Login. PRINCIPAL = Dashboard + School data. EDUCATOR / LIBRARIAN = Their sections only.</p><p><b>DBE Upload, Auto Sync & Firebase Cloud Login:</b> ADMIN ONLY — Hidden from all other roles. Auto Sync runs ONLY for Admin.</p></div>`;
+return;
+}
+}
+function renderHome(){
+document.getElementById("homeSchool").textContent=CUR.school;
+document.getElementById("homeUser").textContent=CUR.name||"Guest";
+document.getElementById("homeRole").textContent=CUR.role||"-";
+document.getElementById("homeStats").innerHTML=`<p>Schools: <b>${SCHOOLS.length}</b> | LTSM: <b>${LTSM.length}</b> | Books: <b>${BOOKS.length}</b></p>`;
+document.getElementById("homeContent").innerHTML=`<div class="warn">Welcome <b>${CUR.name||'Guest'}</b> — Use LTSM for textbooks/stock, Library for books, Admin for Dashboard / Schools. DBE Upload & Auto Sync are ADMIN ONLY.</div>`;
+}
+function renderLTSM(){
+let q=(document.getElementById("ltsmSearch")?.value||"").toLowerCase();
+let f=document.getElementById("ltsmFilter")?.value||"";
+let list=LTSM.filter(x=>(!q||x.title.toLowerCase().includes(q))&&(!f||x.grade===f));
+document.getElementById("ltsmContent").innerHTML=list.length?`<table><tr><th>Title</th><th>Grade</th><th>Qty</th><th>Action</th></tr>${list.map((x,i)=>`<tr><td>${x.title}</td><td>${x.grade}</td><td>${x.qty}</td><td><button class="red" onclick="delLTSM(${LTSM.indexOf(x)})">Delete</button></td></tr>`).join("")}</table>`:'<p>No LTSM yet. Tap ADD LTSM ITEM.</p>';
+}
+function addLTSM(){
+let t=prompt("LTSM Title? e.g. Maths Textbook");if(!t)return;
+let g=prompt("Grade? e.g. Grade 10")||"Grade 10";
+let q=parseInt(prompt("Quantity?")||"1");
+LTSM.push({title:t,grade:g,qty:q,school:CUR.school});saveLocal();renderLTSM();if(isAdmin())syncNow(false);
+}
+function delLTSM(i){if(confirm("Delete this LTSM?")){LTSM.splice(i,1);saveLocal();renderLTSM();if(isAdmin())syncNow(false);}}
 function renderLibrarian(){
-  let books=DB.books.filter(b=>b.school===CUR.school);
-  let html=DEPTS.map(d=>{
-    let deptBooks=[];
-    d.subjects.forEach(([code,name])=>{ let list=books.filter(b=>b.subject===code); deptBooks.push({code,name,list}); });
-    let total=deptBooks.reduce((a,x)=>a+x.list.length,0);
-    let issued=deptBooks.reduce((a,x)=>a+x.list.filter(b=>b.issued).length,0);
-    let avail=total-issued;
-    return `<div class="deptCard"><h3>${d.icon} ${d.name} — Total: ${total} | ✅ Available: ${avail} | 📤 Issued: ${issued}</h3><table><tr><th>Subject</th><th>Total</th><th>Available</th><th>Issued</th></tr>${deptBooks.map(x=>`<tr><td>${x.name} (${x.code})</td><td>${x.list.length}</td><td>${x.list.filter(b=>!b.issued).length}</td><td>${x.list.filter(b=>b.issued).length}</td></tr>`).join('')}</table></div>`;
-  }).join('');
-  let lc=document.getElementById('librarianContent'); if(lc) lc.innerHTML=html;
-  let li=document.getElementById('librarianIssues'); if(li){ let issues=DB.issues.filter(x=>x.school===CUR.school); li.innerHTML=`<table><tr><th>Date / Time</th><th>Type</th><th>Book</th><th>Learner</th><th>Transactor</th></tr>${[...issues].reverse().slice(0,100).map(x=>`<tr><td>${x.date} ${x.time}</td><td>${x.type}</td><td>${x.code} — ${x.bookTitle||''}</td><td>${x.learnerName||''} (${x.learner})</td><td>${x.transactor} (${x.transactorRole})</td></tr>`).join('')||'<tr><td colspan=5>No records</td></tr>'}</table>`; }
+let q=(document.getElementById("libSearch")?.value||"").toLowerCase();
+let list=BOOKS.filter(x=>!q||x.title.toLowerCase().includes(q));
+document.getElementById("librarianContent").innerHTML=list.length?`<table><tr><th>Title</th><th>Author</th><th>Qty</th><th>Action</th></tr>${list.map((x,i)=>`<tr><td>${x.title}</td><td>${x.author||''}</td><td>${x.qty}</td><td><button class="red" onclick="delBook(${BOOKS.indexOf(x)})">Delete</button></td></tr>`).join("")}</table>`:'<p>No books yet. Tap ADD BOOK.</p>';
 }
-function renderSubjectGrid(filter){let q=(filter||'').toUpperCase(); let list=CAPS.filter(c=>c[0].includes(q)||c[1].toUpperCase().includes(q)); document.getElementById('subjectGrid').innerHTML=list.map(c=>`<label><input type="checkbox" value="${c[0]}" onchange="updateSubjectCount()"> ${c[0]} - ${c[1]}</label>`).join(''); updateSubjectCount();}
-function filterSubjects(){renderSubjectGrid(document.getElementById('subjectSearch').value);}
-function getCheckedSubjects(){return [...document.querySelectorAll('#subjectGrid input:checked')].map(i=>i.value);}
-function updateSubjectCount(){let n=getCheckedSubjects().length; let el=document.getElementById('subjectCount'); if(!el) return; el.innerText=n+' selected — '+(n>=1?'✅ Can Save':'❌ Cannot Save'); el.style.color=n>=1?'#059669':'#dc2626'; document.querySelectorAll('#subjectGrid label').forEach(l=>{l.classList.toggle('checked',l.querySelector('input').checked);});}
-function clearStaffForm(){document.getElementById('sName').value=''; document.getElementById('sId').value=''; document.getElementById('sEmail').value=''; document.querySelectorAll('#subjectGrid input:checked').forEach(i=>i.checked=false); updateSubjectCount();}
-function addStaff(){if(!canManageStaff()) return alert('⛔ Only ADMIN / PRINCIPAL'); let name=document.getElementById('sName').value.trim(); let subjects=getCheckedSubjects(); if(!name) return alert('Enter Name'); if(subjects.length===0){alert('⛔ Staff MUST have at least 1 Teaching Subject'); return;} let id=document.getElementById('sId').value.trim()||'STF-'+String(DB.staff.filter(s=>s.school===CUR.school).length+1).padStart(3,'0'); if(DB.staff.some(s=>s.id===id&&s.school===CUR.school)) return alert('Staff ID already exists: '+id); DB.staff.push({name,id,role:document.getElementById('sRole').value,subject:subjects[0],subjects:subjects,email:document.getElementById('sEmail').value,school:CUR.school}); save(); clearStaffForm(); alert('✅ Staff added: '+name+' — Auto Syncing...');}
-function removeStaff(idx){if(!canManageStaff()) return alert('No permission'); let s=DB.staff[idx]; if(s.school!==CUR.school) return alert('⛔ Own school only'); if(!confirm('Remove '+s.name+'?')) return; DB.staff.splice(idx,1); save();}
-let scanTarget='issueBookNo',scanStream=null,scanLoop=null;
-function openScan(t){scanTarget=t; document.getElementById('scanModal').style.display='block'; startCamera();}
-async function startCamera(){try{scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}); let v=document.getElementById('scanVideo'); v.srcObject=scanStream; await v.play(); document.getElementById('scanStatus').innerText='📷 Point at barcode...'; if('BarcodeDetector' in window){let det=new BarcodeDetector({formats:['code_128','ean_13','qr_code','code_39','upc_a']}); scanLoop=setInterval(async()=>{try{let c=await det.detect(v); if(c.length) handleScanned(c[0].rawValue);}catch(e){}},500);}}catch(e){document.getElementById('scanStatus').innerText='Camera blocked. Use Bluetooth scanner.';}}
-function handleScanned(txt){let code=txt.trim().toUpperCase().split(/\s+/).pop(); if(scanTarget==='issueLearner'||code.startsWith('LRN')){ document.getElementById('issueLearner').value=code; } else{ document.getElementById('issueBookNo').value=code; document.getElementById('returnBookNo').value=code; } setTimeout(()=>{ closeScan(); checkGradeMatch(); },800);}
-function closeScan(){document.getElementById('scanModal').style.display='none'; if(scanStream) scanStream.getTracks().forEach(t=>t.stop()); if(scanLoop) clearInterval(scanLoop);}
-function manualScan(){closeScan(); document.getElementById(scanTarget).focus();}
-function render(){let books=DB.books.filter(b=>b.school===CUR.school); let learners=DB.learners.filter(l=>l.school===CUR.school); let staff=DB.staff.filter(s=>s.school===CUR.school); let issues=DB.issues.filter(x=>x.school===CUR.school); document.getElementById('statsBar').innerText=`DBE: ${getMeta().total} | Books: ${books.length} | Learners: ${learners.length} | Staff: ${staff.length} | Issues: ${issues.length} | XINTIMANI GROUP — Mr Vusi Chauke — Johannesburg`; document.getElementById('who').innerText=CUR.role?`✅ ${CUR.role} | ${schoolName()} (${CUR.school}) | Transactor: ${CUR.staffName} ${CUR.subjects.length?'| Teaching: '+CUR.subjects.join(', '):''}`:'Not logged in — Login below'; document.getElementById('transactorLabel').innerText=CUR.role?CUR.staffName+' ('+CUR.role+') — '+schoolName():'Login first'; document.querySelectorAll('.schoolName').forEach(e=>e.innerText=schoolName()); let el=(id)=>document.getElementById(id); if(el('aSchools')) el('aSchools').innerText=getMeta().total; if(el('aBooks')) el('aBooks').innerText=books.length; if(el('aLearners')) el('aLearners').innerText=learners.length; if(el('aStaff')) el('aStaff').innerText=staff.length; if(el('aSales')) el('aSales').innerText=DB.sales.reduce((a,s)=>a+Number(s.amt||0),0); if(el('aSubs')) el('aSubs').innerText=DB.subs.length; if(el('staffList')) el('staffList').innerHTML=`<table><tr><th>Name</th><th>ID</th><th>Role</th><th>Teaching</th><th>Action</th></tr>${staff.map(s=>`<tr><td>${s.name}</td><td>${s.id}</td><td>${s.role}</td><td><b>${staffSubjects(s).join(', ')}</b></td><td>${canManageStaff()?`<button class="red" onclick="removeStaff(${DB.staff.indexOf(s)})">Remove</button>`:''}</td></tr>`).join('')||'<tr><td colspan=5>No staff</td></tr>'}</table>`; if(el('issuesList')) el('issuesList').innerHTML=`<table><tr><th>Date / Time</th><th>Type</th><th>Book</th><th>Learner</th><th>Grades</th><th>Transactor</th></tr>${[...issues].reverse().map(x=>`<tr><td>${x.date} ${x.time}</td><td><b>${x.type}</b></td><td>${x.code} — ${x.bookTitle||''}</td><td>${x.learnerName||''} (${x.learner})</td><td>${x.learnerGrade||''} / ${x.bookGrade||''}</td><td>${x.transactor} (${x.transactorRole})</td></tr>`).join('')||'<tr><td colspan=6>No issues</td></tr>'}</table>`; renderHome(); renderAdmin(); renderLTSM(); renderLibrarian();}
-setInterval(()=>{ if(autoSyncOn && CUR.school && fbReady && !isSyncing){ doAutoSync(); } },60000);
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden && autoSyncOn && CUR.school){ scheduleAutoSync(); } });
-initFirebase(); renderSubjectGrid(''); filterDBE(); render(); autoLoadIfEmpty(); updateAutoBar();
-</script></body></html>
+function addBook(){
+let t=prompt("Book Title?");if(!t)return;
+let a=prompt("Author?")||"";
+let q=parseInt(prompt("Quantity?")||"1");
+BOOKS.push({title:t,author:a,qty:q,school:CUR.school});saveLocal();renderLibrarian();if(isAdmin())syncNow(false);
+}
+function delBook(i){if(confirm("Delete this book?")){BOOKS.splice(i,1);saveLocal();renderLibrarian();if(isAdmin())syncNow(false);}}
+function downloadTemplate(){
+let csv="EMIS,Name,Town,Province\n700310854,WORDSWORTH HIGH SCHOOL,JOHANNESBURG,Gauteng\n";
+let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="dbe_schools_template.csv";a.click();
+}
+function uploadCSV(){
+if(!isAdmin()){alert("⛔ ADMIN ONLY — DBE Upload is for Administrator only.");return;}
+let f=document.getElementById("csvFile")?.files[0];
+if(!f){alert("Select a CSV file first");return;}
+let r=new FileReader();
+r.onload=async function(){
+let lines=r.result.split(/\r?\n/).filter(l=>l.trim());
+let out=[];
+for(let i=1;i<lines.length;i++){
+let p=lines[i].split(",");if(p.length<2)continue;
+out.push({emis:(p[0]||"").trim(),name:(p[1]||"").trim().toUpperCase(),town:(p[2]||"").trim().toUpperCase(),province:(p[3]||"").trim()});
+}
+if(!out.length){alert("No schools found in CSV");return;}
+SCHOOLS=out;saveLocal();fillSchools();
+document.getElementById("uploadStatus").innerHTML=`<div class="warn">✅ Uploaded ${out.length} schools. Syncing to Cloud...</div>`;
+await syncNow(true);
+alert("✅ DBE Upload Complete — "+out.length+" schools");
+renderAdmin();
+};
+r.readAsText(f);
+}
+function updateSyncStatus(){
+let top=document.getElementById("syncTop");
+if(!isAdmin()){if(top)top.style.display="none";let el=document.getElementById("syncStatus");if(el)el.textContent="🔒 AUTO SYNC: ADMIN ONLY";return;}
+if(top){top.style.display="block";top.textContent=cloudOK?"🟢 AUTO SYNC: ON — ADMIN ONLY — Last Sync: "+(localStorage.getItem("makhanani_last_sync")||"Never")+" | Cloud: makhanani-ltsm":"🔴 AUTO SYNC: OFFLINE — ADMIN ONLY";}
+let el=document.getElementById("syncStatus");if(el)el.textContent=cloudOK?"🟢 AUTO SYNC: ON — ADMIN ONLY — Last Sync: "+(localStorage.getItem("makhanani_last_sync")||"Never"):"🔴 AUTO SYNC: OFFLINE — ADMIN ONLY";
+let d=document.getElementById("deviceIdSpan");if(d)d.textContent=DEVICE_ID;
+}
+async function syncNow(showAlert){
+if(!isAdmin()){if(showAlert)alert("⛔ AUTO SYNC — ADMIN ONLY. Login as ADMIN.");return;}
+if(!db){updateSyncStatus();if(showAlert)alert("🔴 Firestore not connected");return;}
+try{
+await db.collection("schools_meta").doc("main").set({schools:SCHOOLS,ltsm:LTSM,books:BOOKS,users:USERS,updatedAt:new Date().toISOString(),device:DEVICE_ID},{merge:true});
+localStorage.setItem("makhanani_last_sync",new Date().toLocaleString());
+updateSyncStatus();
+if(showAlert)alert("✅ SYNC COMPLETE (CLOUD) — ADMIN ONLY");
+}catch(e){console.log(e);if(showAlert)alert("❌ Sync failed: "+e.message);}
+}
+async function forceResync(){
+if(!isAdmin()){alert("⛔ ADMIN ONLY");return;}
+await syncNow(true);
+}
+async function diagnoseCloud(){
+if(!isAdmin()){alert("⛔ ADMIN ONLY — Diagnose is for Administrator only.");return;}
+if(!db){alert("🔴 Firestore not connected");return;}
+try{
+let doc=await db.collection("schools_meta").doc("main").get();
+if(!doc.exists)alert("✅ Connected, no schools_meta yet — Tap SYNC NOW");
+else alert("✅ Connected — Cloud has "+(doc.data().schools||[]).length+" schools");
+}catch(e){alert("❌ Diagnose failed: "+e.message);}
+}
+async function loadFromCloud(){
+if(!db)return;
+try{
+let doc=await db.collection("schools_meta").doc("main").get();
+if(doc.exists){let d=doc.data();if(d.schools&&d.schools.length){SCHOOLS=d.schools;}if(d.ltsm)LTSM=d.ltsm;if(d.books)BOOKS=d.books;if(d.users)USERS=d.users;saveLocal();fillSchools();}
+}catch(e){console.log("load cloud fail",e);}
+updateSyncStatus();
+}
+function init(){
+let saved=localStorage.getItem("makhanani_schools");if(saved){try{SCHOOLS=JSON.parse(saved);}catch(e){}}
+let cur=localStorage.getItem("makhanani_cur");if(cur){try{CUR=JSON.parse(cur);}catch(e){}}
+fillSchools();renderHome();renderAdmin();renderLTSM();renderLibrarian();updateAdminVisibility();updateSyncStatus();updateCloudAuthStatus();
+if(auth){auth.onAuthStateChanged(u=>{updateCloudAuthStatus();if(u&&!CUR.logged){CUR={name:u.email,school:"WORDSWORTH HIGH SCHOOL",role:"ADMIN",logged:true,cloudEmail:u.email};localStorage.setItem("makhanani_cur",JSON.stringify(CUR));}});}
+if(CUR.logged){showPage('home');}else{showPage('login');}
+loadFromCloud();
+setInterval(()=>{if(isAdmin())syncNow(false);},60000);
+}
+init();
+</script>
+</body>
+</html>
