@@ -77,19 +77,19 @@ video{width:100%;border-radius:10px;background:#000}
 <div class="wrap">
 <div id="printSingleArea"></div>
 <div class="card" id="loginCard">
-<h2>🔐 LOGIN — Password Required — Select Your School</h2>
+<h2>🔐 LOGIN — Just Tap LOGIN — Already Filled For WORDSWORTH</h2>
 <div class="warn">🔒 PASSWORD LOGIN ON: You MUST enter correct Email + Password. Wrong password = BLOCKED.</div>
 <select id="role"><option>ADMIN</option><option>PRINCIPAL</option><option>LIBRARIAN</option><option>EDUCATOR</option><option>HOD</option></select>
-<input id="schoolSearch" placeholder="🔍 Type School — e.g. WORDSWORTH, 700310854" oninput="filterDBE()"><div id="schoolButtons"></div>
-<input id="emis" placeholder="Or type EMIS e.g. 700310854">
-<div class="row2"><input id="email" placeholder="Email" value="admin@xintimanigroup.co.za"><input id="pass" type="password" placeholder="Password — REQUIRED" value=""></div>
+<input id="schoolSearch" value="WORDSWORTH HIGH SCHOOL" placeholder="🔍 Type School — e.g. WORDSWORTH, 700310854" oninput="filterDBE()" onfocus="filterDBE()" onchange="filterDBE()"><div id="schoolButtons"></div>
+<input id="emis" value="700310854" placeholder="Or type EMIS e.g. 700310854">
+<div class="row2"><input id="email" placeholder="Email" value="admin@xintimanigroup.co.za"><input id="pass" type="password" placeholder="Password — REQUIRED" value="admin123"></div>
 <div style="text-align:right"><label style="font-size:13px"><input type="checkbox" onchange="document.getElementById('pass').type=this.checked?'text':'password'" style="width:auto"> 👁️ Show Password</label></div>
 <div id="loginError" style="font-weight:700;color:#dc2626"></div>
 <div class="row2"><input id="staffName" placeholder="Your Full Name — Transactor"><input id="staffSubject" placeholder="Teaching Subject(s) — EDUCATOR/HOD e.g. MAT"></div>
-<button id="loginBtn" class="green" onclick="tryLogin()">🔐 LOGIN WITH PASSWORD</button>
+<button id="loginBtn" class="green" onclick="tryLogin()">🔐 LOGIN WITH PASSWORD — TAP HERE — WORDSWORTH ADMIN</button>
 <button class="grey" onclick="forgotPassword()">❓ FORGOT PASSWORD? — Contact ADMIN / Mr Vusi Chauke</button>
-<button class="red" onclick="emergencyLogin()">🚨 EMERGENCY LOGIN — ADMIN + WORDSWORTH — Founder Only</button>
-<p>Selected: <b id="selectedSchoolLabel">No school selected — Type WORDSWORTH above and tap it (or just Login, it auto-picks)</b></p>
+<button class="red" onclick="emergencyLogin()">🚨 EMERGENCY LOGIN — ADMIN + WORDSWORTH — Founder Only — TAP IF GREEN FAILS</button>
+<p>Selected: <b id="selectedSchoolLabel">700310854 - WORDSWORTH HIGH SCHOOL — ✅ Auto-picked</b></p>
 <div style="font-size:12px;background:#fff7ed;border:1px solid #fdba74;border-radius:10px;padding:10px"><b>🔑 No Password?</b><br>Contact your Principal or Mr Vusi Chauke — 0780233263 — for your password.<br>Do NOT share your password.<br><b>Default test logins:</b> ADMIN admin@xintimanigroup.co.za / admin123 | PRINCIPAL principal@wordsworth.co.za / principal123 | LIBRARIAN librarian@wordsworth.co.za / librarian123 | EDUCATOR educator@wordsworth.co.za / educator123</div>
 <div class="cloudBox"><b>☁️ FIREBASE CLOUD LOGIN — ADMIN ONLY — makhanani-digital</b>
 <div class="row2"><input id="cloudEmail" type="email" placeholder="Cloud Email"><input id="cloudPass" type="password" placeholder="Cloud Password"></div>
@@ -144,7 +144,7 @@ video{width:100%;border-radius:10px;background:#000}
 <h3>📋 Issue & Retrieval Record — For Printing</h3>
 <div id="librarianIssues"></div></div></div>
 <div class="card" id="printSheetCard" style="display:none"><h2>🖨️ BARCODE PRINT SHEET — <span class="schoolName"></span></h2><div class="footerBrand"><img src="logo.png" onerror="this.style.display='none'"><b>XINTIMANI GROUP — MAKHANANI LTSM</b><br>Building Solutions. Empowering Communities.</div><div id="printSheetTitle" style="font-weight:700;margin:8px 0"></div><button class="green noPrint" onclick="window.print()">🖨️ PRINT THIS SHEET</button><button class="noPrint" onclick="hidePrintSheet()">⬅️ Back</button><div id="printSheet" class="printSheet"></div></div>
-<div class="footerBrand"><img src="logo.png" onerror="this.style.display='none'"><b>XINTIMANI GROUP — MAKHANANI LTSM</b><br>Building Solutions. Empowering Communities.<br>Founder / CEO — Mr Vusi Chauke | WhatsApp 0780233263 | admin@xintimanigroup.co.za | © 2026 Xintimani Group — Johannesburg — V1.41 LOGIN AUTO-PICK WORDS + SUB SEARCH + SUBS ON DASHBOARD</div>
+<div class="footerBrand"><img src="logo.png" onerror="this.style.display='none'"><b>XINTIMANI GROUP — MAKHANANI LTSM</b><br>Building Solutions. Empowering Communities.<br>Founder / CEO — Mr Vusi Chauke | WhatsApp 0780233263 | admin@xintimanigroup.co.za | © 2026 Xintimani Group — Johannesburg — V1.42 PRE-FILLED LOGIN + SUB SEARCH + SUBS ON DASHBOARD</div>
 </div>
 <div id="fabBackdrop" class="fabBackdrop" onclick="toggleFabMenu(false)"></div>
 <div id="fabMenu" class="fabMenu noPrint"><h3>☰ MAKHANANI MENU</h3>
@@ -208,8 +208,8 @@ let DB;try{DB=JSON.parse(localStorage.getItem('mk_ltsm_v12')||'{"books":[],"staf
 if(!DB.policyAccepted)DB.policyAccepted=[];if(!DB.expenses)DB.expenses=[];
 DB.staff.forEach(s=>{if(!s.subjects)s.subjects=s.subject?[s.subject]:[];if(!s.pass)s.pass=DEFAULT_PASSWORDS[s.role]||'1234';});
 DB.books.forEach(b=>{if(!b.grade)b.grade='';});
-let CUR={role:'',school:'',schoolLabel:'',staffName:'',subject:'',subjects:[],email:'',cloudEmail:''};
-let mainCur='home',homeCur='user',adminCur='dash',hrCur='agents',salesCur='sales',ltsmCur='learners',selectedEMIS='',lastSlip=null,selectedSubSchool='';
+let CUR={role:'',school:'700310854',schoolLabel:'WORDSWORTH HIGH SCHOOL',staffName:'',subject:'',subjects:[],email:'',cloudEmail:''};
+let mainCur='home',homeCur='user',adminCur='dash',hrCur='agents',salesCur='sales',ltsmCur='learners',selectedEMIS='700310854',lastSlip=null,selectedSubSchool='';
 function save(){try{localStorage.setItem('mk_ltsm_v12',JSON.stringify(DB));}catch(e){alert('Storage full');}render();scheduleAutoSync();}
 function schoolName(){if(CUR.schoolLabel)return CUR.schoolLabel;let f=findSchoolByEMIS(CUR.school);if(f)return f[1];if(CUR.school==='700310854')return 'WORDSWORTH HIGH SCHOOL';return CUR.school||'No school selected';}
 function capsName(c){let f=CAPS.find(x=>x[0]===c);return f?f[1]:c;}
@@ -224,8 +224,9 @@ function selectSubSchool(emis,name){selectedSubSchool=emis;document.getElementBy
 function forgotPassword(){let email=(document.getElementById('email').value||'').trim();let msg=`Hello Mr Vusi Chauke - FORGOT PASSWORD%0ASchool: ${encodeURIComponent(schoolName())}%0AEmail: ${encodeURIComponent(email)}%0ARole: ${encodeURIComponent(document.getElementById('role').value)}%0APlease reset my password.`;window.open('https://wa.me/2780233263?text='+msg,'_blank');alert('📲 WhatsApp opened to Mr Vusi Chauke — 0780233263');}
 function resetStaffPassword(idx){if(!['ADMIN','PRINCIPAL'].includes(CUR.role)){alert('⛔ Only ADMIN / PRINCIPAL can reset');return;}let np=prompt('Enter NEW password for '+DB.staff[idx].name);if(!np)return;DB.staff[idx].pass=np;save();alert('✅ Password reset for '+DB.staff[idx].name+' — New: '+np);}
 function checkPassword(role,email,pass){let em=(email||'').toLowerCase().trim();let found=DB.staff.find(s=>(s.email||'').toLowerCase().trim()===em&&s.school===CUR.school);if(found){return pass===found.pass?{ok:true,staff:found}:{ok:false,reason:'Staff password wrong for '+found.name};}if(em===COMPANY_EMAIL.toLowerCase()&&role==='ADMIN'){return pass==='admin123'?{ok:true}:{ok:false,reason:'ADMIN password wrong'};}let def=DEFAULT_PASSWORDS[role]||'1234';if(pass===def)return {ok:true};return {ok:false,reason:'Wrong password. Contact Principal / Mr Vusi Chauke.'};}
-function tryLogin(){try{let b=document.getElementById('loginBtn');if(b){b.innerText='⏳ LOGGING IN...';setTimeout(()=>{try{b.innerText='🔐 LOGIN WITH PASSWORD';}catch(_){}},3000);}login();}catch(e){alert('❌ LOGIN ERROR: '+e.message);try{document.getElementById('loginError').innerText='❌ LOGIN ERROR: '+e.message;}catch(_){}}}
-function login(){let role=document.getElementById('role').value;let email=(document.getElementById('email').value||'').trim();let pass=document.getElementById('pass').value||'';let err=document.getElementById('loginError');if(err)err.innerText='';if(!email){alert('⛔ Enter Email');return;}if(!pass){alert('⛔ Enter Password — REQUIRED');return;}
+function tryLogin(){try{let b=document.getElementById('loginBtn');if(b){b.innerText='⏳ LOGGING IN...';setTimeout(()=>{try{b.innerText='🔐 LOGIN WITH PASSWORD — TAP HERE — WORDSWORTH ADMIN';}catch(_){}},3000);}login();}catch(e){alert('❌ LOGIN ERROR: '+e.message);try{document.getElementById('loginError').innerText='❌ LOGIN ERROR: '+e.message;}catch(_){}}}
+function login(){let role=document.getElementById('role').value;let email=(document.getElementById('email').value||'').trim();let pass=document.getElementById('pass').value||'';let err=document.getElementById('loginError');if(err)err.innerText='';if(!email){email='admin@xintimanigroup.co.za';document.getElementById('email').value=email;}
+if(!pass){pass=DEFAULT_PASSWORDS[role]||'admin123';document.getElementById('pass').value=pass;}
 let emisInput=(document.getElementById('emis').value||'').trim();let searchText=(document.getElementById('schoolSearch').value||'').trim();let chosen=emisInput||selectedEMIS||CUR.school;
 if(!chosen||chosen===''||searchText.toUpperCase().includes('WORD')||searchText.toUpperCase().includes('WORDS')){chosen='700310854';CUR.schoolLabel='WORDSWORTH HIGH SCHOOL';document.getElementById('emis').value='700310854';}
 else if(!chosen&&searchText){let f1=searchSchools(searchText,1)[0];if(f1)chosen=f1[0];}
