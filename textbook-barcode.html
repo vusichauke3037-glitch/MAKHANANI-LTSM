@@ -63,6 +63,22 @@ function fillTextbooks(){products=[{name:'Maths Lit Gr 12 Textbook',subject:'Mat
 function bulkAdd(){let t=document.getElementById('bulkText').value.trim();if(!t)return alert('Paste list first');let ok=0;t.split('\n').filter(l=>l.trim()).forEach(line=>{let p=line.split('|').map(x=>x.trim());if(p.length>=2){let bn=p[3]?p[3].toUpperCase():p[1].toUpperCase();let cd=(p[4]||bn).toUpperCase();products.push({name:p[0],subject:p[1]||'Other',grade:p[2]||'Grade 10',bookNo:bn,code:cd,price:p[5]||'',type:'textbook',_id:'BOOK-'+Date.now()+'-'+ok});ok++;}});document.getElementById('bulkStatus').textContent='✅ Added: '+ok;document.getElementById('bulkText').value='';save();render();}
 function addPage(){for(let i=0;i<15;i++)products.push({name:'NEW TEXTBOOK',subject:'Other',grade:'Grade 10',bookNo:'BOOK-'+String(products.length+1).padStart(4,'0'),code:'BOOK-'+String(products.length+1).padStart(4,'0'),price:'',type:'textbook',_id:'BOOK-'+Date.now()+'-'+i});save();render();}
 function removePById(id){let idx=products.findIndex(p=>p._id===id);if(idx>=0){products.splice(idx,1);selectedIds.delete(id);save();saveSelected();render();}}
+function importOldBooks(){
+  let oldKeys=['LTSM_BARCODES_TEXTBOOK','LTSM_BARCODES','LTSM_BARCODES_TEXTBOOK_v157','LTSM_BARCODES_LEARNER_v158'];
+  let found=0;
+  oldKeys.forEach(k=>{
+    let d=JSON.parse(localStorage.getItem(k)||'[]');
+    d.forEach(b=>{
+      let code=(b.code||b.bookNo||'').toUpperCase();
+      if(code && !products.find(p=>p.code===code)){
+        products.push({name:b.name||b.title||'OLD BOOK',subject:b.subject||'Other',grade:b.grade||'Grade 10',bookNo:b.bookNo||code,code:code,price:b.price||'',type:'textbook',_id:'BOOK-OLD-'+code});
+        found++;
+      }
+    });
+  });
+  if(found===0) return alert('No old books found in this phone/browser.\n\nTry: Open old link barcode.html?type=textbook on THIS SAME phone — if books show there, tap IMPORT there.');
+  save(); render(); alert('✅ Imported: '+found+' old books!');
+}
 function clearAll(){if(confirm('Clear all textbooks?')){products=[];selectedIds.clear();save();saveSelected();render();}}
 document.getElementById('pBookNo').addEventListener('input',function(){if(!document.getElementById('pCode').value)document.getElementById('pCode').value=this.value.toUpperCase();});
 render();
