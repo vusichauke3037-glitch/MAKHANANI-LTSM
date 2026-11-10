@@ -1,69 +1,276 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Makhanani LTSM — Learner Barcodes — ALL / Grade / Class / Individual — A4 3x5 v1.58</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Makhanani LTSM — Learner Barcodes — A4 3x5 v1.58</title>
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <style>
-*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;background:#e5e7eb;color:#111;padding:16px}
-header{text-align:center;background:#0a1f4d;color:#fff;padding:14px;border-radius:14px}header h1{margin:0;font-size:22px}header h1 span{color:#d4af37}
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;margin:0;background:#e5e7eb;color:#111;padding:16px}
+header{text-align:center;background:#0a1f4d;color:#fff;padding:14px;border-radius:14px;position:relative}
+header h1{margin:0;font-size:22px}
+header h1 span{color:#d4af37}
+header p{margin:6px 0 0;font-size:13px}
+.version-badge{position:absolute;top:10px;right:12px;background:#d4af37;color:#0a1f4d;font-size:11px;font-weight:900;padding:5px 10px;border-radius:20px}
+.top-links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.top-links a{padding:12px 16px;border-radius:10px;font-weight:800;text-decoration:none;font-size:14px}
 .controls{background:#fff;padding:12px;border-radius:12px;margin:12px 0;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.filterBar{background:#f5f3ff;border:3px solid #7c3aed;border-radius:14px;padding:12px;margin:12px 0}
-.filterRow{display:flex;gap:8px;flex-wrap:wrap}
-input,select,textarea{padding:11px;border-radius:9px;border:1px solid #ddd;flex:1;min-width:130px}
+input,select,textarea{padding:11px;border-radius:9px;border:1px solid #ddd;flex:1;min-width:130px;font-family:Arial}
 button{padding:11px 16px;border:none;border-radius:9px;font-weight:800;cursor:pointer}
-.gold{background:#d4af37}.blue{background:#0a1f4d;color:#fff}.green{background:#059669;color:#fff}.red{background:#dc2626;color:#fff}.dark{background:#111827;color:#fff}.purple{background:#7c3aed;color:#fff}.grey{background:#64748b;color:#fff}.orange{background:#ea580c;color:#fff}
-.sheet{width:210mm;min-height:297mm;max-width:100%;margin:0 auto;background:#fff;padding:10mm 10mm 8mm 10mm;box-shadow:0 4px 20px rgba(0,0,0,.2);position:relative}
-.sheet-header{text-align:center;border-bottom:2px solid #0a1f4d;padding-bottom:4px;margin-bottom:5mm}.sheet-header b{font-size:13px}.sheet-header small{font-size:10px;color:#555}
+.gold{background:#d4af37}.blue{background:#0a1f4d;color:#fff}.green{background:#059669;color:#fff}.red{background:#dc2626;color:#fff}.dark{background:#111827;color:#fff}.purple{background:#7c3aed;color:#fff}.orange{background:#ea580c;color:#fff}
+.hint{text-align:center;font-size:12px;color:#555;margin:4px 0 12px}
+.sheet{width:210mm;min-height:297mm;max-width:100%;margin:0 auto 14px;background:#fff;padding:10mm 10mm 8mm 10mm;box-shadow:0 4px 20px rgba(0,0,0,.2);position:relative}
+.sheet-header{text-align:center;border-bottom:2px solid #0a1f4d;padding-bottom:4px;margin-bottom:5mm}
+.sheet-header b{font-size:13px;letter-spacing:1px}
+.sheet-header small{font-size:10px;color:#555}
 .sheet-footer{position:absolute;bottom:5mm;left:10mm;right:10mm;display:flex;justify-content:space-between;font-size:9px;color:#666;border-top:1px solid #ddd;padding-top:3px}
 .barcode-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(5,1fr);gap:3mm;height:245mm}
-.barcode-card{border:1.2px solid #111;border-radius:6px;padding:2.5mm 2mm 2mm;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;background:#fff;position:relative}
-.barcode-card .company{font-size:9px;font-weight:900;letter-spacing:1.8px;color:#0a1f4d}
-.barcode-card .school{font-size:9px;font-weight:800;background:#fef3c7;padding:1px 6px;border-radius:10px;margin:1mm 0;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.barcode-card .name{font-size:12px;font-weight:900;line-height:1.15;min-height:26px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.barcode-card svg{width:100%;height:34px}
-.barcode-card .code{font-size:9px;letter-spacing:2px}
-.barcode-card .bookNo{font-size:13px;font-weight:900;color:#fff;background:#7c3aed;padding:2px 12px;border-radius:20px;margin-top:1mm}
+.barcode-card{border:1.2px dashed #111;border-radius:6px;padding:3mm 2mm 2mm;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;break-inside:avoid;background:#fff;position:relative}
+.barcode-card .brand{font-size:8px;letter-spacing:1.5px;color:#555;font-weight:800}
+.barcode-card .name{font-size:12px;font-weight:900;line-height:1.15;margin:1mm 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:26px}
+.barcode-card svg{width:100%;height:38px;max-height:38px}
+.barcode-card .code{font-size:9px;letter-spacing:2px;margin-top:1px}
 .barcode-card .grade{font-size:11px;font-weight:800;background:#dbeafe;padding:2px 10px;border-radius:20px;margin-top:1px}
-.barcode-card .classPill{font-size:10px;font-weight:900;background:#f59e0b;color:#fff;padding:2px 10px;border-radius:20px;margin-top:1px}
-.barcode-card .meta{font-size:7px;color:#777}.removeBtn{font-size:10px;background:#fee2e2;border:none;padding:3px 8px;border-radius:6px;cursor:pointer;margin-top:2px}.selectBox{position:absolute;top:2px;left:4px;transform:scale(1.5);accent-color:#7c3aed}.empty-slot{border:1.2px dotted #ccc;color:#bbb;display:flex;align-items:center;justify-content:center;font-size:10px;flex-direction:column}.countBar{background:#7c3aed;color:#fff;padding:10px;border-radius:10px;text-align:center;font-weight:800;font-size:13px;margin:10px 0}.quickBtns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.quickBtns button{font-size:12px;padding:8px 12px}
+.barcode-card .meta{font-size:8px;color:#777}
+.barcode-card .ver{position:absolute;top:2px;right:4px;font-size:7px;color:#999}
+.removeBtn{font-size:10px;background:#fee2e2;border:none;padding:3px 8px;border-radius:6px;cursor:pointer;margin-top:2px}
+.empty-slot{border:1.2px dotted #ccc;color:#bbb;display:flex;align-items:center;justify-content:center;font-size:10px;flex-direction:column}
+.activeTab{outline:3px solid #d4af37 !important}
+@media(max-width:820px){.sheet{width:100%;padding:12px;min-height:auto}.barcode-grid{height:auto;grid-template-rows:repeat(5,92px)}.version-badge{position:static;display:inline-block;margin-top:8px}}
 @page{size:A4 portrait;margin:0}
-@media print{body{background:#fff;padding:0}header,.controls,.filterBar,.countBar,.no-print{display:none!important}.sheet{width:210mm;height:297mm;min-height:297mm;margin:0;padding:10mm 10mm 8mm;box-shadow:none;page-break-after:always}.sheet:last-child{page-break-after:auto}.barcode-grid{height:245mm}.removeBtn,.selectBox{display:none!important}.empty-slot{border:none;color:transparent}}
-@media(max-width:820px){.sheet{width:100%;padding:12px;min-height:auto}.barcode-grid{height:auto;grid-template-rows:repeat(5,110px)}}
-</style></head><body>
-<header class="no-print"><h1>🎓 MAKHANANI <span>LTSM</span> — LEARNER BARCODES</h1><p>Xintimani Group • 078 023 3263 • A4 • 3x5 = 15 Per Page • v1.58</p></header>
-<div class="no-print" style="text-align:center;margin:12px 0;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><a href="textbook-barcode.html" style="background:#059669;color:#fff;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:800">📚 TEXTBOOK</a><a href="learner-barcode.html" style="background:#7c3aed;color:#fff;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:800;outline:3px solid #d4af37">🎓 LEARNER</a><a href="https://vusichauke3037-glitch.github.io/MAKHANANI-LTSM/" style="background:#0a1f4d;color:#fff;padding:12px 16px;border-radius:10px;text-decoration:none;font-weight:800">🏠 BACK TO LTSM</a></div>
-<div class="controls no-print" style="border:3px solid #d4af37"><label style="font-weight:900">🏫 SCHOOL NAME:</label><input id="schoolNameInput" value="WORDSWORTH HIGH SCHOOL" oninput="changeSchool(this.value)"><button class="gold" onclick="setSchool('WORDSWORTH HIGH SCHOOL')">WORDSWORTH</button><button class="blue" onclick="setSchool(prompt('Enter School Name:')||'')">SET SCHOOL</button></div>
-<div class="filterBar no-print"><h3 style="margin:0 0 8px">🔍 LEARNER PRINT SELECTION — ALL • GRADE • CLASS • INDIVIDUAL</h3><div class="filterRow"><input id="searchLearner" placeholder="🔍 INDIVIDUAL — Search Name / ID — e.g. Thabo, LRN-0001" oninput="applyFilters()"><select id="filterGrade" onchange="applyFilters()"><option value="ALL">🎓 ALL GRADES</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select><select id="filterClass" onchange="applyFilters()"><option value="ALL">🏫 ALL CLASSES</option><option>10A</option><option>10B</option><option>10C</option><option>11A</option><option>11B</option><option>11C</option><option>12A</option><option>12B</option><option>12C</option><option>9A</option><option>9B</option><option>9C</option><option>8A</option><option>8B</option><option>8C</option></select><select id="filterSubject" onchange="applyFilters()"><option value="ALL">📚 ALL SUBJECTS</option><option>Maths Lit</option><option>Mathematics</option><option>Accounting</option><option>English</option><option>Physical Sciences</option><option>Life Sciences</option><option>Other</option></select></div><div class="quickBtns"><button class="purple" onclick="quickFilter('ALL')">📄 ALL LEARNERS</button><button class="blue" onclick="quickFilter('GRADE10')">🎓 GRADE 10 ONLY</button><button class="blue" onclick="quickFilter('GRADE11')">🎓 GRADE 11 ONLY</button><button class="blue" onclick="quickFilter('GRADE12')">🎓 GRADE 12 ONLY</button><button class="orange" onclick="quickFilter('CLASS10A')">🏫 CLASS 10A ONLY</button><button class="orange" onclick="quickFilter('CLASS10B')">🏫 CLASS 10B ONLY</button><button class="orange" onclick="quickFilter('CLASS12A')">🏫 CLASS 12A ONLY</button></div><div class="filterRow" style="margin-top:8px"><button class="green" onclick="selectAllFiltered()">✅ SELECT ALL FILTERED</button><button class="grey" onclick="deselectAll()">⬜ DESELECT ALL</button><button class="gold" onclick="printMode('filtered')">🖨️ PRINT FILTERED</button><button class="blue" onclick="printMode('selected')">🖨️ PRINT SELECTED ONLY ✓</button><button class="dark" onclick="printMode('all')">🖨️ PRINT ALL</button><button class="red" onclick="resetFilters()">🔄 RESET</button></div><p style="font-size:12px;margin:8px 0 0"><b>ALL</b>=All • <b>GRADE</b>=Pick Grade • <b>CLASS</b>=Pick Class • <b>INDIVIDUAL</b>=Type Name/ID or Tick ✓ 1 box</p></div>
-<div id="countBar" class="countBar no-print">Showing: 0 • Selected: 0 • Will Print: 0</div>
-<div class="controls no-print"><input id="lName" placeholder="Learner Full Name — e.g. Thabo Nkosi"><select id="lGrade"><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select><select id="lClass"><option>10A</option><option>10B</option><option>10C</option><option>11A</option><option>11B</option><option>11C</option><option>12A</option><option>12B</option><option>12C</option><option>9A</option><option>9B</option><option>9C</option><option>8A</option><option>8B</option><option>8C</option></select><select id="lSubject"><option>Maths Lit</option><option>Mathematics</option><option>Accounting</option><option>English</option><option>Physical Sciences</option><option>Life Sciences</option><option>Other</option></select><input id="lCode" placeholder="Learner ID — e.g. LRN-0001"><button class="purple" onclick="addLearner()">➕ ADD LEARNER</button><button class="blue" onclick="fillLearners()">📄 FILL 15</button><button class="gold" onclick="window.print()">🖨️ PRINT</button><button class="red" onclick="clearAll()">🗑️ CLEAR</button></div>
-<div class="controls no-print"><b>Bulk: Name | Grade | Class | Subject | Learner ID</b><textarea id="bulkText" rows="2" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd" placeholder="Thabo Nkosi | Grade 10 | 10A | Maths Lit | LRN-0001"></textarea><button class="dark" style="width:100%" onclick="bulkAdd()">📋 ADD ALL FROM LIST</button><p id="bulkStatus"></p></div>
+@media print{body{background:#fff;padding:0;margin:0}header,.controls,.hint,.no-print,.top-links{display:none !important}.sheet{width:210mm;height:297mm;min-height:297mm;max-width:none;margin:0;padding:10mm 10mm 8mm 10mm;box-shadow:none;page-break-after:always}.sheet:last-child{page-break-after:auto}.barcode-grid{height:245mm}.removeBtn{display:none !important}.empty-slot{border:none;color:transparent}}
+</style>
+</head>
+<body>
+
+<header class="no-print">
+<div class="version-badge">v1.58</div>
+<h1>📚 MAKHANANI <span>LTSM</span> — LEARNER BARCODES</h1>
+<p>Xintimani Group • Mr Vusi Chauke • 078 023 3263 • <b>A4 • 3 Columns x 5 Rows = 15 Per Page</b> • LEARNER BARCODES</p>
+</header>
+
+<div class="top-links no-print">
+<a href="textbook-barcode.html" style="background:#059669;color:#fff">📚 TEXTBOOK BARCODES</a>
+<a href="learner-barcode.html" class="activeTab" style="background:#7c3aed;color:#fff">🎓 LEARNER BARCODES</a>
+<a href="https://vusichauke3037-glitch.github.io/MAKHANANI-LTSM/" style="background:#0a1f4d;color:#fff">🏠 BACK TO LTSM</a>
+</div>
+
+<div class="controls no-print">
+<input id="schoolName" placeholder="🏫 SCHOOL NAME — e.g. WORDSWORTH HIGH SCHOOL" style="flex:2">
+<input id="searchInput" placeholder="🔍 Search Name / Learner ID" oninput="render()" style="flex:2">
+<select id="filterGrade" onchange="render()"><option value="">ALL GRADES</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select>
+<select id="filterClass" onchange="render()"><option value="">ALL CLASSES</option><option>8A</option><option>8B</option><option>9A</option><option>9B</option><option>10A</option><option>10B</option><option>11A</option><option>11B</option><option>12A</option><option>12B</option></select>
+<select id="filterSubject" onchange="render()"><option value="">ALL SUBJECTS</option><option>Maths Lit</option><option>Mathematics</option><option>English</option><option>Life Sciences</option><option>Physical Sciences</option><option>Geography</option><option>History</option><option>Accounting</option><option>Business Studies</option><option>Economics</option><option>Life Orientation</option></select>
+</div>
+
+<div class="controls no-print">
+<input id="lName" placeholder="Learner Full Name — e.g. Thabo Nkosi">
+<select id="lGrade"><option>Grade 8</option><option>Grade 9</option><option selected>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select>
+<input id="lClass" placeholder="Class — e.g. 10A" value="10A">
+<select id="lSubject"><option>Maths Lit</option><option>Mathematics</option><option>English</option><option>Life Sciences</option><option>Physical Sciences</option><option>Geography</option><option>History</option><option>Accounting</option><option>Business Studies</option><option>Economics</option><option>Life Orientation</option></select>
+<input id="lCode" placeholder="Learner ID — e.g. LRN-0001">
+<button class="purple" onclick="addLearner()">➕ ADD LEARNER</button>
+<button class="blue" onclick="fillLearners()">📄 FILL 15 LEARNERS</button>
+<button class="gold" onclick="window.print()">🖨️ PRINT A4 — 3 x 5 — v1.58</button>
+<button class="red" onclick="clearAll()">🗑️ CLEAR</button>
+</div>
+
+<div class="controls no-print">
+<b>Bulk Add — Paste List:</b>
+<textarea id="bulkText" rows="3" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd" placeholder="Name | Grade | Class | Subject | Learner ID — one per line&#10;Thabo Nkosi | Grade 10 | 10A | Maths Lit | LRN-0001"></textarea>
+<button class="dark" style="width:100%" onclick="bulkAdd()">📋 ADD ALL FROM LIST</button>
+<p id="bulkStatus" style="font-size:12px;font-weight:800"></p>
+<input type="file" id="learnerFile" accept=".csv,.txt" style="display:none" onchange="uploadLearners(this)">
+<button class="green" style="width:100%;margin-top:8px" onclick="document.getElementById('learnerFile').click()">📤 UPLOAD LEARNERS FILE — CSV / Excel CSV</button>
+<p style="font-size:12px;text-align:center;margin:4px 0 0">Excel: Save As → CSV → Upload here • Format: Name, Grade, Class, Subject, Learner ID</p>
+</div>
+
+<div class="controls no-print">
+<button class="blue" onclick="selectAllFiltered()">✅ SELECT ALL FILTERED</button>
+<button class="dark" onclick="deselectAll()">❌ DESELECT ALL</button>
+<button class="gold" onclick="printFiltered()">🖨️ PRINT FILTERED</button>
+<button class="orange" onclick="importOldLearners()">📥 IMPORT OLD LEARNERS</button>
+<button class="blue" onclick="addPage()">➕ ADD BLANK PAGE</button>
+<span id="countLabel" style="font-weight:900;padding:10px"></span>
+</div>
+
+<p class="hint no-print">Preview is EXACT A4. Each page = 15 barcodes. Print: <b>A4 • Margins = None • Scale = 100% • Background Graphics = ON</b></p>
 <div id="sheets"></div>
-<div class="controls no-print"><button class="blue" onclick="addPage()">➕ ADD BLANK PAGE (15)</button><button class="gold" onclick="window.print()">🖨️ PRINT — v1.58</button></div>
+
 <script>
-const V="v1.58"; let SCHOOL=localStorage.getItem('LTSM_SCHOOL_NAME_v158')||'WORDSWORTH HIGH SCHOOL'; document.getElementById('schoolNameInput').value=SCHOOL;
-let searchTerm='',filterGrade='ALL',filterClass='ALL',filterSubject='ALL',printModeState='all'; let selectedIds=new Set(JSON.parse(localStorage.getItem('LTSM_SELECTED_LEARNER_v158')||'[]'));
-function saveSelected(){localStorage.setItem('LTSM_SELECTED_LEARNER_v158',JSON.stringify([...selectedIds]));}
-function changeSchool(v){SCHOOL=v.trim().toUpperCase()||'WORDSWORTH HIGH SCHOOL';localStorage.setItem('LTSM_SCHOOL_NAME_v158',SCHOOL);render();}
-function setSchool(v){if(!v)return;document.getElementById('schoolNameInput').value=v;changeSchool(v);}
-let KEY='LTSM_BARCODES_LEARNER_v158'; let products=JSON.parse(localStorage.getItem(KEY)||'[]').map((p,i)=>({...p,_id:p._id||'LEARN-'+i,className:p.className||p.class||'10A',subject:p.subject||'Maths Lit'}));
-if(products.length===0){products=[{name:'Thabo Nkosi',grade:'Grade 10',className:'10A',subject:'Maths Lit',code:'LRN-0001'},{name:'Maria Dlamini',grade:'Grade 10',className:'10A',subject:'Maths Lit',code:'LRN-0002'},{name:'Sipho Chauke',grade:'Grade 10',className:'10B',subject:'Mathematics',code:'LRN-0003'},{name:'Naledi Mokoena',grade:'Grade 12',className:'12A',subject:'Accounting',code:'LRN-0004'},{name:'Kabelo Sithole',grade:'Grade 9',className:'9A',subject:'Mathematics',code:'LRN-0005'},{name:'Ayesha Khan',grade:'Grade 8',className:'8A',subject:'English',code:'LRN-0006'},{name:'Lerato Ndlovu',grade:'Grade 10',className:'10A',subject:'Physical Sciences',code:'LRN-0007'},{name:'Tebogo Molefe',grade:'Grade 11',className:'11A',subject:'Maths Lit',code:'LRN-0008'},{name:'Zanele Khumalo',grade:'Grade 12',className:'12A',subject:'Life Sciences',code:'LRN-0009'},{name:'Bongani Zulu',grade:'Grade 9',className:'9B',subject:'Mathematics',code:'LRN-0010'},{name:'Precious Mokoena',grade:'Grade 10',className:'10B',subject:'Maths Lit',code:'LRN-0011'},{name:'Tshepo Mahlangu',grade:'Grade 8',className:'8B',subject:'English',code:'LRN-0012'},{name:'Nokuthula Dube',grade:'Grade 11',className:'11B',subject:'Accounting',code:'LRN-0013'},{name:'Mandla Nkosi',grade:'Grade 12',className:'12B',subject:'Mathematics',code:'LRN-0014'},{name:'Sibusiso Radebe',grade:'Grade 10',className:'10A',subject:'Maths Lit',code:'LRN-0015'}].map((p,i)=>({...p,_id:'LEARN-'+i,type:'learner'}));save();}
+let KEY='LTSM_BARCODES_LEARNER_v158';
+let SCHOOL_KEY='MAKHANANI_SCHOOL_NAME';
+let products=JSON.parse(localStorage.getItem(KEY)||'[]');
+let selected=new Set();
+let extraPages=0;
+
+let schoolInput=document.getElementById('schoolName');
+schoolInput.value=localStorage.getItem(SCHOOL_KEY)||'WORDSWORTH HIGH SCHOOL';
+schoolInput.addEventListener('input',()=>{localStorage.setItem(SCHOOL_KEY,schoolInput.value);render();});
+
 function save(){localStorage.setItem(KEY,JSON.stringify(products));}
-function getFiltered(){return products.filter(p=>{let q=searchTerm.trim().toLowerCase();if(q){let hay=((p.name||'')+' '+(p.code||'')+' '+(p.className||'')+' '+(p.grade||'')+' '+(p.subject||'')).toLowerCase();if(!hay.includes(q))return false;}if(filterGrade!=='ALL'&&p.grade!==filterGrade)return false;if(filterClass!=='ALL'&&p.className!==filterClass)return false;if(filterSubject!=='ALL'&&p.subject!==filterSubject)return false;return true;});}
-function getPrintList(){if(printModeState==='selected')return products.filter(p=>selectedIds.has(p._id));if(printModeState==='filtered')return getFiltered();return products;}
-function applyFilters(){searchTerm=document.getElementById('searchLearner').value||'';filterGrade=document.getElementById('filterGrade').value;filterClass=document.getElementById('filterClass').value;filterSubject=document.getElementById('filterSubject').value;if(searchTerm||filterGrade!=='ALL'||filterClass!=='ALL'||filterSubject!=='ALL')printModeState='filtered';render();}
-function quickFilter(t){if(t==='ALL'){resetFilters();return;}if(t.startsWith('GRADE')){document.getElementById('filterGrade').value='Grade '+t.replace('GRADE','');document.getElementById('filterClass').value='ALL';document.getElementById('searchLearner').value='';}if(t.startsWith('CLASS')){document.getElementById('filterClass').value=t.replace('CLASS','');document.getElementById('filterGrade').value='ALL';document.getElementById('searchLearner').value='';}applyFilters();}
-function resetFilters(){document.getElementById('searchLearner').value='';document.getElementById('filterGrade').value='ALL';document.getElementById('filterClass').value='ALL';document.getElementById('filterSubject').value='ALL';searchTerm='';filterGrade='ALL';filterClass='ALL';filterSubject='ALL';printModeState='all';render();}
-function printMode(m){printModeState=m;if(m==='selected'&&selectedIds.size===0)return alert('No learners ticked yet. Tick boxes first.');render();setTimeout(()=>window.print(),300);}
-function selectAllFiltered(){getFiltered().forEach(p=>selectedIds.add(p._id));saveSelected();render();}
-function deselectAll(){selectedIds.clear();saveSelected();render();}
-function toggleSelect(id,c){if(c)selectedIds.add(id);else selectedIds.delete(id);saveSelected();updateCount();}
-function updateCount(){let f=getFiltered();let pl=getPrintList();document.getElementById('countBar').textContent=`Showing: ${f.length} / ${products.length} • Selected ✓: ${selectedIds.size} • Will Print: ${pl.length} • Mode: ${printModeState.toUpperCase()} • Pages: ${Math.max(1,Math.ceil(pl.length/15))} • Grade=${filterGrade} | Class=${filterClass}`;}
-function chunk(a,s){let o=[];for(let i=0;i<a.length;i+=s)o.push(a.slice(i,i+s));return o;}
-function render(){let preview=printModeState==='all'?getFiltered():getPrintList();let pages=chunk(preview,15);if(pages.length===0)pages=[[]];document.getElementById('sheets').innerHTML=pages.map((page,pi)=>{let slots='';for(let i=0;i<15;i++){let p=page[i];if(!p){slots+=`<div class="barcode-card empty-slot"><span>EMPTY SLOT ${i+1}</span><span>${SCHOOL} • ${V}</span></div>`;}else{let chk=selectedIds.has(p._id)?'checked':'';slots+=`<div class="barcode-card"><input type="checkbox" class="selectBox no-print" ${chk} onchange="toggleSelect('${p._id}',this.checked)"><div class="company">XINTIMANI GROUP</div><div class="school">${SCHOOL}</div><div class="name">${p.name}</div><div class="grade">${p.grade} • ${p.subject}</div><div class="classPill">CLASS ${p.className}</div><svg id="bc-${pi}-${i}"></svg><div class="code">${p.code}</div><div class="bookNo">${p.code}</div><div class="meta">LEARNER CARD • 078 023 3263</div><button class="removeBtn no-print" onclick="removePById('${p._id}')">Remove ✕</button></div>`;}}return `<div class="sheet"><div class="sheet-header"><b>XINTIMANI GROUP — MAKHANANI LTSM — LEARNER BARCODES</b><br><small>${SCHOOL} • ${printModeState.toUpperCase()} • Page ${pi+1} of ${pages.length} • A4 • 3x5=15 • ${V}</small></div><div class="barcode-grid">${slots}</div><div class="sheet-footer"><span>XINTIMANI GROUP • ${SCHOOL}</span><span>Page ${pi+1}/${pages.length}</span><span>078 023 3263 • ${V}</span></div></div><div style="height:16px" class="no-print"></div>`;}).join('');pages.forEach((page,pi)=>{page.forEach((p,i)=>{try{JsBarcode("#bc-"+pi+"-"+i,p.code,{format:"CODE128",displayValue:false,height:34,margin:0,width:1.4});}catch(e){}});});updateCount();}
-function addLearner(){let n=document.getElementById('lName').value.trim();let g=document.getElementById('lGrade').value;let cl=document.getElementById('lClass').value;let subj=document.getElementById('lSubject').value;let c=document.getElementById('lCode').value.trim().toUpperCase();if(!n||!c)return alert('Enter Name + ID');products.push({name:n,grade:g,className:cl,subject:subj,code:c,type:'learner',_id:'LEARN-'+Date.now()+'-'+Math.random().toString(36).slice(2,5)});save();render();document.getElementById('lName').value='';document.getElementById('lCode').value='';}
-function fillLearners(){products=[{name:'Thabo Nkosi',grade:'Grade 10',className:'10A',subject:'Maths Lit',code:'LRN-0001'},{name:'Maria Dlamini',grade:'Grade 10',className:'10A',subject:'Maths Lit',code:'LRN-0002'},{name:'Sipho Chauke',grade:'Grade 10',className:'10B',subject:'Mathematics',code:'LRN-0003'},{name:'Naledi Mokoena',grade:'Grade 12',className:'12A',subject:'Accounting',code:'LRN-0004'},{name:'Kabelo Sithole',grade:'Grade 9',className:'9A',subject:'Mathematics',code:'LRN-0005'},{name:'Ayesha Khan',grade:'Grade 8',className:'8A',subject:'English',code:'LRN-0006'},{name:'Lerato Ndlovu',grade:'Grade 10',className:'10A',subject:'Physical Sciences',code:'LRN-0007'},{name:'Tebogo Molefe',grade:'Grade 11',className:'11A',subject:'Maths Lit',code:'LRN-0008'},{name:'Zanele Khumalo',grade:'Grade 12',className:'12A',subject:'Life Sciences',code:'LRN-0009'},{name:'Bongani Zulu',grade:'Grade 9',className:'9B',subject:'Mathematics',code:'LRN-0010'},{name:'Precious Mokoena',grade:'Grade 10',className:'10B',subject:'Maths Lit',code:'LRN-0011'},{name:'Tshepo Mahlangu',grade:'Grade 8',className:'8B',subject:'English',code:'LRN-0012'},{name:'Nokuthula Dube',grade:'Grade 11',className:'11B',subject:'Accounting',code:'LRN-0013'},{name:'Mandla Nkosi',grade:'Grade 12',className:'12B',subject:'Mathematics',code:'LRN-0014'},{name:'Sibusiso Radebe',grade:'Grade 10',className:'10A',subject:'Maths Lit',code:'LRN-0015'}].map((p,i)=>({...p,_id:'LEARN-'+i,type:'learner'}));save();render();}
-function bulkAdd(){let t=document.getElementById('bulkText').value.trim();if(!t)return alert('Paste list first');let ok=0;t.split('\n').filter(l=>l.trim()).forEach(line=>{let p=line.split('|').map(x=>x.trim());if(p.length>=5){products.push({name:p[0],grade:p[1],className:p[2],subject:p[3],code:p[4].toUpperCase(),type:'learner',_id:'LEARN-'+Date.now()+'-'+ok});ok++;}else if(p.length>=3){products.push({name:p[0],grade:p[1],className:'10A',subject:'Maths Lit',code:p[2].toUpperCase(),type:'learner',_id:'LEARN-'+Date.now()+'-'+ok});ok++;}});document.getElementById('bulkStatus').textContent='✅ Added: '+ok;document.getElementById('bulkText').value='';save();render();}
-function addPage(){for(let i=0;i<15;i++)products.push({name:'NEW LEARNER',grade:'Grade 10',className:'10A',subject:'Maths Lit',code:'LRN-'+String(products.length+1).padStart(4,'0'),type:'learner',_id:'LEARN-'+Date.now()+'-'+i});save();render();}
-function removePById(id){let idx=products.findIndex(p=>p._id===id);if(idx>=0){products.splice(idx,1);selectedIds.delete(id);save();saveSelected();render();}}
-function clearAll(){if(confirm('Clear all learners?')){products=[];selectedIds.clear();save();saveSelected();render();}}
+function school(){return schoolInput.value.trim()||'WORDSWORTH HIGH SCHOOL';}
+
+function addLearner(){
+  let name=document.getElementById('lName').value.trim();
+  let grade=document.getElementById('lGrade').value;
+  let cls=document.getElementById('lClass').value.trim()||'10A';
+  let subject=document.getElementById('lSubject').value;
+  let code=document.getElementById('lCode').value.trim().toUpperCase();
+  if(!name) return alert('Enter learner name');
+  if(!code) code='LRN-'+String(products.length+1).padStart(4,'0');
+  if(products.find(p=>p.code===code)) return alert('Learner ID already exists: '+code);
+  products.push({name:name,grade:grade,className:cls,subject:subject,code:code,type:'learner',_id:'LEARN-'+Date.now()});
+  save(); render();
+  document.getElementById('lName').value='';document.getElementById('lCode').value='';
+  document.getElementById('lName').focus();
+}
+
+function fillLearners(){
+  let base=products.length;
+  for(let i=1;i<=15;i++){
+    let n=base+i;
+    let code='LRN-'+String(n).padStart(4,'0');
+    if(!products.find(p=>p.code===code)){
+      products.push({name:'Learner '+n,grade:'Grade 10',className:'10A',subject:'Maths Lit',code:code,type:'learner',_id:'LEARN-FILL-'+Date.now()+'-'+i});
+    }
+  }
+  save(); render();
+}
+
+function bulkAdd(){
+  let txt=document.getElementById('bulkText').value.trim();
+  if(!txt) return alert('Paste learners first');
+  let lines=txt.split(/\r?\n/);
+  let added=0;
+  lines.forEach(line=>{
+    let p=line.split('|').map(x=>x.trim());
+    if(p.length>=2 && p[0]){
+      let code=(p[4]||p[2]||'LRN-'+String(products.length+added+1).padStart(4,'0')).toUpperCase();
+      if(!products.find(x=>x.code===code)){
+        products.push({name:p[0],grade:p[1]||'Grade 10',className:p[2]||'10A',subject:p[3]||'Maths Lit',code:code,type:'learner',_id:'LEARN-BULK-'+Date.now()+'-'+added});
+        added++;
+      }
+    }
+  });
+  document.getElementById('bulkStatus').textContent='✅ Added: '+added+' | Total: '+products.length;
+  save(); render();
+}
+
+function uploadLearners(input){
+  let file=input.files[0]; if(!file) return;
+  let reader=new FileReader();
+  reader.onload=function(e){
+    let lines=e.target.result.split(/\r?\n/).filter(l=>l.trim());
+    let added=0, skipped=0;
+    lines.forEach((line,idx)=>{
+      if(idx===0 && line.toLowerCase().includes('name')) return;
+      let p=line.split(',').map(x=>x.trim().replace(/^"|"$/g,''));
+      if(p.length>=2 && p[0] && p[4]){
+        let code=p[4].toUpperCase();
+        if(!products.find(x=>x.code===code)){
+          products.push({name:p[0],grade:p[1]||'Grade 10',className:p[2]||'10A',subject:p[3]||'Maths Lit',code:code,type:'learner',_id:'LEARN-UP-'+Date.now()+'-'+added});
+          added++;
+        } else skipped++;
+      } else if(p.length>=2 && p[0] && p[1]){
+        let code=p[1].toUpperCase();
+        if(!products.find(x=>x.code===code)){
+          products.push({name:p[0],grade:'Grade 10',className:'10A',subject:'Maths Lit',code:code,type:'learner',_id:'LEARN-UP-'+Date.now()+'-'+added});
+          added++;
+        } else skipped++;
+      }
+    });
+    save(); render();
+    alert('✅ Upload done!\nAdded: '+added+'\nAlready existed: '+skipped+'\nTotal now: '+products.length);
+    input.value='';
+  };
+  reader.readAsText(file);
+}
+
+function importOldLearners(){
+  let oldKeys=['LTSM_BARCODES_LEARNER','LTSM_BARCODES','LTSM_BARCODES_LEARNER_v157'];
+  let found=0;
+  oldKeys.forEach(k=>{
+    let d=JSON.parse(localStorage.getItem(k)||'[]');
+    d.forEach(b=>{
+      let code=(b.code||b.learnerId||'').toUpperCase();
+      if(code && !products.find(p=>p.code===code)){
+        products.push({name:b.name||'OLD LEARNER',grade:b.grade||'Grade 10',className:b.className||b.class||'10A',subject:b.subject||'Maths Lit',code:code,type:'learner',_id:'LEARN-OLD-'+code});
+        found++;
+      }
+    });
+  });
+  if(found===0) return alert('No old learners found in this phone/browser.');
+  save(); render(); alert('✅ Imported: '+found+' old learners!');
+}
+
+function clearAll(){
+  if(!confirm('Delete ALL learners on this page?')) return;
+  products=[]; selected.clear(); extraPages=0; save(); render();
+}
+
+function selectAllFiltered(){ getFiltered().forEach(p=>selected.add(p._id)); render(); }
+function deselectAll(){ selected.clear(); render(); }
+function printFiltered(){
+  if(selected.size===0) selectAllFiltered();
+  window.print();
+}
+function addPage(){ extraPages++; render(); }
+
+function getFiltered(){
+  let q=document.getElementById('searchInput').value.toLowerCase();
+  let fg=document.getElementById('filterGrade').value;
+  let fc=document.getElementById('filterClass').value;
+  let fs=document.getElementById('filterSubject').value;
+  return products.filter(p=>{
+    if(q && !(p.name.toLowerCase().includes(q)||p.code.toLowerCase().includes(q))) return false;
+    if(fg && p.grade!==fg) return false;
+    if(fc && p.className!==fc) return false;
+    if(fs && p.subject!==fs) return false;
+    return true;
+  });
+}
+
+function render(){
+  let filtered=getFiltered();
+  document.getElementById('countLabel').textContent='Showing: '+filtered.length+' / Total: '+products.length+' • Selected: '+selected.size;
+  let list = selected.size>0 ? filtered.filter(p=>selected.has(p._id)) : filtered;
+  if(selected.size>0 && list.length===0) list=filtered;
+  let totalSlots = Math.max(list.length, extraPages*15);
+  let pages = Math.max(1, Math.ceil(totalSlots/15));
+  let html='';
+  let idx=0;
+  for(let pg=0; pg<pages; pg++){
+    html+='<div class="sheet"><div class="sheet-header"><b>MAKHANANI LTSM — '+school().toUpperCase()+' — LEARNER BARCODES</b><br><small>Xintimani Group • Mr Vusi Chauke • 078 023 3263 • Page '+(pg+1)+' of '+pages+' • v1.58</small></div><div class="barcode-grid">';
+    for(let s=0;s<15;s++){
+      let p=list[idx++];
+      if(p){
+        let checked=selected.has(p._id)?'checked':'';
+        html+='<div class="barcode-card"><span class="ver">v1.58</span><div class="brand">XINTIMANI GROUP • '+school().toUpperCase()+'</div><div class="name">'+p.name+'</div><svg class="bc" data-code="'+p.code+'"></svg><div class="code">'+p.code+'</div><div class="grade">'+p.grade+' • '+p.className+'</div><div class="meta">'+p.subject+'</div><label class="no-print" style="font-size:10px"><input type="checkbox" '+checked+' onchange="toggleSelect(\''+p._id+'\')"> Select</label><button class="removeBtn no-print" onclick="removeOne(\''+p._id+'\')">✕ Remove</button></div>';
+      } else {
+        html+='<div class="empty-slot">EMPTY SLOT<br>—</div>';
+      }
+    }
+    html+='</div><div class="sheet-footer"><span>'+school()+' • Learner Barcodes</span><span>Page '+(pg+1)+' / '+pages+'</span><span>v1.58 • A4 3x5</span></div></div>';
+  }
+  document.getElementById('sheets').innerHTML=html;
+  document.querySelectorAll('.bc').forEach(svg=>{
+    try{ JsBarcode(svg, svg.dataset.code, {format:'CODE128', width:1.6, height:38, displayValue:false, margin:0}); }catch(e){}
+  });
+}
+
+function toggleSelect(id){
+  if(selected.has(id)) selected.delete(id); else selected.add(id);
+  render();
+}
+function removeOne(id){
+  if(!confirm('Remove this learner?')) return;
+  products=products.filter(p=>p._id!==id);
+  selected.delete(id); save(); render();
+}
+
 render();
-</script></body></html>
+</script>
+</body>
+</html>
