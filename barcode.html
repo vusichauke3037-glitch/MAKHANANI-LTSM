@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Makhanani LTSM — A4 Barcodes 3x5 v1.58</title>
+<title>Makhanani LTSM — Textbook + Learner Barcodes — Filter + Print — A4 3x5 v1.58</title>
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <style>
-*{box-sizing:border-box}
-body{font-family:Arial,sans-serif;margin:0;background:#e5e7eb;color:#111;padding:16px}
+*{box-sizing:border-box}body{font-family:Arial,sans-serif;margin:0;background:#e5e7eb;color:#111;padding:16px}
 header{text-align:center;background:#0a1f4d;color:#fff;padding:14px;border-radius:14px;position:relative}
 header h1{margin:0;font-size:22px}header h1 span{color:#d4af37}
 header p{margin:6px 0 0;font-size:13px}
 .version-badge{position:absolute;top:10px;right:12px;background:#d4af37;color:#0a1f4d;font-size:11px;font-weight:900;padding:5px 10px;border-radius:20px}
-.version-line{background:#fff;border:2px solid #d4af37;border-radius:12px;padding:10px 12px;margin:12px 0;text-align:center;font-size:12px}
-.version-line b{color:#0a1f4d}
+.top-links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.top-links a{padding:12px 16px;border-radius:10px;font-weight:800;text-decoration:none;font-size:14px}
 .controls{background:#fff;padding:12px;border-radius:12px;margin:12px 0;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-input{padding:11px;border-radius:9px;border:1px solid #ddd;flex:1;min-width:130px}
+.filterBar{background:#fffbeb;border:3px solid #d4af37;border-radius:14px;padding:12px;margin:12px 0}
+.filterBar h3{margin:0 0 8px;font-size:15px}
+.filterRow{display:flex;gap:8px;flex-wrap:wrap}
+.filterRow input,.filterRow select{flex:1;min-width:130px}
+input,select,textarea{padding:11px;border-radius:9px;border:1px solid #ddd;flex:1;min-width:130px}
 button{padding:11px 16px;border:none;border-radius:9px;font-weight:800;cursor:pointer}
-.gold{background:#d4af37}.blue{background:#0a1f4d;color:#fff}.green{background:#059669;color:#fff}.red{background:#dc2626;color:#fff}.dark{background:#111827;color:#fff}
+.gold{background:#d4af37}.blue{background:#0a1f4d;color:#fff}.green{background:#059669;color:#fff}.red{background:#dc2626;color:#fff}.dark{background:#111827;color:#fff}.purple{background:#7c3aed;color:#fff}.grey{background:#64748b;color:#fff}
 .hint{text-align:center;font-size:12px;color:#555;margin:4px 0 12px}
 .sheet{width:210mm;min-height:297mm;max-width:100%;margin:0 auto;background:#fff;padding:10mm 10mm 8mm 10mm;box-shadow:0 4px 20px rgba(0,0,0,.2);position:relative}
 .sheet-header{text-align:center;border-bottom:2px solid #0a1f4d;padding-bottom:4px;margin-bottom:5mm}
@@ -22,158 +25,378 @@ button{padding:11px 16px;border:none;border-radius:9px;font-weight:800;cursor:po
 .sheet-header small{font-size:10px;color:#555}
 .sheet-footer{position:absolute;bottom:5mm;left:10mm;right:10mm;display:flex;justify-content:space-between;font-size:9px;color:#666;border-top:1px solid #ddd;padding-top:3px}
 .barcode-grid{display:grid;grid-template-columns: repeat(3, 1fr);grid-template-rows: repeat(5, 1fr);gap:3mm;height: 245mm}
-.barcode-card{border:1.2px dashed #111;border-radius:6px;padding:3mm 2mm 2mm;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;break-inside:avoid;page-break-inside:avoid;background:#fff;position:relative}
-.barcode-card .brand{font-size:8px;letter-spacing:1.5px;color:#555;font-weight:800}
-.barcode-card .name{font-size:12px;font-weight:900;line-height:1.15;margin:1mm 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:26px}
-.barcode-card svg{width:100%;height:38px;max-height:38px}
-.barcode-card .code{font-size:9px;letter-spacing:2px;margin-top:1px}
-.barcode-card .price{font-size:16px;font-weight:900;color:#059669;margin-top:1px}
-.barcode-card .meta{font-size:8px;color:#777}
+.barcode-card{border:1.2px solid #111;border-radius:6px;padding:2.5mm 2mm 2mm;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden;break-inside:avoid;page-break-inside:avoid;background:#fff;position:relative}
+.barcode-card .company{font-size:9px;font-weight:900;letter-spacing:1.8px;color:#0a1f4d}
+.barcode-card .school{font-size:9px;font-weight:800;letter-spacing:0.5px;color:#111;background:#fef3c7;padding:1px 6px;border-radius:10px;margin:1mm 0;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barcode-card .name{font-size:12px;font-weight:900;line-height:1.15;margin:0.5mm 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:26px}
+.barcode-card svg{width:100%;height:34px;max-height:34px}
+.barcode-card .code{font-size:9px;letter-spacing:2px;margin-top:0}
+.barcode-card .bookNo{font-size:13px;font-weight:900;color:#fff;background:#0a1f4d;padding:2px 12px;border-radius:20px;margin-top:1mm;letter-spacing:1px}
+.barcode-card .price{font-size:11px;font-weight:800;color:#059669;margin-top:1px}
+.barcode-card .grade{font-size:11px;font-weight:800;background:#dbeafe;padding:2px 10px;border-radius:20px;margin-top:1px}
+.barcode-card .subj{font-size:8px;font-weight:800;background:#ede9fe;color:#5b21b6;padding:1px 8px;border-radius:10px;margin-top:1px}
+.barcode-card .meta{font-size:7px;color:#777;margin-top:1px}
 .barcode-card .ver{position:absolute;top:2px;right:4px;font-size:7px;color:#999}
 .removeBtn{font-size:10px;background:#fee2e2;border:none;padding:3px 8px;border-radius:6px;cursor:pointer;margin-top:2px}
+.selectBox{position:absolute;top:2px;left:4px;transform:scale(1.4);accent-color:#059669}
 .empty-slot{border:1.2px dotted #ccc;color:#bbb;display:flex;align-items:center;justify-content:center;font-size:10px;flex-direction:column}
-@media(max-width:820px){.sheet{width:100%;padding:12px;min-height:auto}.barcode-grid{height:auto;grid-template-rows:repeat(5, 92px)}.version-badge{position:static;display:inline-block;margin-top:8px}}
+.activeTab{outline:3px solid #d4af37 !important}
+.countBar{background:#0a1f4d;color:#fff;padding:10px;border-radius:10px;text-align:center;font-weight:800;font-size:13px;margin:10px 0}
+@media(max-width:820px){.sheet{width:100%;padding:12px;min-height:auto}.barcode-grid{height:auto;grid-template-rows:repeat(5, 110px)}.version-badge{position:static;display:inline-block;margin-top:8px}}
 @page{size: A4 portrait;margin: 0;}
-@media print{
-  body{background:#fff;padding:0;margin:0}
-  header,.controls,.hint,.no-print,.version-line{display:none !important}
-  .sheet{width:210mm;height:297mm;min-height:297mm;max-width:none;margin:0;padding:10mm 10mm 8mm 10mm;box-shadow:none;page-break-after:always}
-  .sheet:last-child{page-break-after:auto}
-  .barcode-grid{height:245mm}
-  .removeBtn{display:none !important}
-  .empty-slot{border:none;color:transparent}
-}
+@media print{body{background:#fff;padding:0;margin:0}header,.controls,.hint,.no-print,.top-links,.filterBar,.countBar{display:none !important}.sheet{width:210mm;height:297mm;min-height:297mm;max-width:none;margin:0;padding:10mm 10mm 8mm 10mm;box-shadow:none;page-break-after:always}.sheet:last-child{page-break-after:auto}.barcode-grid{height:245mm}.removeBtn,.selectBox{display:none !important}.empty-slot{border:none;color:transparent}}
 </style></head>
 <body>
 <header class="no-print">
 <div class="version-badge">v1.58</div>
-<h1>📚 MAKHANANI <span>LTSM</span> — A4 BARCODES</h1>
-<p>Xintimani Group • Mr Vusi Chauke • 078 023 3263 • <b>A4 • 3 Columns x 5 Rows = 15 Per Page</b></p>
+<h1>📚 MAKHANANI <span>LTSM</span> — BARCODES</h1>
+<p>Xintimani Group • Mr Vusi Chauke • 078 023 3263 • <b>A4 • 3 Columns x 5 Rows = 15 Per Page</b> • <span id="modeLabel">TEXTBOOK</span></p>
 </header>
-<div class="version-line no-print">
-<b>✨ v1.58 — Latest Adjustment:</b> A4 Exact 210x297mm • 3 Columns x 5 Rows = 15/Page • Gap 3mm • Label 60x49mm • Auto Pages • Version on every label & footer &nbsp;|&nbsp; Previous: v1.57
+<div class="top-links no-print">
+<a href="barcode.html?type=textbook" id="tabTextbook" style="background:#059669;color:#fff">📚 TEXTBOOK BARCODES</a>
+<a href="barcode.html?type=learner" id="tabLearner" style="background:#7c3aed;color:#fff">🎓 LEARNER BARCODES</a>
+<a href="https://vusichauke3037-glitch.github.io/MAKHANANI-LTSM/" style="background:#0a1f4d;color:#fff">🏠 BACK TO LTSM</a>
 </div>
-<div class="controls no-print">
-<input id="pName" placeholder="Product — e.g. Maths Lit Gr 12 Textbook">
-<input id="pPrice" placeholder="Price — e.g. 299" type="number">
-<input id="pCode" placeholder="Barcode — e.g. 6001234567890">
-<button class="green" onclick="addProduct()">➕ ADD</button>
-<button class="gold" onclick="window.print()">🖨️ PRINT A4 — 3 x 5 — v1.58</button>
+
+<div class="controls no-print" style="border:3px solid #d4af37">
+<label style="font-weight:900;font-size:13px;display:flex;align-items:center;gap:6px">🏫 SCHOOL NAME:</label>
+<input id="schoolNameInput" placeholder="e.g. WORDSWORTH HIGH SCHOOL" value="WORDSWORTH HIGH SCHOOL" oninput="changeSchool(this.value)">
+<button class="gold" onclick="setSchool('WORDSWORTH HIGH SCHOOL')">WORDSWORTH</button>
+<button class="blue" onclick="setSchool(prompt('Enter School Name:')||'')">SET SCHOOL</button>
+</div>
+
+<!-- ===== FILTER / SEARCH / SELECT — NEW v1.58 ===== -->
+<div class="filterBar no-print">
+<h3>🔍 SEARCH + FILTER BEFORE PRINTING — Tick Only What You Want</h3>
+<div class="filterRow">
+<input id="searchTitle" placeholder="🔍 Search by Title / Name / Textbook No — e.g. Maths, ACC-0001, Thabo" oninput="applyFilters()">
+<select id="filterSubject" onchange="applyFilters()"><option value="ALL">📚 ALL SUBJECTS</option><option>Accounting</option><option>Mathematics</option><option>Maths Lit</option><option>English</option><option>Afrikaans</option><option>isiZulu</option><option>Physical Sciences</option><option>Life Sciences</option><option>Natural Sciences</option><option>Geography</option><option>History</option><option>Business Studies</option><option>Economics</option><option>CAT</option><option>Life Orientation</option><option>Technology</option><option>Other</option></select>
+<select id="filterGrade" onchange="applyFilters()"><option value="ALL">🎓 ALL GRADES</option><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select>
+</div>
+<div class="filterRow" style="margin-top:8px">
+<button class="green" onclick="selectAllFiltered()">✅ SELECT ALL FILTERED</button>
+<button class="grey" onclick="deselectAll()">⬜ DESELECT ALL</button>
+<button class="gold" onclick="printMode('filtered')">🖨️ PRINT FILTERED (Search Result)</button>
+<button class="blue" onclick="printMode('selected')">🖨️ PRINT SELECTED ONLY (Ticked ✓)</button>
+<button class="dark" onclick="printMode('all')">🖨️ PRINT ALL</button>
+<button class="red" onclick="resetFilters()">🔄 RESET FILTERS</button>
+</div>
+<p style="font-size:12px;margin:8px 0 0"><b>How:</b> 1) Type in Search OR pick Subject / Grade → 2) Tick ✓ the ones you want → 3) Tap <b>PRINT SELECTED ONLY</b> — Only ticked ones print. Or tap <b>PRINT FILTERED</b> to print everything in search result.</p>
+</div>
+<div id="countBar" class="countBar no-print">Showing: 0 • Selected: 0 • Will Print: 0 • Mode: ALL</div>
+
+<!-- TEXTBOOK FORM -->
+<div id="formTextbook" class="controls no-print">
+<input id="pTitle" placeholder="Title — e.g. Maths Lit Gr 12 Textbook">
+<select id="pSubject"><option>Maths Lit</option><option>Mathematics</option><option>Accounting</option><option>English</option><option>Afrikaans</option><option>isiZulu</option><option>Physical Sciences</option><option>Life Sciences</option><option>Natural Sciences</option><option>Geography</option><option>History</option><option>Business Studies</option><option>Economics</option><option>CAT</option><option>Life Orientation</option><option>Technology</option><option>Other</option></select>
+<select id="pGrade"><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select>
+<input id="pBookNo" placeholder="Textbook No — e.g. ACC-0001">
+<input id="pCode" placeholder="Barcode — auto = Textbook No">
+<input id="pPrice" placeholder="Price — optional" type="number">
+<button class="green" onclick="addProduct()">➕ ADD TEXTBOOK</button>
+<button class="blue" onclick="fillTextbooks()">📄 FILL 15 TEXTBOOKS</button>
+<button class="gold" onclick="window.print()">🖨️ PRINT CURRENT VIEW</button>
 <button class="red" onclick="clearAll()">🗑️ CLEAR</button>
 </div>
-<div class="controls no-print" style="font-size:13px">
-<b>Quick Add 15 (Fill 1 Page):</b>
-<button class="blue" onclick="fillPage()">📄 FILL 1 PAGE — 15 ITEMS</button>
-<button class="dark" onclick="addCopies()">➕ + COPIES OF FIRST ITEM</button>
-<label style="font-size:12px;display:flex;align-items:center;gap:6px"><input id="copyCount" type="number" value="15" style="width:70px;flex:none"> Copies</label>
-<span style="font-size:11px;background:#fef3c7;padding:6px 10px;border-radius:20px;font-weight:800">Version: v1.58 • Saved in browser</span>
+
+<!-- LEARNER FORM -->
+<div id="formLearner" class="controls no-print" style="display:none">
+<input id="lName" placeholder="Learner Full Name — e.g. Thabo Nkosi">
+<select id="lGrade"><option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option></select>
+<select id="lSubject"><option>Maths Lit</option><option>Mathematics</option><option>Accounting</option><option>English</option><option>Physical Sciences</option><option>Life Sciences</option><option>Other</option></select>
+<input id="lCode" placeholder="Learner ID — e.g. LRN-0001">
+<button class="purple" onclick="addLearner()">➕ ADD LEARNER</button>
+<button class="blue" onclick="fillLearners()">📄 FILL 15 LEARNERS</button>
+<button class="gold" onclick="window.print()">🖨️ PRINT CURRENT VIEW</button>
+<button class="red" onclick="clearAll()">🗑️ CLEAR</button>
 </div>
-<p class="hint no-print">Preview is EXACT A4. Each page = 15 barcodes. 30 items = 2 pages automatically. Print: <b>A4 • Margins = None • Scale = 100% • Background Graphics = ON</b></p>
+
+<div class="controls no-print" style="font-size:13px">
+<b>Bulk Add — TEXTBOOK: Title | Subject | Grade | Textbook No | Barcode | Price</b>
+<textarea id="bulkText" rows="3" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ddd" placeholder="Maths Lit Gr 12 | Maths Lit | Grade 12 | ACC-0001 | ACC-0001 | 299&#10;Mathematics Gr 10 | Mathematics | Grade 10 | MAT-0002 | MAT-0002 | 279"></textarea>
+<button class="dark" style="width:100%" onclick="bulkAdd()">📋 ADD ALL FROM LIST</button>
+<p id="bulkStatus" style="font-size:12px;font-weight:800"></p>
+</div>
+<p class="hint no-print">Textbook Label = <b>XINTIMANI GROUP • School Name • Title • Barcode • Textbook No</b> • Print: <b>A4 • Margins = None • Scale = 100% • Background Graphics = ON</b></p>
 <div id="sheets"></div>
 <div class="controls no-print">
 <button class="blue" onclick="addPage()">➕ ADD BLANK PAGE (15 Slots)</button>
-<button class="gold" onclick="window.print()">🖨️ PRINT ALL PAGES — v1.58</button>
+<button class="gold" onclick="window.print()">🖨️ PRINT CURRENT VIEW — v1.58</button>
+<button class="dark" onclick="copyLink()">🔗 COPY THIS LINK</button>
 </div>
-<p class="no-print" style="text-align:center;font-size:11px;color:#888">Makhanani LTSM • Xintimani Group • Barcode System • Version v1.58 • 10 Nov 2026 • Mr Vusi Chauke • 078 023 3263</p>
+<p class="no-print" style="text-align:center;font-size:11px;color:#888">Makhanani LTSM • Xintimani Group • Version v1.58 • 10 Nov 2026 • Mr Vusi Chauke • 078 023 3263</p>
 <script>
 const APP_VERSION = "v1.58";
-let products = JSON.parse(localStorage.getItem('LTSM_BARCODES_A4_v158')||localStorage.getItem('LTSM_BARCODES_A4')||'[]');
+const params = new URLSearchParams(location.search);
+let MODE = params.get('type') === 'learner' ? 'learner' : 'textbook';
+document.getElementById('modeLabel').textContent = MODE === 'learner' ? 'LEARNER BARCODES' : 'TEXTBOOK BARCODES';
+let SCHOOL = localStorage.getItem('LTSM_SCHOOL_NAME_v158') || 'WORDSWORTH HIGH SCHOOL';
+document.getElementById('schoolNameInput').value = SCHOOL;
+// FILTER STATE
+let searchTerm = '';
+let filterSubject = 'ALL';
+let filterGrade = 'ALL';
+let printModeState = 'all'; // all | filtered | selected
+let selectedIds = new Set(JSON.parse(localStorage.getItem('LTSM_SELECTED_'+MODE+'_v158')||'[]'));
+function saveSelected(){ localStorage.setItem('LTSM_SELECTED_'+MODE+'_v158', JSON.stringify([...selectedIds])); }
+if(MODE==='learner'){
+  document.getElementById('formLearner').style.display='flex';
+  document.getElementById('formTextbook').style.display='none';
+  document.getElementById('tabLearner').classList.add('activeTab');
+  document.getElementById('filterSubject').innerHTML='<option value="ALL">📚 ALL SUBJECTS</option><option>Maths Lit</option><option>Mathematics</option><option>Accounting</option><option>English</option><option>Physical Sciences</option><option>Life Sciences</option><option>Other</option>';
+} else {
+  document.getElementById('formTextbook').style.display='flex';
+  document.getElementById('formLearner').style.display='none';
+  document.getElementById('tabTextbook').classList.add('activeTab');
+}
+function changeSchool(v){ SCHOOL=v.trim().toUpperCase()||'WORDSWORTH HIGH SCHOOL'; localStorage.setItem('LTSM_SCHOOL_NAME_v158',SCHOOL); render(); }
+function setSchool(v){ if(!v) return; document.getElementById('schoolNameInput').value=v; changeSchool(v); }
+let KEY = MODE==='learner' ? 'LTSM_BARCODES_LEARNER_v158' : 'LTSM_BARCODES_TEXTBOOK_v158';
+let products = JSON.parse(localStorage.getItem(KEY)||'[]');
+// Migrate old products: add id, subject, grade if missing
+products = products.map((p,i)=>{
+  if(!p._id) p._id = 'ID-'+Date.now()+'-'+i+'-'+Math.random().toString(36).slice(2,6);
+  if(!p.subject) p.subject = 'Other';
+  if(!p.grade && MODE==='textbook') p.grade = 'Grade 12';
+  if(!p.grade && MODE==='learner') p.grade = p.grade||'Grade 10';
+  return p;
+});
 if(products.length===0){
-  products = [
-    {name:'Maths Lit Gr 12 Textbook',price:299,code:'600100000001'},
-    {name:'Mathematics Gr 10 Textbook',price:279,code:'600100000002'},
-    {name:'Natural Sciences Gr 9 Workbook',price:149,code:'600100000003'},
-    {name:'Exercise Book 72pg',price:25,code:'600100000004'},
-    {name:'Pen Blue',price:15,code:'600100000005'},
-    {name:'Ruler 30cm',price:20,code:'600100000006'},
-    {name:'Maths Lit Gr 11 Textbook',price:289,code:'600100000007'},
-    {name:'Physical Sciences Gr 12 Textbook',price:320,code:'600100000008'},
-    {name:'Calculator Scientific',price:199,code:'600100000009'},
-    {name:'File Dividers Set',price:45,code:'600100000010'},
-    {name:'Glue Stick 40g',price:30,code:'600100000011'},
-    {name:'Eraser',price:10,code:'600100000012'},
-    {name:'Pencil HB',price:12,code:'600100000013'},
-    {name:'Sharpener',price:10,code:'600100000014'},
-    {name:'Maths Set',price:85,code:'600100000015'},
-  ];
+  if(MODE==='learner'){
+    products=[
+      {name:'Thabo Nkosi',grade:'Grade 10',subject:'Maths Lit',code:'LRN-0001',type:'learner'},
+      {name:'Maria Dlamini',grade:'Grade 10',subject:'Maths Lit',code:'LRN-0002',type:'learner'},
+      {name:'Sipho Chauke',grade:'Grade 11',subject:'Mathematics',code:'LRN-0003',type:'learner'},
+      {name:'Naledi Mokoena',grade:'Grade 12',subject:'Accounting',code:'LRN-0004',type:'learner'},
+      {name:'Kabelo Sithole',grade:'Grade 9',subject:'Mathematics',code:'LRN-0005',type:'learner'},
+      {name:'Ayesha Khan',grade:'Grade 8',subject:'English',code:'LRN-0006',type:'learner'},
+      {name:'Lerato Ndlovu',grade:'Grade 10',subject:'Physical Sciences',code:'LRN-0007',type:'learner'},
+      {name:'Tebogo Molefe',grade:'Grade 11',subject:'Maths Lit',code:'LRN-0008',type:'learner'},
+      {name:'Zanele Khumalo',grade:'Grade 12',subject:'Life Sciences',code:'LRN-0009',type:'learner'},
+      {name:'Bongani Zulu',grade:'Grade 9',subject:'Natural Sciences',code:'LRN-0010',type:'learner'},
+      {name:'Precious Mokoena',grade:'Grade 10',subject:'Maths Lit',code:'LRN-0011',type:'learner'},
+      {name:'Tshepo Mahlangu',grade:'Grade 8',subject:'English',code:'LRN-0012',type:'learner'},
+      {name:'Nokuthula Dube',grade:'Grade 11',subject:'Accounting',code:'LRN-0013',type:'learner'},
+      {name:'Mandla Nkosi',grade:'Grade 12',subject:'Mathematics',code:'LRN-0014',type:'learner'},
+      {name:'Sibusiso Radebe',grade:'Grade 10',subject:'Maths Lit',code:'LRN-0015',type:'learner'},
+    ].map((p,i)=>({...p,_id:'LEARN-'+i}));
+  } else {
+    products=[
+      {name:'Maths Lit Gr 12 Textbook',subject:'Maths Lit',grade:'Grade 12',bookNo:'ACC-0001',code:'ACC-0001',price:299,type:'textbook'},
+      {name:'Mathematics Gr 10 Textbook',subject:'Mathematics',grade:'Grade 10',bookNo:'MAT-0002',code:'MAT-0002',price:279,type:'textbook'},
+      {name:'Natural Sciences Gr 9 Workbook',subject:'Natural Sciences',grade:'Grade 9',bookNo:'NSC-0003',code:'NSC-0003',price:149,type:'textbook'},
+      {name:'Maths Lit Gr 11 Textbook',subject:'Maths Lit',grade:'Grade 11',bookNo:'MLIT-0006',code:'MLIT-0006',price:289,type:'textbook'},
+      {name:'Physical Sciences Gr 12 Textbook',subject:'Physical Sciences',grade:'Grade 12',bookNo:'PHYSC-0005',code:'PHYSC-0005',price:320,type:'textbook'},
+      {name:'Life Sciences Gr 10 Textbook',subject:'Life Sciences',grade:'Grade 10',bookNo:'LIFSC-0007',code:'LIFSC-0007',price:310,type:'textbook'},
+      {name:'Accounting Gr 11 Textbook',subject:'Accounting',grade:'Grade 11',bookNo:'ACC-0008',code:'ACC-0008',price:295,type:'textbook'},
+      {name:'English HL Gr 12 Textbook',subject:'English',grade:'Grade 12',bookNo:'ENGHL-0009',code:'ENGHL-0009',price:275,type:'textbook'},
+      {name:'Geography Gr 10 Textbook',subject:'Geography',grade:'Grade 10',bookNo:'GEO-0010',code:'GEO-0010',price:260,type:'textbook'},
+      {name:'Business Studies Gr 11',subject:'Business Studies',grade:'Grade 11',bookNo:'BUS-0011',code:'BUS-0011',price:280,type:'textbook'},
+      {name:'Economics Gr 12',subject:'Economics',grade:'Grade 12',bookNo:'ECO-0012',code:'ECO-0012',price:290,type:'textbook'},
+      {name:'History Gr 10',subject:'History',grade:'Grade 10',bookNo:'HIS-0013',code:'HIS-0013',price:240,type:'textbook'},
+      {name:'CAT Gr 11 Textbook',subject:'CAT',grade:'Grade 11',bookNo:'CAT-0014',code:'CAT-0014',price:300,type:'textbook'},
+      {name:'Maths Lit Gr 10 Textbook',subject:'Maths Lit',grade:'Grade 10',bookNo:'MLIT-0015',code:'MLIT-0015',price:285,type:'textbook'},
+      {name:'Mathematics Gr 12 Textbook',subject:'Mathematics',grade:'Grade 12',bookNo:'MAT-0016',code:'MAT-0016',price:310,type:'textbook'},
+    ].map((p,i)=>({...p,_id:'BOOK-'+i}));
+  }
   save();
 }
-function save(){localStorage.setItem('LTSM_BARCODES_A4_v158',JSON.stringify(products));}
+function save(){localStorage.setItem(KEY,JSON.stringify(products));}
+function getFiltered(){
+  return products.filter(p=>{
+    let q = searchTerm.trim().toLowerCase();
+    if(q){
+      let hay = ((p.name||'')+' '+(p.bookNo||'')+' '+(p.code||'')+' '+(p.subject||'')+' '+(p.grade||'')).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    if(filterSubject!=='ALL' && (p.subject||'Other')!==filterSubject) return false;
+    if(filterGrade!=='ALL' && (p.grade||'')!==filterGrade) return false;
+    return true;
+  });
+}
+function getPrintList(){
+  if(printModeState==='selected') return products.filter(p=>selectedIds.has(p._id));
+  if(printModeState==='filtered') return getFiltered();
+  return products;
+}
+function applyFilters(){
+  searchTerm = document.getElementById('searchTitle').value||'';
+  filterSubject = document.getElementById('filterSubject').value;
+  filterGrade = document.getElementById('filterGrade').value;
+  // When user searches/filters, auto switch print mode to filtered so preview shows filter
+  if(searchTerm || filterSubject!=='ALL' || filterGrade!=='ALL') printModeState='filtered';
+  render();
+}
+function resetFilters(){
+  document.getElementById('searchTitle').value='';
+  document.getElementById('filterSubject').value='ALL';
+  document.getElementById('filterGrade').value='ALL';
+  searchTerm=''; filterSubject='ALL'; filterGrade='ALL'; printModeState='all';
+  render();
+}
+function printMode(mode){
+  printModeState=mode;
+  if(mode==='selected' && selectedIds.size===0) return alert('No items ticked ✓ yet. Tick the boxes on the cards first, then PRINT SELECTED ONLY.');
+  render();
+  setTimeout(()=>window.print(), 300);
+}
+function selectAllFiltered(){
+  getFiltered().forEach(p=>selectedIds.add(p._id));
+  saveSelected(); render();
+}
+function deselectAll(){ selectedIds.clear(); saveSelected(); render(); }
+function toggleSelect(id, checked){
+  if(checked) selectedIds.add(id); else selectedIds.delete(id);
+  saveSelected(); updateCount();
+}
+function updateCount(){
+  let filtered = getFiltered();
+  let printList = getPrintList();
+  let label = printModeState==='selected' ? 'SELECTED ONLY ✓' : printModeState==='filtered' ? 'FILTERED (Search Result)' : 'ALL';
+  document.getElementById('countBar').textContent = `Showing: ${filtered.length} / ${products.length} total • Selected ✓: ${selectedIds.size} • Will Print: ${printList.length} • Mode: ${label} • Pages: ${Math.max(1, Math.ceil(printList.length/15))}`;
+}
 function chunk(arr,size){let out=[];for(let i=0;i<arr.length;i+=size) out.push(arr.slice(i,i+size));return out;}
 function render(){
-  let pages = chunk(products,15);
+  let list = getPrintList();
+  // For preview: if printMode is 'all', preview = filtered (so search still filters preview). If selected/filtered, preview = print list.
+  let previewList = printModeState==='all' ? getFiltered() : list;
+  let pages = chunk(previewList,15);
   if(pages.length===0) pages=[[]];
   document.getElementById('sheets').innerHTML = pages.map((page,pi)=>{
     let slots='';
     for(let i=0;i<15;i++){
       let p=page[i];
       if(!p){
-        slots+=`<div class="barcode-card empty-slot"><span>EMPTY SLOT ${i+1}</span><span style="font-size:8px">Add product to fill • ${APP_VERSION}</span></div>`;
+        slots+=`<div class="barcode-card empty-slot"><span>EMPTY SLOT ${i+1}</span><span style="font-size:8px">${SCHOOL} • ${APP_VERSION}</span></div>`;
       } else {
-        let globalIdx = pi*15+i;
-        slots+=`<div class="barcode-card">
-          <div class="ver">${APP_VERSION}</div>
-          <div class="brand">MAKHANANI LTSM • XINTIMANI GROUP</div>
-          <div class="name">${p.name}</div>
-          <svg id="bc-${pi}-${i}"></svg>
-          <div class="code">${p.code}</div>
-          <div class="price">R${p.price}</div>
-          <div class="meta">078 023 3263 • ${APP_VERSION}</div>
-          <button class="removeBtn no-print" onclick="removeP(${globalIdx})">Remove ✕</button>
-        </div>`;
+        let isLearner = p.type==='learner' || MODE==='learner';
+        let checked = selectedIds.has(p._id) ? 'checked' : '';
+        if(isLearner){
+          slots+=`<div class="barcode-card">
+            <input type="checkbox" class="selectBox no-print" ${checked} onchange="toggleSelect('${p._id}', this.checked)" title="Tick to print this one">
+            <div class="ver">${APP_VERSION}</div>
+            <div class="company">XINTIMANI GROUP</div>
+            <div class="school">${SCHOOL}</div>
+            <div class="name">${p.name}</div>
+            <div class="grade">${p.grade||''}</div>
+            <div class="subj">${p.subject||''}</div>
+            <svg id="bc-${pi}-${i}"></svg>
+            <div class="code">${p.code}</div>
+            <div class="bookNo">${p.code}</div>
+            <div class="meta">LEARNER CARD • 078 023 3263</div>
+            <button class="removeBtn no-print" onclick="removePById('${p._id}')">Remove ✕</button>
+          </div>`;
+        } else {
+          slots+=`<div class="barcode-card">
+            <input type="checkbox" class="selectBox no-print" ${checked} onchange="toggleSelect('${p._id}', this.checked)" title="Tick to print this one">
+            <div class="ver">${APP_VERSION}</div>
+            <div class="company">XINTIMANI GROUP</div>
+            <div class="school">${SCHOOL}</div>
+            <div class="name">${p.name}</div>
+            <div class="subj">${p.subject||''} • ${p.grade||''}</div>
+            <svg id="bc-${pi}-${i}"></svg>
+            <div class="code">${p.code}</div>
+            <div class="bookNo">No: ${p.bookNo||p.code}</div>
+            ${p.price?`<div class="price">R${p.price}</div>`:''}
+            <div class="meta">MAKHANANI LTSM • TEXTBOOK • 078 023 3263</div>
+            <button class="removeBtn no-print" onclick="removePById('${p._id}')">Remove ✕</button>
+          </div>`;
+        }
       }
     }
     return `<div class="sheet">
-      <div class="sheet-header"><b>MAKHANANI LTSM — XINTIMANI GROUP</b><br><small>078 023 3263 • Midrand & Limpopo • Page ${pi+1} of ${pages.length} • A4 • 3 x 5 = 15 • ${APP_VERSION}</small></div>
+      <div class="sheet-header"><b>XINTIMANI GROUP — MAKHANANI LTSM — ${MODE==='learner'?'LEARNER BARCODES':'TEXTBOOK BARCODES'}</b><br><small>${SCHOOL} • ${printModeState==='selected'?'SELECTED ONLY':printModeState==='filtered'?'FILTERED: '+ (searchTerm||filterSubject+' / '+filterGrade):'ALL'} • 078 023 3263 • Page ${pi+1} of ${pages.length} • A4 • 3 x 5 = 15 • ${APP_VERSION}</small></div>
       <div class="barcode-grid">${slots}</div>
-      <div class="sheet-footer"><span>MAKHANANI LTSM • ${APP_VERSION}</span><span>Page ${pi+1} / ${pages.length}</span><span>078 023 3263 • v1.58</span></div>
+      <div class="sheet-footer"><span>XINTIMANI GROUP • ${SCHOOL}</span><span>Page ${pi+1} / ${pages.length}</span><span>078 023 3263 • ${APP_VERSION}</span></div>
     </div><div style="height:16px" class="no-print"></div>`;
   }).join('');
   pages.forEach((page,pi)=>{
     page.forEach((p,i)=>{
-      try{ JsBarcode("#bc-"+pi+"-"+i, p.code, {format:"CODE128", displayValue:false, height:38, margin:0, width:1.6}); }catch(e){}
+      try{ JsBarcode("#bc-"+pi+"-"+i, p.code, {format:"CODE128", displayValue:false, height:34, margin:0, width:1.4}); }catch(e){}
     });
   });
+  updateCount();
 }
 function addProduct(){
-  let n=document.getElementById('pName').value.trim();
+  let n=document.getElementById('pTitle').value.trim();
+  let subj=document.getElementById('pSubject').value;
+  let grd=document.getElementById('pGrade').value;
+  let bookNo=document.getElementById('pBookNo').value.trim().toUpperCase();
+  let c=document.getElementById('pCode').value.trim().toUpperCase() || bookNo;
   let pr=document.getElementById('pPrice').value.trim();
-  let c=document.getElementById('pCode').value.trim();
-  if(!n||!c) return alert('Enter Name + Barcode');
-  products.push({name:n,price:pr||0,code:c}); save(); render();
-  document.getElementById('pName').value=''; document.getElementById('pPrice').value=''; document.getElementById('pCode').value='';
+  if(!n||!bookNo) return alert('Enter Title + Textbook No');
+  products.push({name:n,subject:subj,grade:grd,bookNo:bookNo,code:c,price:pr||'',type:'textbook',_id:'BOOK-'+Date.now()+'-'+Math.random().toString(36).slice(2,5)}); save(); render();
+  document.getElementById('pTitle').value=''; document.getElementById('pBookNo').value=''; document.getElementById('pCode').value=''; document.getElementById('pPrice').value='';
 }
-function fillPage(){
-  if(products.length>=15) return alert('You already have 15+ — that is 1 full page. Add more for page 2.');
-  let demo=[
-    {name:'Maths Lit Gr 12 Textbook',price:299,code:'600100000001'},
-    {name:'Mathematics Gr 10 Textbook',price:279,code:'600100000002'},
-    {name:'Natural Sciences Gr 9 Workbook',price:149,code:'600100000003'},
-    {name:'Exercise Book 72pg',price:25,code:'600100000004'},
-    {name:'Pen Blue',price:15,code:'600100000005'},
-    {name:'Ruler 30cm',price:20,code:'600100000006'},
-    {name:'Maths Lit Gr 11 Textbook',price:289,code:'600100000007'},
-    {name:'Physical Sciences Gr 12 Textbook',price:320,code:'600100000008'},
-    {name:'Calculator Scientific',price:199,code:'600100000009'},
-    {name:'File Dividers Set',price:45,code:'600100000010'},
-    {name:'Glue Stick 40g',price:30,code:'600100000011'},
-    {name:'Eraser',price:10,code:'600100000012'},
-    {name:'Pencil HB',price:12,code:'600100000013'},
-    {name:'Sharpener',price:10,code:'600100000014'},
-    {name:'Maths Set',price:85,code:'600100000015'},
-  ];
-  products = demo; save(); render();
+function addLearner(){
+  let n=document.getElementById('lName').value.trim();
+  let g=document.getElementById('lGrade').value;
+  let subj=document.getElementById('lSubject').value;
+  let c=document.getElementById('lCode').value.trim().toUpperCase();
+  if(!n||!c) return alert('Enter Learner Name + ID');
+  products.push({name:n,grade:g,subject:subj,code:c,type:'learner',_id:'LEARN-'+Date.now()+'-'+Math.random().toString(36).slice(2,5)}); save(); render();
+  document.getElementById('lName').value=''; document.getElementById('lCode').value='';
 }
-function addCopies(){
-  if(!products.length) return alert('Add 1 product first');
-  let count = parseInt(document.getElementById('copyCount').value||'15');
-  let first = products[0];
-  for(let i=0;i<count;i++) products.push({...first});
+function fillTextbooks(){
+  products=[
+      {name:'Maths Lit Gr 12 Textbook',subject:'Maths Lit',grade:'Grade 12',bookNo:'ACC-0001',code:'ACC-0001',price:299,type:'textbook'},
+      {name:'Mathematics Gr 10 Textbook',subject:'Mathematics',grade:'Grade 10',bookNo:'MAT-0002',code:'MAT-0002',price:279,type:'textbook'},
+      {name:'Natural Sciences Gr 9 Workbook',subject:'Natural Sciences',grade:'Grade 9',bookNo:'NSC-0003',code:'NSC-0003',price:149,type:'textbook'},
+      {name:'Maths Lit Gr 11 Textbook',subject:'Maths Lit',grade:'Grade 11',bookNo:'MLIT-0006',code:'MLIT-0006',price:289,type:'textbook'},
+      {name:'Physical Sciences Gr 12 Textbook',subject:'Physical Sciences',grade:'Grade 12',bookNo:'PHYSC-0005',code:'PHYSC-0005',price:320,type:'textbook'},
+      {name:'Life Sciences Gr 10 Textbook',subject:'Life Sciences',grade:'Grade 10',bookNo:'LIFSC-0007',code:'LIFSC-0007',price:310,type:'textbook'},
+      {name:'Accounting Gr 11 Textbook',subject:'Accounting',grade:'Grade 11',bookNo:'ACC-0008',code:'ACC-0008',price:295,type:'textbook'},
+      {name:'English HL Gr 12 Textbook',subject:'English',grade:'Grade 12',bookNo:'ENGHL-0009',code:'ENGHL-0009',price:275,type:'textbook'},
+      {name:'Geography Gr 10 Textbook',subject:'Geography',grade:'Grade 10',bookNo:'GEO-0010',code:'GEO-0010',price:260,type:'textbook'},
+      {name:'Business Studies Gr 11',subject:'Business Studies',grade:'Grade 11',bookNo:'BUS-0011',code:'BUS-0011',price:280,type:'textbook'},
+      {name:'Economics Gr 12',subject:'Economics',grade:'Grade 12',bookNo:'ECO-0012',code:'ECO-0012',price:290,type:'textbook'},
+      {name:'History Gr 10',subject:'History',grade:'Grade 10',bookNo:'HIS-0013',code:'HIS-0013',price:240,type:'textbook'},
+      {name:'CAT Gr 11 Textbook',subject:'CAT',grade:'Grade 11',bookNo:'CAT-0014',code:'CAT-0014',price:300,type:'textbook'},
+      {name:'Maths Lit Gr 10 Textbook',subject:'Maths Lit',grade:'Grade 10',bookNo:'MLIT-0015',code:'MLIT-0015',price:285,type:'textbook'},
+      {name:'Mathematics Gr 12 Textbook',subject:'Mathematics',grade:'Grade 12',bookNo:'MAT-0016',code:'MAT-0016',price:310,type:'textbook'},
+  ].map((p,i)=>({...p,_id:'BOOK-'+i})); save(); render();
+}
+function fillLearners(){
+  products=[
+      {name:'Thabo Nkosi',grade:'Grade 10',subject:'Maths Lit',code:'LRN-0001',type:'learner'},
+      {name:'Maria Dlamini',grade:'Grade 10',subject:'Maths Lit',code:'LRN-0002',type:'learner'},
+      {name:'Sipho Chauke',grade:'Grade 11',subject:'Mathematics',code:'LRN-0003',type:'learner'},
+      {name:'Naledi Mokoena',grade:'Grade 12',subject:'Accounting',code:'LRN-0004',type:'learner'},
+      {name:'Kabelo Sithole',grade:'Grade 9',subject:'Mathematics',code:'LRN-0005',type:'learner'},
+      {name:'Ayesha Khan',grade:'Grade 8',subject:'English',code:'LRN-0006',type:'learner'},
+      {name:'Lerato Ndlovu',grade:'Grade 10',subject:'Physical Sciences',code:'LRN-0007',type:'learner'},
+      {name:'Tebogo Molefe',grade:'Grade 11',subject:'Maths Lit',code:'LRN-0008',type:'learner'},
+      {name:'Zanele Khumalo',grade:'Grade 12',subject:'Life Sciences',code:'LRN-0009',type:'learner'},
+      {name:'Bongani Zulu',grade:'Grade 9',subject:'Natural Sciences',code:'LRN-0010',type:'learner'},
+      {name:'Precious Mokoena',grade:'Grade 10',subject:'Maths Lit',code:'LRN-0011',type:'learner'},
+      {name:'Tshepo Mahlangu',grade:'Grade 8',subject:'English',code:'LRN-0012',type:'learner'},
+      {name:'Nokuthula Dube',grade:'Grade 11',subject:'Accounting',code:'LRN-0013',type:'learner'},
+      {name:'Mandla Nkosi',grade:'Grade 12',subject:'Mathematics',code:'LRN-0014',type:'learner'},
+      {name:'Sibusiso Radebe',grade:'Grade 10',subject:'Maths Lit',code:'LRN-0015',type:'learner'},
+  ].map((p,i)=>({...p,_id:'LEARN-'+i})); save(); render();
+}
+function bulkAdd(){
+  let text=document.getElementById('bulkText').value.trim();
+  if(!text) return alert('Paste list first');
+  let lines=text.split('\n').filter(l=>l.trim());
+  let ok=0;
+  lines.forEach(line=>{
+    let p=line.split('|').map(x=>x.trim());
+    if(MODE==='learner'){
+      if(p.length>=3){ products.push({name:p[0],grade:p[1],subject:p[3]||'Other',code:p[2].toUpperCase(),type:'learner',_id:'LEARN-'+Date.now()+'-'+ok}); ok++; }
+    } else {
+      if(p.length>=2){ let bookNo=p[3]?p[3].toUpperCase():p[1].toUpperCase(); let code=(p[4]||bookNo).toUpperCase(); products.push({name:p[0],subject:p[1]||'Other',grade:p[2]||'Grade 10',bookNo:bookNo,code:code,price:p[5]||'',type:'textbook',_id:'BOOK-'+Date.now()+'-'+ok}); ok++; }
+    }
+  });
+  document.getElementById('bulkStatus').textContent='✅ Added: '+ok;
+  document.getElementById('bulkText').value='';
   save(); render();
 }
-function addPage(){ for(let i=0;i<15;i++) products.push({name:'NEW PRODUCT — Edit Me',price:0,code:'6001000000'+String(products.length+1).padStart(2,'0')}); save(); render(); }
-function removeP(i){ products.splice(i,1); save(); render(); }
-function clearAll(){ if(confirm('Clear all barcodes?')){ products=[]; save(); render(); } }
+function addPage(){ for(let i=0;i<15;i++) products.push(MODE==='learner'?{name:'NEW LEARNER',grade:'Grade 10',subject:'Other',code:'LRN-'+String(products.length+1).padStart(4,'0'),type:'learner',_id:'LEARN-'+Date.now()+'-'+i}:{name:'NEW TEXTBOOK',subject:'Other',grade:'Grade 10',bookNo:'BOOK-'+String(products.length+1).padStart(4,'0'),code:'BOOK-'+String(products.length+1).padStart(4,'0'),price:'',type:'textbook',_id:'BOOK-'+Date.now()+'-'+i}); save(); render(); }
+function removePById(id){ let idx=products.findIndex(p=>p._id===id); if(idx>=0){ products.splice(idx,1); selectedIds.delete(id); save(); saveSelected(); render(); } }
+function clearAll(){ if(confirm('Clear all '+MODE+' barcodes?')){ products=[]; selectedIds.clear(); save(); saveSelected(); render(); } }
+function copyLink(){ navigator.clipboard.writeText(location.href).then(()=>alert('Link copied:\n'+location.href)); }
+document.getElementById('pBookNo').addEventListener('input', function(){ if(!document.getElementById('pCode').value) document.getElementById('pCode').value=this.value.toUpperCase(); });
 render();
 </script>
 </body></html>
